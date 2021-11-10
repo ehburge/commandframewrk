@@ -1,11 +1,13 @@
 package co.ex.frmwrk.gateway.jpa;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 
+@Builder
 @Entity
 @AllArgsConstructor
 @Getter
@@ -21,5 +23,5 @@ public class ThingEntity {
   private String fullDescription;
   private BigDecimal price;
 
-  protected ThingEntity() {}
+  public ThingEntity() {}
 }

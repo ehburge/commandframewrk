@@ -1,7 +1,7 @@
 package co.ex.frmwrk.gateway.jpa.impl;
 
 import cmd.impl.AppThingCommandSave;
-import co.ex.app.driven.cmd.bus.CommandBusDrivenApp;
+import co.ex.app.driving.cmd.bus.CommandBusDrivingApp;
 import co.ex.frmwrk.gateway.jpa.ThingEntity;
 import co.ex.frmwrk.gateway.jpa.ThingRepository;
 import co.ex.frmwrk.gateway.msg.impl.PersistListener;
@@ -26,7 +26,7 @@ public class AppCommandSaveMsgTest {
 
   @LocalServerPort private int port;
 
-  @Autowired private CommandBusDrivenApp commandBusDrivenApp;
+  @Autowired private CommandBusDrivingApp commandBusDrivingApp;
 
   @Autowired private ThingRepository thingRepository;
 
@@ -69,16 +69,16 @@ public class AppCommandSaveMsgTest {
     int msgCount = 0;
 
     Long t = System.currentTimeMillis();
-    commandBusDrivenApp.perform(appThingCommandSave1);
+    commandBusDrivingApp.perform(appThingCommandSave1);
     Long t1 = System.currentTimeMillis();
     System.out.println("first time " + (t1 - t));
-    commandBusDrivenApp.perform(appThingCommandSave1);
+    commandBusDrivingApp.perform(appThingCommandSave2);
     Long t2 = System.currentTimeMillis();
     System.out.println("second time " + (t2 - t1));
-    commandBusDrivenApp.perform(appThingCommandSave1);
+    commandBusDrivingApp.perform(appThingCommandSave3);
     Long t3 = System.currentTimeMillis();
     System.out.println("third time " + (t3 - t2));
-    commandBusDrivenApp.perform(appThingCommandSave1);
+    commandBusDrivingApp.perform(appThingCommandSave4);
     Long t4 = System.currentTimeMillis();
     System.out.println("fourth time " + (t4 - t3));
     System.out.println("total time " + (t4 - t));

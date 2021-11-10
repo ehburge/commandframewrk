@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @AllArgsConstructor
-@Component
+@Component("jpa")
 public class CommandHandlerDrivenFrmSaveJPA implements CommandHandlerDrivenFrm<ThingDtoSave> {
 
   private final ThingRepository thingRepository;
@@ -20,8 +20,9 @@ public class CommandHandlerDrivenFrmSaveJPA implements CommandHandlerDrivenFrm<T
     ThingEntity thingEntityLookup =
         thingRepository.findDistinctByThingNbr(thingDtoSave.getThingNbr());
 
-    if (thingEntityLookup != null) {
-      ThingEntity thingEntity = ThingDtoSaveToThingEntity.INSTANCE.thingDtoSaveToThingEntity(thingDtoSave);
+    if (thingEntityLookup == null) {
+      ThingEntity thingEntity =
+          ThingDtoSaveToThingEntity.INSTANCE.thingDtoSaveToThingEntity(thingDtoSave);
 
       thingRepository.save(thingEntity);
     }

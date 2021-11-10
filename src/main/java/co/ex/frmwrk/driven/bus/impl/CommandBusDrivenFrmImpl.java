@@ -2,7 +2,7 @@ package co.ex.frmwrk.driven.bus.impl;
 
 import cmd.AppCommand;
 import cmd.impl.AppThingCommandSave;
-import co.ex.frmwrk.driven.bus.CommandBusDrivenFrm;
+import co.ex.app.driven.cmd.handler.CommandBusDrivenFrm;
 import co.ex.frmwrk.driven.handler.CommandHandlerDrivenFrm;
 import co.ex.frmwrk.gateway.impl.ThingDtoSave;
 import co.ex.frmwrk.mapping.AppThingCommandSaveThingDtoSaveMapper;
@@ -19,8 +19,8 @@ public class CommandBusDrivenFrmImpl implements CommandBusDrivenFrm {
 
     @Override
     public void perform(AppCommand appCommand) {
-        CommandHandlerDrivenFrm drivenApp = commandHandlerDrivenFrmMap.get(appCommand.getClass());
         ThingDtoSave thingDtoSave = AppThingCommandSaveThingDtoSaveMapper.INSTANCE.appThingCommandSaveToThingDtoSave((AppThingCommandSave) appCommand);
+        CommandHandlerDrivenFrm drivenApp = commandHandlerDrivenFrmMap.get(thingDtoSave.getClass());
         drivenApp.handle(thingDtoSave);
     }
 }

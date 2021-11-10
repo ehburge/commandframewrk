@@ -6,6 +6,7 @@ import co.ex.frmwrk.gateway.jpa.ThingRepository;
 import co.ex.frmwrk.mapping.ThingDtoSaveToThingEntity;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -25,8 +26,6 @@ public class CreateThingEntityCommandTest {
 
   @Autowired private ThingRepository thingRepository;
 
-  @Autowired private ThingDtoSaveToThingEntity thingDtoSaveToThingEntity;
-
   // @Autowired private ThingCommandBusPrimary thingCommandBusPrimary;
 
   @Test
@@ -39,8 +38,7 @@ public class CreateThingEntityCommandTest {
             .price(new BigDecimal("123.45"))
             .build();
 
-    ThingEntity thingEntity =
-        thingDtoSaveToThingEntity.appThingCommandSaveToThingDtoSave(thingDtoSave);
+    ThingEntity thingEntity = ThingDtoSaveToThingEntity.INSTANCE.thingDtoSaveToThingEntity(thingDtoSave);
 
     thingRepository.save(thingEntity);
 

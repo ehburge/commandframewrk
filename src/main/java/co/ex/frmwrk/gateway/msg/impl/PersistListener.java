@@ -3,6 +3,7 @@ package co.ex.frmwrk.gateway.msg.impl;
 import co.ex.frmwrk.driven.handler.CommandHandlerDrivenFrm;
 import co.ex.frmwrk.gateway.ThingDto;
 import co.ex.frmwrk.config.JmsConfig;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
@@ -17,7 +18,7 @@ public class PersistListener {
 
   private int nbrMsgs = 0;
 
-  public PersistListener(CommandHandlerDrivenFrm commandHandlerDrivenFrm) {
+  public PersistListener(@Qualifier("jpa") CommandHandlerDrivenFrm commandHandlerDrivenFrm) {
     this.commandHandlerDrivenFrm = commandHandlerDrivenFrm;
   }
 

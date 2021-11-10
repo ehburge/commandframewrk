@@ -1,8 +1,7 @@
 package co.ex.frmwrk.gateway.jpa.impl;
 
+import cmd.impl.AppThingCommandSave;
 import co.ex.app.driving.cmd.bus.CommandBusDrivingApp;
-import co.ex.domain.cmd.impl.CreateThingCommand;
-import co.ex.domain.cmd.impl.SaveThingCommand;
 import co.ex.frmwrk.gateway.jpa.ThingEntity;
 import co.ex.frmwrk.gateway.jpa.ThingRepository;
 import org.junit.jupiter.api.Test;
@@ -18,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class SaveThingCommandBusTest {
+public class AppThingCommandSaveBusTest {
 
   @LocalServerPort private int port;
 
@@ -27,31 +26,31 @@ public class SaveThingCommandBusTest {
   @Autowired private CommandBusDrivingApp commandBusDrivingApp;
 
   @Test
-  public void testCreateThingCommand() {
+  public void testAppThingCommandSave() {
 
-    CreateThingCommand createThingCommand1 =
-        CreateThingCommand.builder()
+    AppThingCommandSave AppThingCommandSave1 =
+        AppThingCommandSave.builder()
             .thingNbr(123L)
             .description("desc")
             .fullDescription("fillDesc")
             .price(new BigDecimal("123.45"))
             .build();
-    CreateThingCommand createThingCommand2 =
-        CreateThingCommand.builder()
+    AppThingCommandSave AppThingCommandSave2 =
+        AppThingCommandSave.builder()
             .thingNbr(234L)
             .description("desc")
             .fullDescription("fillDesc")
             .price(new BigDecimal("234.56"))
             .build();
-    CreateThingCommand createThingCommand3 =
-        CreateThingCommand.builder()
+    AppThingCommandSave AppThingCommandSave3 =
+        AppThingCommandSave.builder()
             .thingNbr(345L)
             .description("desc")
             .fullDescription("fillDesc")
             .price(new BigDecimal("345.67"))
             .build();
-    CreateThingCommand createThingCommand4 =
-        CreateThingCommand.builder()
+    AppThingCommandSave AppThingCommandSave4 =
+        AppThingCommandSave.builder()
             .thingNbr(456L)
             .description("desc")
             .fullDescription("fillDesc")
@@ -59,43 +58,43 @@ public class SaveThingCommandBusTest {
             .build();
 
     Long t = System.currentTimeMillis();
-    commandBusDrivingApp.execute(createThingCommand1);
+    commandBusDrivingApp.perform(AppThingCommandSave1);
     Long t1 = System.currentTimeMillis();
     System.out.println("first time " + (t1 - t));
-    commandBusDrivingApp.execute(createThingCommand2);
+    commandBusDrivingApp.perform(AppThingCommandSave2);
     Long t2 = System.currentTimeMillis();
     System.out.println("second time " + (t2 - t1));
-    commandBusDrivingApp.execute(createThingCommand3);
+    commandBusDrivingApp.perform(AppThingCommandSave3);
     Long t3 = System.currentTimeMillis();
     System.out.println("third time " + (t3 - t2));
-    commandBusDrivingApp.execute(createThingCommand4);
+    commandBusDrivingApp.perform(AppThingCommandSave4);
     Long t4 = System.currentTimeMillis();
     System.out.println("fourth time " + (t4 - t3));
     System.out.println("total time " + (t4 - t));
 
-    SaveThingCommand saveThingCommand1 =
-        SaveThingCommand.builder()
+    AppThingCommandSave appThingCommandSave1 =
+        AppThingCommandSave.builder()
             .thingNbr(123L)
             .description("desc saved123")
             .fullDescription("fillDesc")
             .price(new BigDecimal("123.45"))
             .build();
-    SaveThingCommand saveThingCommand2 =
-        SaveThingCommand.builder()
+    AppThingCommandSave appThingCommandSave2 =
+        AppThingCommandSave.builder()
             .thingNbr(234L)
             .description("desc saved234")
             .fullDescription("fillDesc")
             .price(new BigDecimal("234.56"))
             .build();
-    SaveThingCommand saveThingCommand3 =
-        SaveThingCommand.builder()
+    AppThingCommandSave appThingCommandSave3 =
+        AppThingCommandSave.builder()
             .thingNbr(345L)
             .description("desc saved345")
             .fullDescription("fillDesc")
             .price(new BigDecimal("345.67"))
             .build();
-    SaveThingCommand saveThingCommand4 =
-        SaveThingCommand.builder()
+    AppThingCommandSave appThingCommandSave4 =
+        AppThingCommandSave.builder()
             .thingNbr(456L)
             .description("desc saved456")
             .fullDescription("fillDesc")
@@ -107,16 +106,16 @@ public class SaveThingCommandBusTest {
     System.out.println();
 
     Long ts = System.currentTimeMillis();
-    commandBusDrivingApp.execute(saveThingCommand1);
+    commandBusDrivingApp.perform(AppThingCommandSave1);
     Long ts1 = System.currentTimeMillis();
     System.out.println("first time " + (ts1 - ts));
-    commandBusDrivingApp.execute(saveThingCommand2);
+    commandBusDrivingApp.perform(AppThingCommandSave2);
     Long ts2 = System.currentTimeMillis();
     System.out.println("second time " + (ts2 - ts1));
-    commandBusDrivingApp.execute(saveThingCommand3);
+    commandBusDrivingApp.perform(AppThingCommandSave3);
     Long ts3 = System.currentTimeMillis();
     System.out.println("third time " + (ts3 - ts2));
-    commandBusDrivingApp.execute(saveThingCommand4);
+    commandBusDrivingApp.perform(AppThingCommandSave4);
     Long ts4 = System.currentTimeMillis();
     System.out.println("fourth time " + (ts4 - ts3));
     System.out.println("total time " + (ts4 - ts));
