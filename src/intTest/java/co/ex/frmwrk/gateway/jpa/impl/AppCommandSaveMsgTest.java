@@ -98,4 +98,44 @@ public class AppCommandSaveMsgTest {
     ThingEntity thingEntity = thingRepository.findDistinctByThingNbr(234L);
     assertEquals(234L, thingEntity.getThingNbr());
   }
+
+  @Test
+  public void testCreateThingCommandVolume() {
+
+    int msgCount = 0;
+    int nbrMsgs = 100;
+
+    long sent = 1;
+
+    long strt = System.currentTimeMillis();
+
+    for (int i = 0; i < nbrMsgs; i++) {
+      AppThingCommandSave appThingCommandSave =
+          AppThingCommandSave.builder()
+              .thingNbr(sent)
+              .description("desc")
+              .fullDescription("fullDesc")
+              .price(new BigDecimal("456.78"))
+              .build();
+      commandBusDrivingApp.perform(appThingCommandSave);
+      sent++;
+    }
+
+    //System.out.println("total time " + (t4 - t));
+
+    while (persistListener.getNbrMsgs() < nbrMsgs) {
+      System.out.println("nbrMsgs=".concat(String.valueOf(persistListener.getNbrMsgs())));
+      try {
+        Thread.sleep(250);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+        break;
+      }
+    }
+
+    long end = System.currentTimeMillis();
+    System.out.println("msg# " + sent + " time " + (end - strt));
+    ThingEntity thingEntity = thingRepository.findDistinctByThingNbr(10L);
+    assertEquals(10L, thingEntity.getThingNbr());
+  }
 }
