@@ -7,7 +7,7 @@ import org.springframework.jms.support.converter.MessageType;
 
 public class JmsConfig {
 
-  public static final String PERSIST_Q_NAME = "persist.queue";
+  public static final String PERSIST_Q_NAME = "persist.topic";
 
   @Bean
   public MessageConverter messageConverter() {

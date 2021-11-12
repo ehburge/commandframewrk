@@ -12,7 +12,7 @@ public interface ThingDtoSaveToThingEntity {
   ThingDtoSaveToThingEntity INSTANCE = Mappers.getMapper(ThingDtoSaveToThingEntity.class);
 
   @Mappings({
-          @Mapping(target = "id", ignore = true)
+          @Mapping(target = "id", expression = "java(null)")
   })
   ThingEntity thingDtoSaveToThingEntity(ThingDtoSave thingDtoSave);
 }
