@@ -1,4 +1,4 @@
-rootProject.name = 'thingfrmwrkapp'
+//rootProject.name = 'thingfrmwrkapp'
 include ':thingapp'
 project(':thingapp').projectDir = new File(settingsDir, '../thingapp')
 include ':thingdomain'
