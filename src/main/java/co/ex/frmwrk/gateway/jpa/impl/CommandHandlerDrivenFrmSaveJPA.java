@@ -6,9 +6,10 @@ import co.ex.frmwrk.gateway.jpa.ThingEntity;
 import co.ex.frmwrk.gateway.jpa.ThingRepository;
 import co.ex.frmwrk.mapping.ThingDtoSaveToThingEntity;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Component("jpa")
 public class CommandHandlerDrivenFrmSaveJPA implements CommandHandlerDrivenFrm<ThingDtoSave> {
 

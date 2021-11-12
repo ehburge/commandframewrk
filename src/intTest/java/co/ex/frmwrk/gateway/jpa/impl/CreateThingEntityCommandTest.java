@@ -32,7 +32,7 @@ public class CreateThingEntityCommandTest {
   public void createThingCommand() {
     ThingDtoSave thingDtoSave =
         ThingDtoSave.builder()
-            .thingNbr(123L)
+            .thingNbr(10123L)
             .description("desc")
             .fullDescription("full desc")
             .price(new BigDecimal("123.45"))
@@ -42,7 +42,7 @@ public class CreateThingEntityCommandTest {
 
     thingRepository.save(thingEntity);
 
-    ThingEntity savdThingEntity = thingRepository.findDistinctByThingNbr(123L);
-    assertEquals(123L, savdThingEntity.getThingNbr());
+    ThingEntity savdThingEntity = thingRepository.findDistinctByThingNbr(10123L);
+    assertEquals(10123L, savdThingEntity.getThingNbr());
   }
 }

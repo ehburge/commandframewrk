@@ -25,9 +25,18 @@ public class FrmWrkConfig {
   static final Injector injector = Guice.createInjector(new AppInjector2());
 
   @Bean
+  public Map<Class, CommandBusDrivenFrm> commandBusDrivenFrmMap(
+      CommandBusDrivenFrm commandBusDrivenFrm) {
+    Map<Class, CommandBusDrivenFrm> commandBusDrivenFrmMap = new HashMap<>();
+    commandBusDrivenFrmMap.put(AppThingCommandSave.class, commandBusDrivenFrm);
+
+    return commandBusDrivenFrmMap;
+  }
+
+  @Bean
   public CommandHandlerDrivenApp attachSaveThingAccessAdapter(Map<Class, CommandBusDrivenFrm> commandBusDrivenFrmMap) {
     CommandHandlerDrivenAppImpl commandHandlerDrivenAppImpl =
-        injector.getInstance(CommandHandlerDrivenAppImpl.class);
+            injector.getInstance(CommandHandlerDrivenAppImpl.class);
 
     commandHandlerDrivenAppImpl.setCommandBusDrivenFrmMap(commandBusDrivenFrmMap);
 
@@ -35,15 +44,7 @@ public class FrmWrkConfig {
   }
 
   @Bean
-  public Map<Class, CommandBusDrivenFrm> makeThingAccessAdapterMsgMap(
-      CommandBusDrivenFrm commandBusDrivenFrm) {
-    Map<Class, CommandBusDrivenFrm> commandBusDrivenFrmMap = new HashMap<>();
-    commandBusDrivenFrmMap.put(AppThingCommandSave.class, commandBusDrivenFrm);
-    return commandBusDrivenFrmMap;
-  }
-
-  @Bean
-  public Map<Class, CommandHandlerDrivenFrm> commandBusDrivenFrm(
+  public Map<Class, CommandHandlerDrivenFrm> commandHandlerDrivenFrmMap(
       CommandHandlerDrivenFrmSaveMsg commandHandlerDrivenFrmSaveMsg) {
     Map<Class, CommandHandlerDrivenFrm> commandHandlerDrivenFrmMap = new HashMap<>();
     commandHandlerDrivenFrmMap.put(ThingDtoSave.class, commandHandlerDrivenFrmSaveMsg);
@@ -55,9 +56,11 @@ public class FrmWrkConfig {
   public Map<Class, CommandHandlerDrivenFrmSaveJPA> makeThingAccessAdapterPersistMap(
       CommandHandlerDrivenFrmSaveJPA outsideAdapterSaveJPA,
       CommandHandlerDrivenFrmSaveJPA saveThingAccessAdapterJPA) {
+
     Map<Class, CommandHandlerDrivenFrmSaveJPA> thingAccessAdapterPersistMap = new HashMap<>();
     thingAccessAdapterPersistMap.put(AppThingCommandSave.class, outsideAdapterSaveJPA);
     thingAccessAdapterPersistMap.put(ThingDtoSave.class, saveThingAccessAdapterJPA);
+
     return thingAccessAdapterPersistMap;
   }
 

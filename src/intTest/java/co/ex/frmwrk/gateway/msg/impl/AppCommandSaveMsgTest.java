@@ -6,6 +6,7 @@ import co.ex.frmwrk.gateway.jpa.ThingEntity;
 import co.ex.frmwrk.gateway.jpa.ThingRepository;
 import org.apache.activemq.artemis.core.server.QueueQueryResult;
 import org.apache.activemq.artemis.core.server.embedded.EmbeddedActiveMQ;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,7 @@ public class AppCommandSaveMsgTest {
 
   @Autowired private PersistListener persistListener;
 
+  @Disabled
   @Test
   public void testCreateThingCommand() {
 
@@ -103,10 +105,9 @@ public class AppCommandSaveMsgTest {
   @Test
   public void testCreateThingCommandVolume() {
 
-    int msgCount = 0;
     int nbrMsgs = 100;
 
-    long sent = 1;
+    long sent = 0;
 
     final boolean[] notDone = {true};
     Object lock = new Object();
@@ -125,13 +126,6 @@ public class AppCommandSaveMsgTest {
           }
         };
     persistListener.addPropertyChangeListener(pcl);
-
-    Thread thread1 =
-        new Thread(
-            () -> {
-              System.out.println("all done");
-            });
-    thread1.start();
 
     long strt = System.currentTimeMillis();
 
