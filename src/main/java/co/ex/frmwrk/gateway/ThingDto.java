@@ -1,4 +1,3 @@
 package co.ex.frmwrk.gateway;
 
-public interface ThingDto {
-}
+public interface ThingDto {}

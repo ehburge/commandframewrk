@@ -18,7 +18,7 @@ import java.beans.PropertyChangeSupport;
 public class PersistListener {
   private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
-  private CommandHandlerDrivenFrm commandHandlerDrivenFrm;
+  private final CommandHandlerDrivenFrm commandHandlerDrivenFrm;
 
   private int nbrMsgs = 0;
 
@@ -32,6 +32,7 @@ public class PersistListener {
     int newValue = nbrMsgs;
     support.firePropertyChange("value", oldValue, newValue);
   }
+
   public int getNbrMsgs() {
     return nbrMsgs;
   }

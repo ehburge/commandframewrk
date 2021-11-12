@@ -27,22 +27,6 @@ public class ThingDtoSave implements ThingDto, Serializable {
     return new ThingDtoBuilder();
   }
 
-  public void setThingNbr(Long thingNbr) {
-    this.thingNbr = thingNbr;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
-  public void setFullDescription(String fullDescription) {
-    this.fullDescription = fullDescription;
-  }
-
-  public void setPrice(BigDecimal price) {
-    this.price = price;
-  }
-
   public boolean equals(final Object o) {
     if (o == this) return true;
     if (!(o instanceof ThingDtoSave)) return false;
@@ -101,16 +85,32 @@ public class ThingDtoSave implements ThingDto, Serializable {
     return this.thingNbr;
   }
 
+  public void setThingNbr(Long thingNbr) {
+    this.thingNbr = thingNbr;
+  }
+
   public String getDescription() {
     return this.description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
   }
 
   public String getFullDescription() {
     return this.fullDescription;
   }
 
+  public void setFullDescription(String fullDescription) {
+    this.fullDescription = fullDescription;
+  }
+
   public BigDecimal getPrice() {
     return this.price;
+  }
+
+  public void setPrice(BigDecimal price) {
+    this.price = price;
   }
 
   public static class ThingDtoBuilder {

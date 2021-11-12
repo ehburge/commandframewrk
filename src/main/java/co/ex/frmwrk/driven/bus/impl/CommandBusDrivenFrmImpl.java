@@ -15,12 +15,14 @@ import java.util.Map;
 @Component
 public class CommandBusDrivenFrmImpl implements CommandBusDrivenFrm {
 
-    private Map<Class, CommandHandlerDrivenFrm> commandHandlerDrivenFrmMap;
+  private Map<Class, CommandHandlerDrivenFrm> commandHandlerDrivenFrmMap;
 
-    @Override
-    public void perform(AppCommand appCommand) {
-        ThingDtoSave thingDtoSave = AppThingCommandSaveThingDtoSaveMapper.INSTANCE.appThingCommandSaveToThingDtoSave((AppThingCommandSave) appCommand);
-        CommandHandlerDrivenFrm drivenApp = commandHandlerDrivenFrmMap.get(thingDtoSave.getClass());
-        drivenApp.handle(thingDtoSave);
-    }
+  @Override
+  public void perform(AppCommand appCommand) {
+    ThingDtoSave thingDtoSave =
+        AppThingCommandSaveThingDtoSaveMapper.INSTANCE.appThingCommandSaveToThingDtoSave(
+            (AppThingCommandSave) appCommand);
+    CommandHandlerDrivenFrm drivenApp = commandHandlerDrivenFrmMap.get(thingDtoSave.getClass());
+    drivenApp.handle(thingDtoSave);
+  }
 }

@@ -11,8 +11,6 @@ import org.mapstruct.factory.Mappers;
 public interface ThingDtoSaveToThingEntity {
   ThingDtoSaveToThingEntity INSTANCE = Mappers.getMapper(ThingDtoSaveToThingEntity.class);
 
-  @Mappings({
-          @Mapping(target = "id", expression = "java(null)")
-  })
+  @Mappings({@Mapping(target = "id", expression = "java(null)")})
   ThingEntity thingDtoSaveToThingEntity(ThingDtoSave thingDtoSave);
 }

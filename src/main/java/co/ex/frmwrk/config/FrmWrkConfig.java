@@ -6,7 +6,6 @@ import co.ex.app.driven.cmd.handler.CommandBusDrivenFrm;
 import co.ex.app.driven.cmd.handler.CommandHandlerDrivenApp;
 import co.ex.app.driven.cmd.handler.impl.CommandHandlerDrivenAppImpl;
 import co.ex.app.driving.cmd.bus.CommandBusDrivingApp;
-import co.ex.frmwrk.driven.bus.impl.CommandBusDrivenFrmImpl;
 import co.ex.frmwrk.driven.handler.CommandHandlerDrivenFrm;
 import co.ex.frmwrk.gateway.impl.ThingDtoSave;
 import co.ex.frmwrk.gateway.jpa.impl.CommandHandlerDrivenFrmSaveJPA;
@@ -34,9 +33,10 @@ public class FrmWrkConfig {
   }
 
   @Bean
-  public CommandHandlerDrivenApp attachSaveThingAccessAdapter(Map<Class, CommandBusDrivenFrm> commandBusDrivenFrmMap) {
+  public CommandHandlerDrivenApp attachSaveThingAccessAdapter(
+      Map<Class, CommandBusDrivenFrm> commandBusDrivenFrmMap) {
     CommandHandlerDrivenAppImpl commandHandlerDrivenAppImpl =
-            injector.getInstance(CommandHandlerDrivenAppImpl.class);
+        injector.getInstance(CommandHandlerDrivenAppImpl.class);
 
     commandHandlerDrivenAppImpl.setCommandBusDrivenFrmMap(commandBusDrivenFrmMap);
 

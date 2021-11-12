@@ -5,7 +5,6 @@ import co.ex.frmwrk.gateway.impl.ThingDtoSave;
 import co.ex.frmwrk.gateway.jpa.ThingEntity;
 import co.ex.frmwrk.gateway.jpa.ThingRepository;
 import co.ex.frmwrk.mapping.ThingDtoSaveToThingEntity;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
