@@ -1,10 +1,9 @@
-package co.ex.frmwrk.gateway.jpa.impl;
+package co.ex.frmwrk.gateway.msg.impl;
 
 import cmd.impl.AppThingCommandSave;
 import co.ex.app.driving.cmd.bus.CommandBusDrivingApp;
 import co.ex.frmwrk.gateway.jpa.ThingEntity;
 import co.ex.frmwrk.gateway.jpa.ThingRepository;
-import co.ex.frmwrk.gateway.msg.impl.PersistListener;
 import org.apache.activemq.artemis.core.server.QueueQueryResult;
 import org.apache.activemq.artemis.core.server.embedded.EmbeddedActiveMQ;
 import org.junit.jupiter.api.Test;
@@ -14,6 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -107,6 +108,31 @@ public class AppCommandSaveMsgTest {
 
     long sent = 1;
 
+    final boolean[] notDone = {true};
+    Object lock = new Object();
+
+    PropertyChangeListener pcl =
+        new PropertyChangeListener() {
+          @Override
+          public void propertyChange(PropertyChangeEvent evt) {
+            synchronized (lock) {
+              Integer newVal = (Integer) evt.getNewValue();
+              if (newVal.intValue() >= nbrMsgs) {
+                notDone[0] = false;
+              }
+              lock.notify();
+            }
+          }
+        };
+    persistListener.addPropertyChangeListener(pcl);
+
+    Thread thread1 =
+        new Thread(
+            () -> {
+              System.out.println("all done");
+            });
+    thread1.start();
+
     long strt = System.currentTimeMillis();
 
     for (int i = 0; i < nbrMsgs; i++) {
@@ -121,15 +147,16 @@ public class AppCommandSaveMsgTest {
       sent++;
     }
 
-    //System.out.println("total time " + (t4 - t));
-
-    while (persistListener.getNbrMsgs() < nbrMsgs) {
-      System.out.println("nbrMsgs=".concat(String.valueOf(persistListener.getNbrMsgs())));
-      try {
-        Thread.sleep(250);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-        break;
+    synchronized (lock) {
+      while (true) {
+        try {
+          if (notDone[0] == false) {
+            break;
+          }
+          lock.wait();
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
       }
     }
 
