@@ -1,12 +1,11 @@
 package co.ex.frmwrk.gateway.jpa.impl;
 
 import co.ex.frmwrk.gateway.impl.ThingDtoSave;
-import co.ex.frmwrk.gateway.jpa.ThingEntity;
-import co.ex.frmwrk.gateway.jpa.ThingRepository;
+import co.ex.frmwrk.gateway.persist.ThingEntity;
+import co.ex.frmwrk.gateway.persist.ThingRepository;
 import co.ex.frmwrk.mapping.ThingDtoSaveToThingEntity;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;

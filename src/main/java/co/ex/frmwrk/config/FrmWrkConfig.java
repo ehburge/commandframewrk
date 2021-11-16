@@ -8,7 +8,7 @@ import co.ex.app.driven.cmd.handler.impl.CommandHandlerDrivenAppImpl;
 import co.ex.app.driving.cmd.bus.CommandBusDrivingApp;
 import co.ex.frmwrk.driven.handler.CommandHandlerDrivenFrm;
 import co.ex.frmwrk.gateway.impl.ThingDtoSave;
-import co.ex.frmwrk.gateway.jpa.impl.CommandHandlerDrivenFrmSaveJPA;
+import co.ex.frmwrk.gateway.persist.impl.PersistThingDto;
 import co.ex.frmwrk.gateway.msg.impl.CommandHandlerDrivenFrmSaveMsg;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -53,11 +53,11 @@ public class FrmWrkConfig {
   }
 
   @Bean
-  public Map<Class, CommandHandlerDrivenFrmSaveJPA> makeThingAccessAdapterPersistMap(
-      CommandHandlerDrivenFrmSaveJPA outsideAdapterSaveJPA,
-      CommandHandlerDrivenFrmSaveJPA saveThingAccessAdapterJPA) {
+  public Map<Class, PersistThingDto> makeThingAccessAdapterPersistMap(
+      PersistThingDto outsideAdapterSaveJPA,
+      PersistThingDto saveThingAccessAdapterJPA) {
 
-    Map<Class, CommandHandlerDrivenFrmSaveJPA> thingAccessAdapterPersistMap = new HashMap<>();
+    Map<Class, PersistThingDto> thingAccessAdapterPersistMap = new HashMap<>();
     thingAccessAdapterPersistMap.put(AppThingCommandSave.class, outsideAdapterSaveJPA);
     thingAccessAdapterPersistMap.put(ThingDtoSave.class, saveThingAccessAdapterJPA);
 

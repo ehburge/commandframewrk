@@ -3,8 +3,13 @@ package co.ex.frmwrk.gateway.msg.impl;
 import co.ex.frmwrk.config.JmsConfig;
 import co.ex.frmwrk.driven.handler.CommandHandlerDrivenFrm;
 import co.ex.frmwrk.gateway.ThingDto;
+import co.ex.frmwrk.gateway.impl.ThingDtoSave;
+import co.ex.frmwrk.gateway.persist.impl.PersistThingDto;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jms.annotation.JmsListener;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.handler.annotation.Headers;
@@ -14,17 +19,15 @@ import org.springframework.stereotype.Component;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+@RequiredArgsConstructor
 @Component
 public class PersistListener {
   private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
-  private final CommandHandlerDrivenFrm commandHandlerDrivenFrm;
+  private final JmsTemplate jmsTemplate;
+  private final PersistThingDto persistThingDto;
 
   private int nbrMsgs = 0;
-
-  public PersistListener(@Qualifier("jpa") CommandHandlerDrivenFrm commandHandlerDrivenFrm) {
-    this.commandHandlerDrivenFrm = commandHandlerDrivenFrm;
-  }
 
   void addToNbrMsgs() {
     int oldValue = nbrMsgs;
@@ -37,17 +40,19 @@ public class PersistListener {
     return nbrMsgs;
   }
 
-  @JmsListener(destination = JmsConfig.PERSIST_Q_NAME)
+  @JmsListener(destination = JmsConfig.THINGSAVE_Q)
   public void listen(
-      @Payload ThingDto thingDto, @Headers MessageHeaders messageHeaders, Message message) {
+      @Payload ThingDtoSave thingDtoSave, @Headers MessageHeaders messageHeaders, Message message) {
 
     addToNbrMsgs();
 
     System.out.println("Got a message " + nbrMsgs);
 
-    System.out.println(thingDto);
+    System.out.println(thingDtoSave);
 
-    commandHandlerDrivenFrm.handle(thingDto);
+    ThingDtoSave thingDtoSaveRtn = persistThingDto.persist(thingDtoSave);
+
+    jmsTemplate.convertAndSend(JmsConfig.EVENT_Q, thingDtoSaveRtn);
   }
 
   public void addPropertyChangeListener(PropertyChangeListener listener) {

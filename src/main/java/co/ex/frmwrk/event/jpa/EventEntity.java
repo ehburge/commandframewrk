@@ -1,25 +1,24 @@
 package co.ex.frmwrk.event.jpa;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Builder;
+import lombok.Data;
 
-import javax.persistence.*;
-import java.math.BigDecimal;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
+@Builder
+@Data
 @Entity
-@AllArgsConstructor
-@Getter
 public class EventEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long id;
+  private Long event_id;
 
-  @Column(unique = true)
-  private Long thingNbr;
+  private String event_type; // created, updated
+  private String entity_type; // Thing
+  private Long entity_id; // ThingId
+  private String event_data; // Thing
 
-  private String description;
-  private String fullDescription;
-  private BigDecimal price;
-
-  protected EventEntity() {}
 }

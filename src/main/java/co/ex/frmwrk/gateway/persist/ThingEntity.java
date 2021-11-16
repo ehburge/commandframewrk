@@ -1,4 +1,4 @@
-package co.ex.frmwrk.gateway.jpa;
+package co.ex.frmwrk.gateway.persist;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

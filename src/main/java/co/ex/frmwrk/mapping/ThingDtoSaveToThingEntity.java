@@ -1,7 +1,8 @@
 package co.ex.frmwrk.mapping;
 
 import co.ex.frmwrk.gateway.impl.ThingDtoSave;
-import co.ex.frmwrk.gateway.jpa.ThingEntity;
+import co.ex.frmwrk.gateway.persist.ThingEntity;
+import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -13,4 +14,7 @@ public interface ThingDtoSaveToThingEntity {
 
   @Mappings({@Mapping(target = "id", expression = "java(null)")})
   ThingEntity thingDtoSaveToThingEntity(ThingDtoSave thingDtoSave);
+
+  @InheritInverseConfiguration
+  ThingDtoSave thingEntityToThingDtoSave(ThingEntity thingEntity);
 }

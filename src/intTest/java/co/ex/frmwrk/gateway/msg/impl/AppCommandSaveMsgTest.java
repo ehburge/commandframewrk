@@ -2,8 +2,8 @@ package co.ex.frmwrk.gateway.msg.impl;
 
 import cmd.impl.AppThingCommandSave;
 import co.ex.app.driving.cmd.bus.CommandBusDrivingApp;
-import co.ex.frmwrk.gateway.jpa.ThingEntity;
-import co.ex.frmwrk.gateway.jpa.ThingRepository;
+import co.ex.frmwrk.gateway.persist.ThingEntity;
+import co.ex.frmwrk.gateway.persist.ThingRepository;
 import org.apache.activemq.artemis.core.server.QueueQueryResult;
 import org.apache.activemq.artemis.core.server.embedded.EmbeddedActiveMQ;
 import org.junit.jupiter.api.Disabled;
@@ -35,6 +35,8 @@ public class AppCommandSaveMsgTest {
   @Autowired private EmbeddedActiveMQ embeddedActiveMQ;
 
   @Autowired private PersistListener persistListener;
+
+  @Autowired private MsgInQueueListener msgInQueueListener;
 
   @Disabled
   @Test
