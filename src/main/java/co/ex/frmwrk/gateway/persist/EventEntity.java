@@ -1,4 +1,4 @@
-package co.ex.frmwrk.event.jpa;
+package co.ex.frmwrk.gateway.persist;
 
 import lombok.Builder;
 import lombok.Data;

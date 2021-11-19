@@ -1,6 +1,6 @@
 package co.ex.frmwrk.mapping;
 
-import co.ex.frmwrk.event.jpa.EventEntity;
+import co.ex.frmwrk.gateway.persist.EventEntity;
 import co.ex.frmwrk.gateway.impl.ThingDtoSave;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

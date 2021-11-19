@@ -1,7 +1,7 @@
 package co.ex.frmwrk.gateway.msg.impl;
 
 import co.ex.frmwrk.config.JmsConfig;
-import co.ex.frmwrk.event.jpa.EventEntity;
+import co.ex.frmwrk.gateway.persist.EventEntity;
 import co.ex.frmwrk.gateway.impl.ThingDtoSave;
 import co.ex.frmwrk.gateway.persist.EventRepository;
 import co.ex.frmwrk.mapping.ThingDtoSaveToEventEntity;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class MsgInQueueListener {
+public class EventQueueListener {
   private final EventRepository eventRepository;
 
   @JmsListener(destination = JmsConfig.EVENT_Q)

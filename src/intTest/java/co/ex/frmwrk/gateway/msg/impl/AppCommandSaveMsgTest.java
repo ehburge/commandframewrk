@@ -34,9 +34,9 @@ public class AppCommandSaveMsgTest {
 
   @Autowired private EmbeddedActiveMQ embeddedActiveMQ;
 
-  @Autowired private PersistListener persistListener;
+  @Autowired private CommandHandlerDrivenFrmSaveMsgListener commandHandlerDrivenFrmSaveMsgListener;
 
-  @Autowired private MsgInQueueListener msgInQueueListener;
+  //@Autowired private EventQueueListener msgInQueueListener;
 
   @Disabled
   @Test
@@ -90,8 +90,8 @@ public class AppCommandSaveMsgTest {
 
     QueueQueryResult queueQueryResult;
 
-    while (persistListener.getNbrMsgs() < 4) {
-      System.out.println("nbrMsgs=".concat(String.valueOf(persistListener.getNbrMsgs())));
+    while (commandHandlerDrivenFrmSaveMsgListener.getNbrMsgs() < 4) {
+      System.out.println("nbrMsgs=".concat(String.valueOf(commandHandlerDrivenFrmSaveMsgListener.getNbrMsgs())));
       try {
         Thread.sleep(250);
       } catch (InterruptedException e) {
@@ -127,7 +127,7 @@ public class AppCommandSaveMsgTest {
             }
           }
         };
-    persistListener.addPropertyChangeListener(pcl);
+    commandHandlerDrivenFrmSaveMsgListener.addPropertyChangeListener(pcl);
 
     long strt = System.currentTimeMillis();
 

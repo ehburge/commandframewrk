@@ -1,0 +1,10 @@
+
+
+logging:
+  level:
+    org:
+      apache:
+        activemq:
+          audit:
+            base: INFO
+            message: WARN

@@ -21,7 +21,7 @@ import java.beans.PropertyChangeSupport;
 
 @RequiredArgsConstructor
 @Component
-public class PersistListener {
+public class CommandHandlerDrivenFrmSaveMsgListener {
   private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
   private final JmsTemplate jmsTemplate;
