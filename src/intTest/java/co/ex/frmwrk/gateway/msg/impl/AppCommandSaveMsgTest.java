@@ -3,7 +3,8 @@ package co.ex.frmwrk.gateway.msg.impl;
 import cmd.impl.AppThingCommandSave;
 import co.ex.app.driving.cmd.bus.CommandBusDrivingApp;
 import co.ex.frmwrk.gateway.persist.ThingEntity;
-import co.ex.frmwrk.gateway.persist.ThingRepository;
+import co.ex.frmwrk.gateway.persist.ThingEntityRepository;
+import co.ex.frmwrk.gateway.persist.ThingPart;
 import org.apache.activemq.artemis.core.server.QueueQueryResult;
 import org.apache.activemq.artemis.core.server.embedded.EmbeddedActiveMQ;
 import org.junit.jupiter.api.Disabled;
@@ -17,8 +18,13 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(
@@ -30,13 +36,13 @@ public class AppCommandSaveMsgTest {
 
   @Autowired private CommandBusDrivingApp commandBusDrivingApp;
 
-  @Autowired private ThingRepository thingRepository;
+  @Autowired private ThingEntityRepository thingRepository;
 
   @Autowired private EmbeddedActiveMQ embeddedActiveMQ;
 
   @Autowired private CommandHandlerDrivenFrmSaveMsgListener commandHandlerDrivenFrmSaveMsgListener;
 
-  //@Autowired private EventQueueListener msgInQueueListener;
+  // @Autowired private EventQueueListener msgInQueueListener;
 
   @Disabled
   @Test
@@ -91,7 +97,8 @@ public class AppCommandSaveMsgTest {
     QueueQueryResult queueQueryResult;
 
     while (commandHandlerDrivenFrmSaveMsgListener.getNbrMsgs() < 4) {
-      System.out.println("nbrMsgs=".concat(String.valueOf(commandHandlerDrivenFrmSaveMsgListener.getNbrMsgs())));
+      System.out.println(
+          "nbrMsgs=".concat(String.valueOf(commandHandlerDrivenFrmSaveMsgListener.getNbrMsgs())));
       try {
         Thread.sleep(250);
       } catch (InterruptedException e) {
@@ -107,6 +114,7 @@ public class AppCommandSaveMsgTest {
   @Test
   public void testCreateThingCommandVolume() {
 
+    Arrays.asList("Larry", "Moe", "Curly");
     int nbrMsgs = 100;
 
     long sent = 0;
@@ -160,5 +168,10 @@ public class AppCommandSaveMsgTest {
     System.out.println("msg# " + sent + " time " + (end - strt));
     ThingEntity thingEntity = thingRepository.findDistinctByThingNbr(10L);
     assertEquals(10L, thingEntity.getThingNbr());
+    Set<String> comments = thingEntity.getComments();
+    assertTrue(comments.size() == 3);
+    Set<ThingPart> thingParts = new TreeSet(thingEntity.getPartSet());
+    assertTrue(thingParts.size() == 5);
+    thingParts.forEach(s -> System.out.println(s.toString()));
   }
 }

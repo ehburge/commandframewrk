@@ -2,7 +2,7 @@ package co.ex.frmwrk.gateway.jpa.impl;
 
 import co.ex.frmwrk.gateway.impl.ThingDtoSave;
 import co.ex.frmwrk.gateway.persist.ThingEntity;
-import co.ex.frmwrk.gateway.persist.ThingRepository;
+import co.ex.frmwrk.gateway.persist.ThingEntityRepository;
 import co.ex.frmwrk.mapping.ThingDtoSaveToThingEntity;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,7 +23,7 @@ public class CreateThingEntityCommandTest {
 
   @LocalServerPort private int port;
 
-  @Autowired private ThingRepository thingRepository;
+  @Autowired private ThingEntityRepository thingRepository;
 
   // @Autowired private ThingCommandBusPrimary thingCommandBusPrimary;
 
@@ -37,7 +37,8 @@ public class CreateThingEntityCommandTest {
             .price(new BigDecimal("123.45"))
             .build();
 
-    ThingEntity thingEntity = ThingDtoSaveToThingEntity.INSTANCE.thingDtoSaveToThingEntity(thingDtoSave);
+    ThingEntity thingEntity =
+        ThingDtoSaveToThingEntity.INSTANCE.thingDtoSaveToThingEntity(thingDtoSave);
 
     thingRepository.save(thingEntity);
 

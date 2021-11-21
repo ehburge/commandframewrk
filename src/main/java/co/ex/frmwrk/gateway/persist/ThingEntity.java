@@ -1,12 +1,12 @@
 package co.ex.frmwrk.gateway.persist;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
+import java.util.List;
+import java.util.Set;
 
+@ToString(includeFieldNames=true)
 @Builder
 @Entity
 @AllArgsConstructor
@@ -21,7 +21,15 @@ public class ThingEntity {
 
   private String description;
   private String fullDescription;
-  private BigDecimal price;
+  @Embedded
+  @ElementCollection(fetch=FetchType.EAGER)
+  @Column(name = "comments_col", nullable = false)
+  @CollectionTable(name = "thing_comments", joinColumns = @JoinColumn(name = "thing_id"))
+  private Set<String> comments;
+
+  @ElementCollection(fetch=FetchType.EAGER)
+  @CollectionTable(name = "thing_parts", joinColumns = @JoinColumn(name = "thing_id"))
+  private Set<ThingPart> partSet;
 
   public ThingEntity() {}
 }
