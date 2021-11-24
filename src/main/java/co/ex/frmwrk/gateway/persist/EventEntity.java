@@ -3,6 +3,7 @@ package co.ex.frmwrk.gateway.persist;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.sql.Clob;
@@ -10,6 +11,7 @@ import java.sql.Clob;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString
 @Entity
 public class EventEntity {
   @Id

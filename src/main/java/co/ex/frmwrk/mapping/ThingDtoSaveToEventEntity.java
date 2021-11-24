@@ -29,9 +29,8 @@ public interface ThingDtoSaveToEventEntity {
   default void mapToEventData(
       @MappingTarget EventEntity.EventEntityBuilder eventEntityBuilder, ThingDtoSave thingDtoSave) {
     ObjectMapper objectMapper = new ObjectMapper();
-    objectMapper.enable(JsonGenerator.Feature.WRITE_BIGDECIMAL_AS_PLAIN);
     try {
-      eventEntityBuilder.event_data(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(thingDtoSave));
+      eventEntityBuilder.event_data(objectMapper.writeValueAsString(thingDtoSave));
     } catch (JsonProcessingException e) {
       e.printStackTrace();
     }

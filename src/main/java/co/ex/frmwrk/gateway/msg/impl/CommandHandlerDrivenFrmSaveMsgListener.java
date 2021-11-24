@@ -1,15 +1,11 @@
 package co.ex.frmwrk.gateway.msg.impl;
 
 import co.ex.frmwrk.config.JmsConfig;
-import co.ex.frmwrk.driven.handler.CommandHandlerDrivenFrm;
-import co.ex.frmwrk.gateway.ThingDto;
 import co.ex.frmwrk.gateway.impl.ThingDtoSave;
 import co.ex.frmwrk.gateway.persist.impl.PersistThingDto;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.messaging.Message;
@@ -24,7 +20,7 @@ import java.beans.PropertyChangeSupport;
 @RequiredArgsConstructor
 @Component
 public class CommandHandlerDrivenFrmSaveMsgListener {
-  Logger logger = LoggerFactory.getLogger(this.getClass());
+  Logger LOGGER = LoggerFactory.getLogger(this.getClass());
   private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
   private final JmsTemplate jmsTemplate;
@@ -49,11 +45,10 @@ public class CommandHandlerDrivenFrmSaveMsgListener {
 
     addToNbrMsgs();
 
-    System.out.println("Got a message " + nbrMsgs);
-
-    System.out.println(thingDtoSave);
+    LOGGER.trace("Got a message " + nbrMsgs);
 
     ThingDtoSave thingDtoSaveRtn = persistThingDto.persist(thingDtoSave);
+    LOGGER.debug("persisted " + thingDtoSaveRtn + " sending to " + JmsConfig.EVENT_Q);
 
     jmsTemplate.convertAndSend(JmsConfig.EVENT_Q, thingDtoSaveRtn);
   }

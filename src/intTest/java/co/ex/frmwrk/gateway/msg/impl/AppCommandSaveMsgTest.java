@@ -2,14 +2,13 @@ package co.ex.frmwrk.gateway.msg.impl;
 
 import cmd.impl.AppThingCommandSave;
 import co.ex.app.driving.cmd.bus.CommandBusDrivingApp;
-import co.ex.frmwrk.gateway.persist.ThingComment;
-import co.ex.frmwrk.gateway.persist.ThingEntity;
-import co.ex.frmwrk.gateway.persist.ThingEntityRepository;
-import co.ex.frmwrk.gateway.persist.ThingPart;
+import co.ex.frmwrk.gateway.persist.*;
 import model.AppThingPart;
 import org.apache.activemq.artemis.core.server.embedded.EmbeddedActiveMQ;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -30,6 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest(
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AppCommandSaveMsgTest {
+  Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
   @LocalServerPort private int port;
 
@@ -40,6 +40,8 @@ public class AppCommandSaveMsgTest {
   @Autowired private EmbeddedActiveMQ embeddedActiveMQ;
 
   @Autowired private CommandHandlerDrivenFrmSaveMsgListener commandHandlerDrivenFrmSaveMsgListener;
+
+  @Autowired private EventRepository eventRepository;
 
   // @Autowired private EventQueueListener msgInQueueListener;
 
@@ -106,11 +108,11 @@ public class AppCommandSaveMsgTest {
     System.out.println("msg# " + sent + " time " + (end - strt));
     ThingEntity thingEntity = thingRepository.findDistinctByThingNbr(10L);
     assertEquals(10L, thingEntity.getThingNbr());
-    List<ThingComment> comments = thingEntity.getComments();
-    assertTrue(comments.size() == 3);
-    comments.forEach(s -> System.out.println(s.toString()));
-    List<ThingPart> thingParts = thingEntity.getParts();
-    assertTrue(thingParts.size() == 3);
-    thingParts.forEach(s -> System.out.println(s.toString()));
+    LOGGER.info(thingEntity.toString());
+
+    if (LOGGER.isTraceEnabled()) {
+      Iterable<EventEntity> eventEntities = eventRepository.findAll();
+      eventEntities.forEach(s -> LOGGER.trace(s.toString()));
+    }
   }
 }
