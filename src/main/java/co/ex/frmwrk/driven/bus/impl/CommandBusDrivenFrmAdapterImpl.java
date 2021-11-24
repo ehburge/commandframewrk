@@ -7,15 +7,22 @@ import co.ex.frmwrk.driven.handler.CommandHandlerDrivenFrm;
 import co.ex.frmwrk.gateway.impl.ThingDtoSave;
 import co.ex.frmwrk.mapping.AppThingCommandSaveThingDtoSaveMapper;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Component
-public class CommandBusDrivenFrmImpl implements CommandBusDrivenFrm {
+public class CommandBusDrivenFrmAdapterImpl implements CommandBusDrivenFrm {
 
   private Map<Class, CommandHandlerDrivenFrm> commandHandlerDrivenFrmMap;
+
+  @Autowired
+  public CommandBusDrivenFrmAdapterImpl(Map<Class, CommandHandlerDrivenFrm> commandHandlerDrivenFrmMap) {
+    this.commandHandlerDrivenFrmMap = commandHandlerDrivenFrmMap;
+  }
 
   @Override
   public void perform(AppCommand appCommand) {

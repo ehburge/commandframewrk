@@ -24,8 +24,7 @@ public class FrmWrkConfig {
   static final Injector injector = Guice.createInjector(new AppInjector2());
 
   @Bean
-  public Map<Class, CommandBusDrivenFrm> commandBusDrivenFrmMap(
-      CommandBusDrivenFrm commandBusDrivenFrm) {
+  public Map<Class, CommandBusDrivenFrm> commandBusDrivenFrmMap(CommandBusDrivenFrm commandBusDrivenFrm) {
     Map<Class, CommandBusDrivenFrm> commandBusDrivenFrmMap = new HashMap<>();
     commandBusDrivenFrmMap.put(AppThingCommandSave.class, commandBusDrivenFrm);
 
@@ -33,8 +32,7 @@ public class FrmWrkConfig {
   }
 
   @Bean
-  public CommandHandlerDrivenApp attachSaveThingAccessAdapter(
-      Map<Class, CommandBusDrivenFrm> commandBusDrivenFrmMap) {
+  public CommandHandlerDrivenApp attachSaveThingAccessAdapter(Map<Class, CommandBusDrivenFrm> commandBusDrivenFrmMap) {
     CommandHandlerDrivenAppImpl commandHandlerDrivenAppImpl =
         injector.getInstance(CommandHandlerDrivenAppImpl.class);
 
@@ -44,8 +42,7 @@ public class FrmWrkConfig {
   }
 
   @Bean
-  public Map<Class, CommandHandlerDrivenFrm> commandHandlerDrivenFrmMap(
-      CommandHandlerDrivenFrmSaveMsg commandHandlerDrivenFrmSaveMsg) {
+  public Map<Class, CommandHandlerDrivenFrm> commandHandlerDrivenFrmMap(CommandHandlerDrivenFrmSaveMsg commandHandlerDrivenFrmSaveMsg) {
     Map<Class, CommandHandlerDrivenFrm> commandHandlerDrivenFrmMap = new HashMap<>();
     commandHandlerDrivenFrmMap.put(ThingDtoSave.class, commandHandlerDrivenFrmSaveMsg);
 
@@ -53,8 +50,7 @@ public class FrmWrkConfig {
   }
 
   @Bean
-  public Map<Class, PersistThingDto> makeThingAccessAdapterPersistMap(
-      PersistThingDto outsideAdapterSaveJPA,
+  public Map<Class, PersistThingDto> makeThingAccessAdapterPersistMap(PersistThingDto outsideAdapterSaveJPA,
       PersistThingDto saveThingAccessAdapterJPA) {
 
     Map<Class, PersistThingDto> thingAccessAdapterPersistMap = new HashMap<>();

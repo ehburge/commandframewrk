@@ -1,15 +1,15 @@
 package co.ex.frmwrk.gateway.persist;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.sql.Clob;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
-@Data
 @Entity
 public class EventEntity {
   @Id
@@ -19,6 +19,6 @@ public class EventEntity {
   private String event_type; // created, updated
   private String entity_type; // Thing
   private Long entity_id; // ThingId
+  @Lob
   private String event_data; // Thing
-
 }

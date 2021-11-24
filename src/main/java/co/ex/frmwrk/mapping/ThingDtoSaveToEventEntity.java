@@ -2,12 +2,17 @@ package co.ex.frmwrk.mapping;
 
 import co.ex.frmwrk.gateway.persist.EventEntity;
 import co.ex.frmwrk.gateway.impl.ThingDtoSave;
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+import java.sql.Clob;
+
+@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.FIELD)
 public interface ThingDtoSaveToEventEntity {
   ThingDtoSaveToEventEntity INSTANCE = Mappers.getMapper(ThingDtoSaveToEventEntity.class);
 
@@ -24,8 +29,9 @@ public interface ThingDtoSaveToEventEntity {
   default void mapToEventData(
       @MappingTarget EventEntity.EventEntityBuilder eventEntityBuilder, ThingDtoSave thingDtoSave) {
     ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.enable(JsonGenerator.Feature.WRITE_BIGDECIMAL_AS_PLAIN);
     try {
-      eventEntityBuilder.event_data(objectMapper.writeValueAsString(thingDtoSave));
+      eventEntityBuilder.event_data(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(thingDtoSave));
     } catch (JsonProcessingException e) {
       e.printStackTrace();
     }

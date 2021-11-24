@@ -1,16 +1,18 @@
 package co.ex.frmwrk.gateway.persist;
 
 import lombok.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
 
 @ToString(includeFieldNames=true)
-@Builder
-@Entity
 @AllArgsConstructor
+@Builder
 @Getter
+@Setter
+@Entity
 public class ThingEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,15 +23,14 @@ public class ThingEntity {
 
   private String description;
   private String fullDescription;
-  @Embedded
-  @ElementCollection(fetch=FetchType.EAGER)
-  @Column(name = "comments_col", nullable = false)
-  @CollectionTable(name = "thing_comments", joinColumns = @JoinColumn(name = "thing_id"))
-  private Set<String> comments;
 
-  @ElementCollection(fetch=FetchType.EAGER)
+  @ElementCollection(fetch=FetchType.LAZY)
+  @CollectionTable(name = "thing_comments", joinColumns = @JoinColumn(name = "thing_id"))
+  private List<ThingComment> comments;
+
+  @ElementCollection(fetch=FetchType.LAZY)
   @CollectionTable(name = "thing_parts", joinColumns = @JoinColumn(name = "thing_id"))
-  private Set<ThingPart> partSet;
+  private List<ThingPart> parts;
 
   public ThingEntity() {}
 }

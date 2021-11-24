@@ -3,5 +3,5 @@ include ':thingapp'
 project(':thingapp').projectDir = new File(settingsDir, '../thingapp')
 include ':thingdomain'
 project(':thingdomain').projectDir = new File(settingsDir, '../thingdomain')
-include ':thingmapping'
-project(':thingmapping').projectDir = new File(settingsDir, '../thingmapping')
+include ':thingappdommapping'
+project(':thingappdommapping').projectDir = new File(settingsDir, '../thingappdommapping')

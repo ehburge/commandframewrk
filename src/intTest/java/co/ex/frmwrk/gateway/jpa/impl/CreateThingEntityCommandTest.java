@@ -34,7 +34,7 @@ public class CreateThingEntityCommandTest {
             .thingNbr(10123L)
             .description("desc")
             .fullDescription("full desc")
-            .price(new BigDecimal("123.45"))
+            //.price(new BigDecimal("123.45")
             .build();
 
     ThingEntity thingEntity =

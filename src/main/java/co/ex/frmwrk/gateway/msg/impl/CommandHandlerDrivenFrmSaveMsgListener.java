@@ -6,6 +6,8 @@ import co.ex.frmwrk.gateway.ThingDto;
 import co.ex.frmwrk.gateway.impl.ThingDtoSave;
 import co.ex.frmwrk.gateway.persist.impl.PersistThingDto;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jms.annotation.JmsListener;
@@ -22,6 +24,7 @@ import java.beans.PropertyChangeSupport;
 @RequiredArgsConstructor
 @Component
 public class CommandHandlerDrivenFrmSaveMsgListener {
+  Logger logger = LoggerFactory.getLogger(this.getClass());
   private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
   private final JmsTemplate jmsTemplate;
