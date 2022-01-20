@@ -11,8 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class PersistThingDto {
 
-  static ThingDtoSaveToThingEntity thingDtoSaveToThingEntity = ThingDtoSaveToThingEntity.INSTANCE;
-
+  private final ThingDtoSaveToThingEntity thingDtoSaveToThingEntity;
   private final ThingEntityRepository thingRepository;
 
   public ThingDtoSave persist(ThingDtoSave thingDtoSave) {
@@ -20,11 +19,11 @@ public class PersistThingDto {
     ThingEntity thingEntityLookup =
         thingRepository.findDistinctByThingNbr(thingDtoSave.getThingNbr());
 
-    ThingEntity thingEntity = null;
-    if (thingEntityLookup == null) {
-      thingEntity = thingDtoSaveToThingEntity.thingDtoSaveToThingEntity(thingDtoSave);
-    }
+        ThingEntity thingEntity = null;
+        if (thingEntityLookup == null) {
+          thingEntity = thingDtoSaveToThingEntity.thingDtoSaveToThingEntity(thingDtoSave);
+        }
 
-    return thingDtoSaveToThingEntity.thingEntityToThingDtoSave(thingRepository.save(thingEntity));
+     return thingDtoSaveToThingEntity.thingEntityToThingDtoSave(thingRepository.save(thingEntity));
   }
 }

@@ -37,10 +37,10 @@ public class CreateThingEntityCommandTest {
             //.price(new BigDecimal("123.45")
             .build();
 
-    ThingEntity thingEntity =
-        ThingDtoSaveToThingEntity.INSTANCE.thingDtoSaveToThingEntity(thingDtoSave);
+//    ThingEntity thingEntity =
+//        ThingDtoSaveToThingEntity.thingDtoSaveToThingEntity(thingDtoSave);
 
-    thingRepository.save(thingEntity);
+    //thingRepository.save(thingEntity);
 
     ThingEntity savdThingEntity = thingRepository.findDistinctByThingNbr(10123L);
     assertEquals(10123L, savdThingEntity.getThingNbr());

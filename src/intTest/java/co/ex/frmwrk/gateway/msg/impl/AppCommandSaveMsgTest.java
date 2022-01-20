@@ -1,9 +1,12 @@
 package co.ex.frmwrk.gateway.msg.impl;
 
-import cmd.impl.AppThingCommandSave;
 import co.ex.app.driving.cmd.bus.CommandBusDrivingApp;
-import co.ex.frmwrk.gateway.persist.*;
+import co.ex.frmwrk.gateway.persist.ThingEntity;
+import co.ex.frmwrk.gateway.persist.ThingEntityRepository;
+import com.ex.thing.cmd.impl.AppThingCommandSave;
+import model.AppThingComments;
 import model.AppThingPart;
+import model.AppThingParts;
 import org.apache.activemq.artemis.core.server.embedded.EmbeddedActiveMQ;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,11 +26,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(
-    webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AppCommandSaveMsgTest {
   Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
@@ -75,7 +76,12 @@ public class AppCommandSaveMsgTest {
     AppThingPart thingPart2 = new AppThingPart(2, "part 2 desc", new BigDecimal(234.56));
     AppThingPart thingPart3 = new AppThingPart(3, "part 3 desc", new BigDecimal(345.56));
 
-    List<AppThingPart> appParts = new ArrayList<>(Arrays.asList(thingPart1, thingPart2, thingPart3));
+    List<AppThingPart> appParts =
+        new ArrayList<>(Arrays.asList(thingPart1, thingPart2, thingPart3));
+    AppThingParts thingParts = new AppThingParts(appParts);
+
+    AppThingComments thingComments = new AppThingComments(Arrays.asList("Larry", "Moe", "Curly"));
+
     long strt = System.currentTimeMillis();
 
     for (int i = 0; i < nbrMsgs; i++) {
@@ -84,8 +90,8 @@ public class AppCommandSaveMsgTest {
               .thingNbr(sent)
               .description("desc")
               .fullDescription("fullDesc")
-              .comments(Arrays.asList("Larry", "Moe", "Curly"))
-              .parts(appParts)
+              .comments(thingComments)
+              .parts(thingParts)
               .build();
       commandBusDrivingApp.perform(appThingCommandSave);
       sent++;
@@ -111,7 +117,7 @@ public class AppCommandSaveMsgTest {
     LOGGER.info(thingEntity.toString());
 
     if (LOGGER.isTraceEnabled()) {
-      Iterable<EventEntity> eventEntities = eventRepository.findAll();
+      Iterable<ThingEventEntity> eventEntities = eventRepository.findAll();
       eventEntities.forEach(s -> LOGGER.trace(s.toString()));
     }
   }

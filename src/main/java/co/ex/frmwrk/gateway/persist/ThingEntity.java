@@ -1,17 +1,15 @@
 package co.ex.frmwrk.gateway.persist;
 
+import co.ex.frmwrk.gateway.impl.ThingDtoPart;
 import lombok.*;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.List;
-import java.util.Set;
 
 @ToString(includeFieldNames=true)
-@AllArgsConstructor
 @Builder
 @Getter
-@Setter
 @Entity
 public class ThingEntity {
   @Id
@@ -20,6 +18,8 @@ public class ThingEntity {
 
   @Column(unique = true)
   private Long thingNbr;
+
+  private Timestamp dttm;
 
   private String description;
   private String fullDescription;
@@ -30,7 +30,5 @@ public class ThingEntity {
 
   @ElementCollection(fetch=FetchType.LAZY)
   @CollectionTable(name = "thing_parts", joinColumns = @JoinColumn(name = "thing_id"))
-  private List<ThingPart> parts;
-
-  public ThingEntity() {}
+  private List<ThingDtoPart> parts;
 }

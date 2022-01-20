@@ -1,13 +1,10 @@
 package co.ex.frmwrk.mapping;
 
-import co.ex.frmwrk.gateway.persist.ThingPart;
-import model.AppThingPart;
-import org.mapstruct.InjectionStrategy;
+import co.ex.frmwrk.gateway.impl.ThingDtoParts;
+import model.AppThingParts;
 import org.mapstruct.Mapper;
-
-import java.util.List;
 
 @Mapper
 public interface AppDtoThingPartsMapper {
-    List<AppThingPart> mapDtoToApp(List<ThingPart> thingParts);
+    AppThingParts mapDtoToApp(ThingDtoParts dtoThingParts);
 }

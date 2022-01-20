@@ -1,27 +1,27 @@
 package co.ex.frmwrk.mapping;
 
-import cmd.impl.AppThingCommandSave;
+import co.ex.frmwrk.gateway.impl.ThingDtoComments;
 import co.ex.frmwrk.gateway.impl.ThingDtoSave;
-import co.ex.frmwrk.gateway.persist.ThingComment;
-import org.mapstruct.*;
-import org.mapstruct.factory.Mappers;
+import com.ex.thing.cmd.impl.AppThingCommandSave;
+import model.AppThingComments;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.FIELD)
+// @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.FIELD)
+@Mapper(uses = AppDtoThingPartsMapper.class)
 public interface AppThingCommandSaveThingDtoSaveMapper {
-  AppThingCommandSaveThingDtoSaveMapper INSTANCE =
-      Mappers.getMapper(AppThingCommandSaveThingDtoSaveMapper.class);
+  @Named("Comments")
+  static ThingDtoComments mapComments(AppThingComments comments) {
+    List<String> thingComments = new ArrayList<>();
+    comments.getComments().forEach(s -> thingComments.add(s));
 
-  @Mappings({@Mapping(target = "comments", source = "comments", qualifiedByName = "comments")})
-  ThingDtoSave appThingCommandSaveToThingDtoSave(AppThingCommandSave appThingCommandSave);
-
-  @Named("comments")
-  static List<ThingComment> mapComments(List<String> comments) {
-    List<ThingComment> thingComments = new ArrayList<>();
-    comments.forEach( s -> thingComments.add(new ThingComment(s)) );
-
-    return thingComments;
+    return new ThingDtoComments(thingComments);
   }
+
+  @Mapping(target = "comments", source = "comments", qualifiedByName = "Comments")
+  ThingDtoSave appThingCommandSaveToThingDtoSave(AppThingCommandSave appThingCommandSave);
 }
