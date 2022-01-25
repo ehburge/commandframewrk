@@ -20,7 +20,6 @@ public class ThingDtoSave implements ThingDto, Serializable {
 
   private Long thingNbr;
   private DtoRole role;
-  private ThingDtoDescription description;
   private ThingDtoComments comments;
   private ThingDtoParts parts;
 }

@@ -12,18 +12,9 @@ import java.math.BigDecimal;
 @ToString
 @Getter
 @Builder
-public class ThingDtoPart implements Comparable {
+public class ThingDtoPart {
 
-  private Integer partNbr;
-  private String partDesc;
-  private BigDecimal price;
-  private short qty;
-  private boolean inStock;
-  private String stockStatus;
-  private BigDecimal discount;
+  private String partId;
+  private int qty;
 
-  @Override
-  public int compareTo(Object o) {
-    return partDesc.compareTo(((ThingDtoPart) o).partDesc);
-  }
 }

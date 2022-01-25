@@ -1,12 +1,11 @@
 package co.ex.frmwrk.driven.bus.impl;
 
-import co.ex.app.driven.cmd.handler.CommandBusDrivenFrm;
+import co.ex.app.driven.cmd.handler.impl.CommandBusDrivenFrm;
 import co.ex.frmwrk.driven.handler.CommandHandlerDrivenFrm;
 import co.ex.frmwrk.gateway.impl.ThingDtoSave;
 import co.ex.frmwrk.mapping.AppThingCommandSaveThingDtoSaveMapper;
 import com.ex.thing.cmd.AppCommand;
 import com.ex.thing.cmd.impl.AppThingCommandSave;
-import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,11 +26,13 @@ public class CommandBusDrivenFrmAdapterImpl implements CommandBusDrivenFrm {
 
   @Override
   public void perform(AppCommand appCommand) {
-//    ThingDtoSave thingDtoSave =
-//        AppThingCommandSaveThingDtoSaveMapper.INSTANCE.appThingCommandSaveToThingDtoSave();.appThingCommandSaveToThingDtoSave(
-//            (AppThingCommandSave) appCommand);
-    ThingDtoSave thingDtoSave = appThingCommandSaveThingDtoSaveMapper
-        .appThingCommandSaveToThingDtoSave((AppThingCommandSave) appCommand);
+    //    ThingDtoSave thingDtoSave =
+    //
+    // AppThingCommandSaveThingDtoSaveMapper.INSTANCE.appThingCommandSaveToThingDtoSave();.appThingCommandSaveToThingDtoSave(
+    //            (AppThingCommandSave) appCommand);
+    ThingDtoSave thingDtoSave =
+        appThingCommandSaveThingDtoSaveMapper.appThingCommandSaveToThingDtoSave(
+            (AppThingCommandSave) appCommand);
     CommandHandlerDrivenFrm drivenApp = commandHandlerDrivenFrmMap.get(thingDtoSave.getClass());
     drivenApp.handle(thingDtoSave);
   }

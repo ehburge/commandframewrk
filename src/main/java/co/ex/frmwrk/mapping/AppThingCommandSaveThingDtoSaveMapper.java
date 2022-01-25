@@ -14,14 +14,15 @@ import java.util.List;
 // @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.FIELD)
 @Mapper(uses = AppDtoThingPartsMapper.class)
 public interface AppThingCommandSaveThingDtoSaveMapper {
+
+  @Mapping(target = "comments", source = "comments", qualifiedByName = "Comments")
+  ThingDtoSave appThingCommandSaveToThingDtoSave(AppThingCommandSave appThingCommandSave);
+
   @Named("Comments")
   static ThingDtoComments mapComments(AppThingComments comments) {
     List<String> thingComments = new ArrayList<>();
     comments.getComments().forEach(s -> thingComments.add(s));
 
-    return new ThingDtoComments(thingComments);
+    return ThingDtoComments.builder().comments(thingComments).build();
   }
-
-  @Mapping(target = "comments", source = "comments", qualifiedByName = "Comments")
-  ThingDtoSave appThingCommandSaveToThingDtoSave(AppThingCommandSave appThingCommandSave);
 }

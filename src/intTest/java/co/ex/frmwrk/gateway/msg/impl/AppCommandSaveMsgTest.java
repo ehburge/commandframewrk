@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -41,8 +40,6 @@ public class AppCommandSaveMsgTest {
   @Autowired private EmbeddedActiveMQ embeddedActiveMQ;
 
   @Autowired private CommandHandlerDrivenFrmSaveMsgListener commandHandlerDrivenFrmSaveMsgListener;
-
-  @Autowired private EventRepository eventRepository;
 
   // @Autowired private EventQueueListener msgInQueueListener;
 
@@ -72,15 +69,16 @@ public class AppCommandSaveMsgTest {
         };
     commandHandlerDrivenFrmSaveMsgListener.addPropertyChangeListener(pcl);
 
-    AppThingPart thingPart1 = new AppThingPart(1, "part 1 desc", new BigDecimal(123.45));
-    AppThingPart thingPart2 = new AppThingPart(2, "part 2 desc", new BigDecimal(234.56));
-    AppThingPart thingPart3 = new AppThingPart(3, "part 3 desc", new BigDecimal(345.56));
+    AppThingPart thingPart1 = AppThingPart.builder().partId("1").qty(1).build();
+    AppThingPart thingPart2 = AppThingPart.builder().partId("2").qty(2).build();
+    AppThingPart thingPart3 = AppThingPart.builder().partId("3").qty(3).build();
 
     List<AppThingPart> appParts =
         new ArrayList<>(Arrays.asList(thingPart1, thingPart2, thingPart3));
-    AppThingParts thingParts = new AppThingParts(appParts);
+    AppThingParts thingParts = AppThingParts.builder().parts(appParts).build();
 
-    AppThingComments thingComments = new AppThingComments(Arrays.asList("Larry", "Moe", "Curly"));
+    AppThingComments thingComments =
+        AppThingComments.builder().comments(Arrays.asList("Larry", "Moe", "Curly")).build();
 
     long strt = System.currentTimeMillis();
 
@@ -88,8 +86,6 @@ public class AppCommandSaveMsgTest {
       AppThingCommandSave appThingCommandSave =
           AppThingCommandSave.builder()
               .thingNbr(sent)
-              .description("desc")
-              .fullDescription("fullDesc")
               .comments(thingComments)
               .parts(thingParts)
               .build();
@@ -115,10 +111,5 @@ public class AppCommandSaveMsgTest {
     ThingEntity thingEntity = thingRepository.findDistinctByThingNbr(10L);
     assertEquals(10L, thingEntity.getThingNbr());
     LOGGER.info(thingEntity.toString());
-
-    if (LOGGER.isTraceEnabled()) {
-      Iterable<ThingEventEntity> eventEntities = eventRepository.findAll();
-      eventEntities.forEach(s -> LOGGER.trace(s.toString()));
-    }
   }
 }

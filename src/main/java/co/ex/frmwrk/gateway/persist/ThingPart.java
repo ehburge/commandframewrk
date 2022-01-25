@@ -4,24 +4,22 @@ import co.ex.frmwrk.gateway.impl.ThingDtoPart;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
+import lombok.extern.jackson.Jacksonized;
 
+import javax.persistence.Embeddable;
 import java.math.BigDecimal;
 
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
+@Setter
 @Builder
-public class ThingPart implements Comparable{
+@Embeddable
+public class ThingPart {
 
-    private Integer partNbr;
-    private String partDesc;
-    private BigDecimal price;
-    private short qty;
-    private boolean inStock;
-    private String stockStatus;
-    private BigDecimal discount;
+    private String partId;
+    private int qty;
 
-    @Override
-    public int compareTo(Object o) {
-        return partDesc.compareTo(((ThingDtoPart)o).getPartDesc());
-    }
+
 }

@@ -1,9 +1,8 @@
 package co.ex.frmwrk.config;
 
-import co.ex.app.AppInjector2;
-import co.ex.app.driven.cmd.handler.CommandBusDrivenFrm;
+import co.ex.app.AppInjectorFrmWrk;
 import co.ex.app.driven.cmd.handler.CommandHandlerDrivenApp;
-import co.ex.app.driven.cmd.handler.impl.CommandHandlerDrivenAppImpl;
+import co.ex.app.driven.cmd.handler.impl.CommandBusDrivenFrm;
 import co.ex.app.driving.cmd.bus.CommandBusDrivingApp;
 import co.ex.frmwrk.driven.handler.CommandHandlerDrivenFrm;
 import co.ex.frmwrk.gateway.impl.ThingDtoSave;
@@ -21,7 +20,7 @@ import java.util.Map;
 @Configuration
 public class FrmWrkConfig {
 
-  static final Injector injector = Guice.createInjector(new AppInjector2());
+  static final Injector injector = Guice.createInjector(new AppInjectorFrmWrk());
 
   @Bean
   public Map<Class, CommandBusDrivenFrm> commandBusDrivenFrmMap(
@@ -35,8 +34,8 @@ public class FrmWrkConfig {
   @Bean
   public CommandHandlerDrivenApp attachSaveThingAccessAdapter(
       Map<Class, CommandBusDrivenFrm> commandBusDrivenFrmMap) {
-    CommandHandlerDrivenAppImpl commandHandlerDrivenAppImpl =
-        injector.getInstance(CommandHandlerDrivenAppImpl.class);
+    CommandHandlerDrivenApp commandHandlerDrivenAppImpl =
+        injector.getInstance(CommandHandlerDrivenApp.class);
 
     commandHandlerDrivenAppImpl.setCommandBusDrivenFrmMap(commandBusDrivenFrmMap);
 
