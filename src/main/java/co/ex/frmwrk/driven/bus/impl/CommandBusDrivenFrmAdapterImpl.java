@@ -14,14 +14,15 @@ import java.util.Map;
 @Component
 public class CommandBusDrivenFrmAdapterImpl implements CommandBusDrivenFrm {
 
-  static AppThingCommandSaveThingDtoSaveMapper appThingCommandSaveThingDtoSaveMapper;
-
+  private final AppThingCommandSaveThingDtoSaveMapper appThingCommandSaveThingDtoSaveMapper;
   private final Map<Class, CommandHandlerDrivenFrm> commandHandlerDrivenFrmMap;
 
   @Autowired
   public CommandBusDrivenFrmAdapterImpl(
-      Map<Class, CommandHandlerDrivenFrm> commandHandlerDrivenFrmMap) {
+      Map<Class, CommandHandlerDrivenFrm> commandHandlerDrivenFrmMap,
+      AppThingCommandSaveThingDtoSaveMapper appThingCommandSaveThingDtoSaveMapper) {
     this.commandHandlerDrivenFrmMap = commandHandlerDrivenFrmMap;
+    this.appThingCommandSaveThingDtoSaveMapper = appThingCommandSaveThingDtoSaveMapper;
   }
 
   @Override

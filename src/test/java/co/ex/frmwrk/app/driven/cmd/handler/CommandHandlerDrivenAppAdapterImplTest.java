@@ -7,6 +7,7 @@ import co.ex.frmwrk.driven.bus.impl.CommandBusDrivenFrmAdapterImpl;
 import co.ex.frmwrk.driven.handler.CommandHandlerDrivenFrm;
 import co.ex.frmwrk.gateway.ThingDto;
 import co.ex.frmwrk.gateway.impl.ThingDtoSave;
+import co.ex.frmwrk.mapping.AppThingCommandSaveThingDtoSaveMapperImpl;
 import com.ex.thing.cmd.impl.AppThingCommandSave;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -66,7 +67,8 @@ class CommandHandlerDrivenAppAdapterImplTest {
     chDrivenFrmMap.put(ThingDtoSave.class, commandHandlerDrivenFrmTesting);
 
     Map<Class, CommandBusDrivenFrm> cbDrivenFrmMap = new HashMap<>();
-    CommandBusDrivenFrm commandBusDrivenFrm = new CommandBusDrivenFrmAdapterImpl(chDrivenFrmMap);
+    AppThingCommandSaveThingDtoSaveMapperImpl saveThingDtoSaveMapper = new AppThingCommandSaveThingDtoSaveMapperImpl();
+    CommandBusDrivenFrm commandBusDrivenFrm = new CommandBusDrivenFrmAdapterImpl(chDrivenFrmMap, saveThingDtoSaveMapper);
     cbDrivenFrmMap.put(AppThingCommandSave.class, commandBusDrivenFrm);
 
     // May not need to do it this way.
