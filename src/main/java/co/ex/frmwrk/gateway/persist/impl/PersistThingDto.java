@@ -16,14 +16,8 @@ public class PersistThingDto {
 
   public ThingDtoSave persist(ThingDtoSave thingDtoSave) {
 
-    ThingEntity thingEntityLookup =
-        thingRepository.findDistinctByThingNbr(thingDtoSave.getThingNbr());
+    ThingEntity thingEntity = thingDtoSaveToThingEntity.thingDtoSaveToThingEntity(thingDtoSave);
 
-        ThingEntity thingEntity = null;
-        if (thingEntityLookup == null) {
-          thingEntity = thingDtoSaveToThingEntity.thingDtoSaveToThingEntity(thingDtoSave);
-        }
-
-     return thingDtoSaveToThingEntity.thingEntityToThingDtoSave(thingRepository.save(thingEntity));
+    return thingDtoSaveToThingEntity.thingEntityToThingDtoSave(thingRepository.save(thingEntity));
   }
 }

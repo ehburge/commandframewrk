@@ -18,7 +18,6 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR, uses = {ThingPartsMapper.class, ThingCommentsMapper.class})
 public interface ThingDtoSaveToThingEntity {
-  // ThingDtoSaveToThingEntity INSTANCE = Mappers.getMapper(ThingDtoSaveToThingEntity.class);
 
   @Mappings({
     @Mapping(target = "id", expression = "java(null)"),
@@ -33,6 +32,4 @@ public interface ThingDtoSaveToThingEntity {
     @Mapping(target = "parts.parts", source = "parts")
   })
   ThingDtoSave thingEntityToThingDtoSave(ThingEntity thingEntity);
-
-
 }

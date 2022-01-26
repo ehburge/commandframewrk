@@ -47,11 +47,11 @@ public class AppCommandSaveMsgTest {
   @Transactional
   public void testCreateThingCommandVolume() {
 
-    int nbrMsgs = 100;
+    int nbrMsgs = 10;
 
     long sent = 0;
 
-    final boolean[] notDone = {true};
+    final boolean[] done = {false};
     Object lock = new Object();
 
     PropertyChangeListener pcl =
@@ -61,7 +61,7 @@ public class AppCommandSaveMsgTest {
             synchronized (lock) {
               Integer newVal = (Integer) evt.getNewValue();
               if (newVal.intValue() >= nbrMsgs) {
-                notDone[0] = false;
+                done[0] = true;
               }
               lock.notify();
             }
@@ -85,7 +85,7 @@ public class AppCommandSaveMsgTest {
     for (int i = 0; i < nbrMsgs; i++) {
       AppThingCommandSave appThingCommandSave =
           AppThingCommandSave.builder()
-              .thingNbr(sent)
+              .thingNbr(10L)
               .comments(thingComments)
               .parts(thingParts)
               .build();
@@ -96,7 +96,7 @@ public class AppCommandSaveMsgTest {
     synchronized (lock) {
       while (true) {
         try {
-          if (notDone[0] == false) {
+          if (done[0] == true) {
             break;
           }
           lock.wait();
@@ -106,10 +106,12 @@ public class AppCommandSaveMsgTest {
       }
     }
 
-    long end = System.currentTimeMillis();
-    System.out.println("msg# " + sent + " time " + (end - strt));
-    ThingEntity thingEntity = thingRepository.findDistinctByThingNbr(10L);
-    assertEquals(10L, thingEntity.getThingNbr());
-    LOGGER.info(thingEntity.toString());
+    System.out.println("start listing");
+    List<ThingEntity> thingEntities = thingRepository.findByThingNbr(10L);
+    assertEquals(nbrMsgs, thingEntities.size());
+    thingEntities.stream().forEach(e -> {
+      System.out.println("*** " + e.toString());
+    });
+    System.out.println("end listing");
   }
 }
