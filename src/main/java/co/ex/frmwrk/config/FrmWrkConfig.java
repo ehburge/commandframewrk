@@ -6,7 +6,7 @@ import co.ex.app.driven.cmd.handler.impl.CommandBusDrivenFrm;
 import co.ex.app.driving.cmd.bus.CommandBusDrivingApp;
 import co.ex.frmwrk.driven.handler.CommandHandlerDrivenFrm;
 import co.ex.frmwrk.gateway.impl.ThingDtoSave;
-import co.ex.frmwrk.gateway.msg.impl.CommandHandlerDrivenFrmSaveMsg;
+import co.ex.frmwrk.gateway.msg.impl.CommandHandlerDrivenFrmSaveMsgImpl;
 import co.ex.frmwrk.gateway.persist.impl.PersistThingDto;
 import com.ex.thing.cmd.impl.AppThingCommandSave;
 import com.google.inject.Guice;
@@ -44,9 +44,9 @@ public class FrmWrkConfig {
 
   @Bean
   public Map<Class, CommandHandlerDrivenFrm> commandHandlerDrivenFrmMap(
-      CommandHandlerDrivenFrmSaveMsg commandHandlerDrivenFrmSaveMsg) {
+      CommandHandlerDrivenFrmSaveMsgImpl commandHandlerDrivenFrmSaveMsgImpl) {
     Map<Class, CommandHandlerDrivenFrm> commandHandlerDrivenFrmMap = new HashMap<>();
-    commandHandlerDrivenFrmMap.put(ThingDtoSave.class, commandHandlerDrivenFrmSaveMsg);
+    commandHandlerDrivenFrmMap.put(ThingDtoSave.class, commandHandlerDrivenFrmSaveMsgImpl);
 
     return commandHandlerDrivenFrmMap;
   }

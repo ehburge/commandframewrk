@@ -7,13 +7,14 @@ import co.ex.frmwrk.driven.bus.impl.CommandBusDrivenFrmAdapterImpl;
 import co.ex.frmwrk.driven.handler.CommandHandlerDrivenFrm;
 import co.ex.frmwrk.gateway.ThingDto;
 import co.ex.frmwrk.gateway.impl.ThingDtoSave;
+import co.ex.frmwrk.mapping.AppThingCommandSaveThingDtoSaveMapper;
 import co.ex.frmwrk.mapping.AppThingCommandSaveThingDtoSaveMapperImpl;
 import com.ex.thing.cmd.impl.AppThingCommandSave;
+import com.ex.thing.model.AppThingComments;
+import com.ex.thing.model.AppThingPart;
+import com.ex.thing.model.AppThingParts;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import model.AppThingComments;
-import model.AppThingPart;
-import model.AppThingParts;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -67,8 +68,10 @@ class CommandHandlerDrivenAppAdapterImplTest {
     chDrivenFrmMap.put(ThingDtoSave.class, commandHandlerDrivenFrmTesting);
 
     Map<Class, CommandBusDrivenFrm> cbDrivenFrmMap = new HashMap<>();
-    AppThingCommandSaveThingDtoSaveMapperImpl saveThingDtoSaveMapper = new AppThingCommandSaveThingDtoSaveMapperImpl();
-    CommandBusDrivenFrm commandBusDrivenFrm = new CommandBusDrivenFrmAdapterImpl(chDrivenFrmMap, saveThingDtoSaveMapper);
+    AppThingCommandSaveThingDtoSaveMapper saveThingDtoSaveMapper =
+        new AppThingCommandSaveThingDtoSaveMapperImpl();
+    CommandBusDrivenFrm commandBusDrivenFrm =
+        new CommandBusDrivenFrmAdapterImpl(chDrivenFrmMap, saveThingDtoSaveMapper);
     cbDrivenFrmMap.put(AppThingCommandSave.class, commandBusDrivenFrm);
 
     // May not need to do it this way.

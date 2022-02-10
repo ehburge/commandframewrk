@@ -4,9 +4,9 @@ import co.ex.app.driving.cmd.bus.CommandBusDrivingApp;
 import co.ex.frmwrk.gateway.persist.ThingEntity;
 import co.ex.frmwrk.gateway.persist.ThingEntityRepository;
 import com.ex.thing.cmd.impl.AppThingCommandSave;
-import model.AppThingComments;
-import model.AppThingPart;
-import model.AppThingParts;
+import com.ex.thing.model.AppThingComments;
+import com.ex.thing.model.AppThingPart;
+import com.ex.thing.model.AppThingParts;
 import org.apache.activemq.artemis.core.server.embedded.EmbeddedActiveMQ;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,7 +41,7 @@ public class AppCommandSaveMsgTest {
 
   @Autowired private CommandHandlerDrivenFrmSaveMsgListener commandHandlerDrivenFrmSaveMsgListener;
 
-  // @Autowired private EventQueueListener msgInQueueListener;
+  @Autowired private EventQueueListener msgInQueueListener;
 
   @Test
   @Transactional

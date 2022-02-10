@@ -1,7 +1,7 @@
 package co.ex.frmwrk.mapping;
 
 import co.ex.frmwrk.gateway.impl.ThingDtoParts;
-import model.AppThingParts;
+import com.ex.thing.model.AppThingParts;
 import org.mapstruct.Mapper;
 
 @Mapper

@@ -1,5 +1,6 @@
 package co.ex.frmwrk.gateway.impl;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,7 +13,7 @@ import java.util.List;
 @ToString
 @Getter
 @Jacksonized
-@Builder
+@Builder(access = AccessLevel.PUBLIC)
 public class ThingDtoComments {
-  private final List<String> comments;
+  private List<String> comments;
 }

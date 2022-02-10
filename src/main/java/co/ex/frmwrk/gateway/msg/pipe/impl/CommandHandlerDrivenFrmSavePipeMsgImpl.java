@@ -1,4 +1,4 @@
-package co.ex.frmwrk.gateway.msg.impl;
+package co.ex.frmwrk.gateway.msg.pipe.impl;
 
 import co.ex.frmwrk.config.JmsConfig;
 import co.ex.frmwrk.driven.handler.CommandHandlerDrivenFrm;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class CommandHandlerDrivenFrmSaveMsg implements CommandHandlerDrivenFrm<ThingDtoSave> {
+public class CommandHandlerDrivenFrmSavePipeMsgImpl implements CommandHandlerDrivenFrm<ThingDtoSave>, co.ex.frmwrk.gateway.msg.CommandHandlerDrivenFrmSaveMsg {
 
   private final JmsTemplate jmsTemplate;
 

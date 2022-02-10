@@ -12,6 +12,8 @@ import lombok.extern.jackson.Jacksonized;
 @Builder(access = AccessLevel.PUBLIC)
 public class ThingDtoPart {
 
-  private String partId;
-  private int qty;
+  private final String partId;
+  private final int qty;
+  private final String lineAction;
+  private final String promoCodes;
 }

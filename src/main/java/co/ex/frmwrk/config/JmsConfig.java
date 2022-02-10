@@ -1,12 +1,8 @@
 package co.ex.frmwrk.config;
 
-import org.apache.activemq.artemis.jms.client.ActiveMQConnectionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.annotation.EnableJms;
-import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
-import org.springframework.jms.connection.CachingConnectionFactory;
-import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.support.converter.MappingJackson2MessageConverter;
 import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.jms.support.converter.MessageType;
@@ -17,6 +13,7 @@ public class JmsConfig {
 
   public static final String THINGSAVE_Q = "thingsave.queue";
   public static final String EVENT_Q = "event.queue";
+  public static final String SEND_LISTEN_TOPIC = "VirtualTopic.send.listen.topic";
 
 //  @Value("${activemq.broker-url}")
 //  private String brokerUrl;
@@ -24,7 +21,7 @@ public class JmsConfig {
 //  @Bean
 //  public ActiveMQConnectionFactory senderActiveMQConnectionFactory() {
 //    ActiveMQConnectionFactory activeMQConnectionFactory =
-//            new ActiveMQConnectionFactory();
+//            new ActiveMQConnectionFactory("vm://localhost?broker.persistent=false");
 //    //activeMQConnectionFactory.setBrokerURL(brokerUrl);
 //
 //    return activeMQConnectionFactory;
@@ -37,9 +34,10 @@ public class JmsConfig {
 //  }
 //
 //  @Bean
-//  public JmsTemplate jmsTemplate() {
-//    JmsTemplate jmsTemplate =
-//            new JmsTemplate(cachingConnectionFactory());
+//  public JmsTopicTemplate jmsTopicTemplate() {
+//
+//    JmsTopicTemplate jmsTemplate =
+//            new JmsTopicTemplate(cachingConnectionFactory());
 //    jmsTemplate.setPubSubDomain(true);
 //
 //    return jmsTemplate;
