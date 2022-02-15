@@ -6,6 +6,5 @@ import java.util.List;
 
 public interface ThingEntityRepository extends JpaRepository<ThingEntity, Long> {
 
-    List<ThingEntity> findByThingNbr(Long thingNbr);
-    ThingEntity findDistinctByThingNbr(Long thingNbr);
+  List<ThingEntity> findByThingNbrOrderByDttm(Long thingNbr);
 }

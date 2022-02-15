@@ -24,7 +24,11 @@ ext {
 group 'co.ex.frmwrk'
 version = '0.0.1-SNAPSHOT'
 //sourceCompatibility = 17
-
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
 configurations {
     compile.exclude module: 'spring-boot-starter-tomcat'
 }
@@ -46,7 +50,7 @@ dependencies {
     testImplementation 'com.h2database:h2:2.1.210'
             ''
     runtimeOnly 'com.h2database:h2'
-    //runtimeOnly 'org.postgresql:postgresql'
+    runtimeOnly 'org.postgresql:postgresql'
 
 //    testImplementation('org.springframework.boot:spring-boot-starter-test') {
 //        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'

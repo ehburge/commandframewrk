@@ -2,6 +2,7 @@ package co.ex.frmwrk.gateway.msg.impl;
 
 import co.ex.frmwrk.config.JmsConfig;
 import co.ex.frmwrk.gateway.impl.ThingDtoSave;
+import co.ex.frmwrk.gateway.persist.ThingEntity;
 import co.ex.frmwrk.gateway.persist.impl.PersistThingDto;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -20,12 +21,10 @@ import java.beans.PropertyChangeSupport;
 @RequiredArgsConstructor
 @Component
 public class CommandHandlerDrivenFrmSaveMsgListener {
-  Logger LOGGER = LoggerFactory.getLogger(this.getClass());
   private final PropertyChangeSupport support = new PropertyChangeSupport(this);
-
   private final JmsTemplate jmsTemplate;
   private final PersistThingDto persistThingDto;
-
+  Logger LOGGER = LoggerFactory.getLogger(this.getClass());
   private int nbrMsgs = 0;
 
   void addToNbrMsgs() {
@@ -47,10 +46,10 @@ public class CommandHandlerDrivenFrmSaveMsgListener {
 
     LOGGER.trace("Got a message " + nbrMsgs);
 
-    ThingDtoSave thingDtoSaveRtn = persistThingDto.persist(thingDtoSave);
-    LOGGER.debug("persisted " + thingDtoSaveRtn + " sending to " + JmsConfig.EVENT_Q);
+    ThingEntity thingEntity = persistThingDto.persist(thingDtoSave);
+    LOGGER.debug("persisted " + thingDtoSave + " sending to " + JmsConfig.EVENT_Q);
 
-    jmsTemplate.convertAndSend(JmsConfig.EVENT_Q, thingDtoSaveRtn);
+    jmsTemplate.convertAndSend(JmsConfig.EVENT_Q, thingDtoSave);
   }
 
   public void addPropertyChangeListener(PropertyChangeListener listener) {

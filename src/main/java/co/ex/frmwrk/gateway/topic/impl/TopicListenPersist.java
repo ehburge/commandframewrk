@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @Component
 public class TopicListenPersist {
-  private static Logger LOGGER = LoggerFactory.getLogger(TopicListenPersist.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(TopicListenPersist.class);
   private final PersistThingDto persistThingDto;
 
   @JmsListener(destination = JmsConfig.SEND_LISTEN_TOPIC)

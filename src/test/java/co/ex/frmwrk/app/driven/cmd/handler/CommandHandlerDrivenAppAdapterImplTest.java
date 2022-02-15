@@ -5,7 +5,6 @@ import co.ex.app.driven.cmd.handler.impl.CommandBusDrivenFrm;
 import co.ex.app.driven.cmd.handler.impl.CommandHandlerDrivenAppImpl;
 import co.ex.frmwrk.driven.bus.impl.CommandBusDrivenFrmAdapterImpl;
 import co.ex.frmwrk.driven.handler.CommandHandlerDrivenFrm;
-import co.ex.frmwrk.gateway.ThingDto;
 import co.ex.frmwrk.gateway.impl.ThingDtoSave;
 import co.ex.frmwrk.mapping.AppThingCommandSaveThingDtoSaveMapper;
 import co.ex.frmwrk.mapping.AppThingCommandSaveThingDtoSaveMapperImpl;
@@ -42,17 +41,14 @@ class CommandHandlerDrivenAppAdapterImplTest {
   void setUp() {
     comments =
         AppThingComments.builder()
-            .comments(
-                new ArrayList<>(Arrays.asList(new String[] {"Larry", "Moe", "Curly", "Schemp"})))
+            .comments(new ArrayList<>(Arrays.asList("Larry", "Moe", "Curly", "Schemp")))
             .build();
     AppThingPart thingPart1 = AppThingPart.builder().partId("1").qty(2).build();
     AppThingPart thingPart2 = AppThingPart.builder().partId("2").qty(3).build();
     AppThingPart thingPart3 = AppThingPart.builder().partId("3").qty(2).build();
     appParts =
         AppThingParts.builder()
-            .parts(
-                new ArrayList<>(
-                    Arrays.asList(new AppThingPart[] {thingPart1, thingPart2, thingPart3})))
+            .parts(new ArrayList<>(Arrays.asList(thingPart1, thingPart2, thingPart3)))
             .build();
   }
 
@@ -95,8 +91,8 @@ class CommandHandlerDrivenAppAdapterImplTest {
     private ThingDtoSave thingDtoSave;
 
     @Override
-    public void handle(ThingDto thingDto) {
-      thingDtoSave = (ThingDtoSave) thingDto;
+    public void handle(ThingDtoSave thingDto) {
+      thingDtoSave = thingDto;
     }
 
     public ThingDtoSave getThingDtoSave() {

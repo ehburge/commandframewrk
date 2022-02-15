@@ -9,5 +9,5 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.FIELD)
 public interface DtoAppThingPartsMapper {
-    List<ThingDtoPart> mapAppToDto(List<AppThingPart> appThingParts);
+  List<ThingDtoPart> mapAppToDto(List<AppThingPart> appThingParts);
 }

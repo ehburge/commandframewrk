@@ -6,5 +6,5 @@ import org.mapstruct.Mapper;
 
 @Mapper
 public interface AppDtoThingPartsMapper {
-    AppThingParts mapDtoToApp(ThingDtoParts dtoThingParts);
+  AppThingParts mapDtoToApp(ThingDtoParts dtoThingParts);
 }

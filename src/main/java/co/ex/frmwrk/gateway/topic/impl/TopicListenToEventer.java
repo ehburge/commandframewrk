@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @Component
 public class TopicListenToEventer {
-  private static Logger LOGGER = LoggerFactory.getLogger(TopicListenToEventer.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(TopicListenToEventer.class);
   private final JmsTemplate jmsTemplate;
   private final ThingDtoSave_EventMapper dtoSaveEventMapper;
 

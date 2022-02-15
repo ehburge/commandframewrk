@@ -1,36 +1,42 @@
 package co.ex.frmwrk.gateway.persist;
 
-import co.ex.frmwrk.gateway.impl.ThingDtoPart;
-import lombok.*;
-import lombok.extern.jackson.Jacksonized;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Type;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.Table;
 import java.sql.Timestamp;
-import java.util.List;
+import java.util.UUID;
 
-@ToString(includeFieldNames=true)
+@ToString(includeFieldNames = true)
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "thing_entity", indexes = @Index(columnList = "thingNbr, dttm asc"))
 public class ThingEntity {
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long id;
 
-  @Column(unique = false)
+  @Id
+  @Column(name = "uuid", nullable = true, updatable = false, unique = false)
+  @Type(type = "uuid-char")
+  private UUID uuid;
+
+  @Column(nullable = true, updatable = false, unique = false)
   private Long thingNbr;
 
-  @CreationTimestamp
-  private Timestamp dttm;
+  @CreationTimestamp private Timestamp dttm;
 
-  @ElementCollection(fetch=FetchType.LAZY)
-  @CollectionTable(name = "thing_comments", joinColumns = @JoinColumn(name = "thing_id"))
-  private List<ThingComment> comments;
+  private String content_type; // data class
 
-  @ElementCollection(fetch=FetchType.LAZY)
-  @CollectionTable(name = "thing_parts", joinColumns = @JoinColumn(name = "thing_id"))
-  private List<ThingPart> parts;
+  @Column(length = 2000)
+  private String entity_content; // Thing json
 }

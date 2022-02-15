@@ -85,7 +85,7 @@ public class AppCommandSaveMsgTest {
     for (int i = 0; i < nbrMsgs; i++) {
       AppThingCommandSave appThingCommandSave =
           AppThingCommandSave.builder()
-              .thingNbr(10L)
+              .thingNbr(null)
               .comments(thingComments)
               .parts(thingParts)
               .build();
@@ -107,11 +107,13 @@ public class AppCommandSaveMsgTest {
     }
 
     System.out.println("start listing");
-    List<ThingEntity> thingEntities = thingRepository.findByThingNbr(10L);
+    List<ThingEntity> thingEntities = thingRepository.findByThingNbrOrderByDttm(10L);
     assertEquals(nbrMsgs, thingEntities.size());
-    thingEntities.stream().forEach(e -> {
-      System.out.println("*** " + e.toString());
-    });
+    thingEntities.stream()
+        .forEach(
+            e -> {
+              System.out.println("*** " + e.toString());
+            });
     System.out.println("end listing");
   }
 }
