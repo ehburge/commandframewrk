@@ -22,6 +22,17 @@ public class FrmWrkConfig {
 
   static final Injector injector = Guice.createInjector(new AppInjectorFrmWrk());
 
+  // Driving
+
+  @Bean
+  public CommandBusDrivingApp makeCommandBusDriving() {
+    CommandBusDrivingApp commandBusDrivingApp = injector.getInstance(CommandBusDrivingApp.class);
+
+    return commandBusDrivingApp;
+  }
+
+  // Driven
+
   @Bean
   public Map<Class, CommandBusDrivenFrm> commandBusDrivenFrmMap(
       CommandBusDrivenFrm commandBusDrivenFrm) {
@@ -60,12 +71,5 @@ public class FrmWrkConfig {
     thingAccessAdapterPersistMap.put(ThingDtoSave.class, saveThingAccessAdapterJPA);
 
     return thingAccessAdapterPersistMap;
-  }
-
-  @Bean
-  public CommandBusDrivingApp makeCommandBusDriving() {
-    CommandBusDrivingApp commandBusDrivingApp = injector.getInstance(CommandBusDrivingApp.class);
-
-    return commandBusDrivingApp;
   }
 }

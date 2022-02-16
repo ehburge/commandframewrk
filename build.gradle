@@ -29,9 +29,9 @@ java {
         languageVersion = JavaLanguageVersion.of(17)
     }
 }
-configurations {
-    compile.exclude module: 'spring-boot-starter-tomcat'
-}
+//configurations {
+//    compile.exclude module: 'spring-boot-starter-tomcat'
+//}
 apply from: 'build-integration.gradle'
 
 dependencies {
@@ -44,7 +44,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-artemis'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-jetty'
+    //implementation 'org.springframework.boot:spring-boot-starter-jetty'
 
 
     testImplementation 'com.h2database:h2:2.1.210'
@@ -52,11 +52,7 @@ dependencies {
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'org.postgresql:postgresql'
 
-//    testImplementation('org.springframework.boot:spring-boot-starter-test') {
-//        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-//    }
-    //testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
-
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     implementation 'com.google.inject:guice:5.1.0'
 
