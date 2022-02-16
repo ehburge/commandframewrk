@@ -13,7 +13,7 @@ public class JmsConfig {
 
   public static final String THINGSAVE_Q = "thingsave.queue";
   public static final String EVENT_Q = "event.queue";
-  public static final String SEND_LISTEN_TOPIC = "VirtualTopic.send.listen.topic";
+  public static final String SEND_LISTEN_TOPIC = "send.listen.topic";
 
   //  @Value("${activemq.broker-url}")
   //  private String brokerUrl;
