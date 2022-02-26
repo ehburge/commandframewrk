@@ -3,6 +3,7 @@ package co.ex.frmwrk.gateway.impl;
 import co.ex.frmwrk.gateway.ThingDto;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.jackson.Jacksonized;
 
@@ -16,7 +17,7 @@ import java.util.UUID;
 public class ThingDtoSave implements ThingDto, Serializable {
 
   private UUID uuid;
-  private Long thingNbr;
+  @Setter private Long thingNbr;
   private DtoRole role;
   private String eventKind;
   private String promoCodes;

@@ -7,3 +7,4 @@ include ':thingappdommapping'
 project(':thingappdommapping').projectDir = new File(settingsDir, '../thingappdommapping')
 include ':frmwrk-eventer-mapping'
 project(':frmwrk-eventer-mapping').projectDir = new File(settingsDir, '../frmwrk-eventer-mapping')
+

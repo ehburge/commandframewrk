@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class DtoRole {
 
-  private final Long roleId;
+  private final Long actorId;
   private final String groupId;
   private final String loyaltyCode;
 }

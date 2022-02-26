@@ -1,5 +1,6 @@
 package co.ex.frmwrk.gateway.persist;
 
+import co.ex.frmwrk.gateway.impl.ThingDtoSave;
 import org.springframework.jdbc.support.incrementer.DataFieldMaxValueIncrementer;
 import org.springframework.jdbc.support.incrementer.PostgresSequenceMaxValueIncrementer;
 import org.springframework.stereotype.Component;
@@ -15,9 +16,9 @@ public class ThingEntityThingNbrSeq {
     incrementer = new PostgresSequenceMaxValueIncrementer(dataSource, "thing_sequence");
   }
 
-  public void setThingNbrWhenNull(ThingEntity thingEntity) {
-    if (thingEntity.getThingNbr() == null) {
-      thingEntity.setThingNbr(incrementer.nextLongValue());
+  public void setThingNbrWhenNull(ThingDtoSave thingDtoSave) {
+    if (thingDtoSave.getThingNbr() == null) {
+      thingDtoSave.setThingNbr(incrementer.nextLongValue());
     }
   }
 }

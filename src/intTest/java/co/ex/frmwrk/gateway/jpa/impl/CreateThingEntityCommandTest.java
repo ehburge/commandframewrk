@@ -48,8 +48,9 @@ public class CreateThingEntityCommandTest {
                 .parts(makeAppThingParts())
                 .build();
 
+        thingNbrSeq.setThingNbrWhenNull(thingDtoSave);
+
         ThingEntity thingEntity = thingDtoSave_thingEntity.thingDtoSaveToThingEntity(thingDtoSave);
-        thingNbrSeq.setThingNbrWhenNull(thingEntity);
         ThingEntity thingEntityRtn = thingRepository.save(thingEntity);
 
         List<ThingEntity> saveThingEntity =
