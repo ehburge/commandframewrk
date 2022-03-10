@@ -1,11 +1,11 @@
 package co.ex.frmwrk.driven.bus.impl;
 
+import co.ex.app.cmd.AppCommand;
+import co.ex.app.cmd.impl.AppThingCommandSave;
 import co.ex.app.driven.cmd.handler.impl.CommandBusDrivenFrm;
 import co.ex.frmwrk.driven.handler.CommandHandlerDrivenFrm;
 import co.ex.frmwrk.gateway.impl.ThingDtoSave;
 import co.ex.frmwrk.mapping.AppThingCommandSaveThingDtoSaveMapper;
-import com.ex.thing.cmd.AppCommand;
-import com.ex.thing.cmd.impl.AppThingCommandSave;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

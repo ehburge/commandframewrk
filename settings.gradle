@@ -3,8 +3,8 @@ include ':thingapp'
 project(':thingapp').projectDir = new File(settingsDir, '../thingapp')
 include ':thingdomain'
 project(':thingdomain').projectDir = new File(settingsDir, '../thingdomain')
-include ':thingappdommapping'
-project(':thingappdommapping').projectDir = new File(settingsDir, '../thingappdommapping')
-include ':frmwrk-eventer-mapping'
-project(':frmwrk-eventer-mapping').projectDir = new File(settingsDir, '../frmwrk-eventer-mapping')
+//include ':thingappdommapping'
+//project(':thingappdommapping').projectDir = new File(settingsDir, '../thingappdommapping')
+include ':eventer'
+project(':eventer').projectDir = new File(settingsDir, '../eventer')
 

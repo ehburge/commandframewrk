@@ -1,6 +1,6 @@
 package co.ex.frmwrk.mapping;
 
-import co.ex.frmwrk.eventer.json.JsonMapper;
+import co.ex.eventer.event.JsonMapper;
 import co.ex.frmwrk.gateway.impl.ThingDtoSave;
 import co.ex.frmwrk.gateway.persist.ThingEntity;
 import org.mapstruct.Mapper;
@@ -15,7 +15,7 @@ public abstract class ThingDtoSave_ThingEntity {
     @Mapping(target = "content_type", expression = "java(thingDtoSave.getClass().getName())"),
     @Mapping(
         target = "entity_content",
-        expression = "java(co.ex.frmwrk.eventer.json.JsonMapper.toJson(thingDtoSave))"),
+        expression = "java(co.ex.eventer.event.JsonMapper.toJson(thingDtoSave))"),
     @Mapping(
         target = "dttm",
         expression = "java(new java.sql.Timestamp(new java.util.Date().getTime()))")

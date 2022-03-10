@@ -1,7 +1,7 @@
 package co.ex.frmwrk.mapping;
 
+import co.ex.app.model.AppThingPart;
 import co.ex.frmwrk.gateway.impl.ThingDtoPart;
-import com.ex.thing.model.AppThingPart;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 

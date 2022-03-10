@@ -1,8 +1,8 @@
 package co.ex.frmwrk.gateway.topic.impl;
 
+import co.ex.eventer.event.JsonMapper;
+import co.ex.eventer.model.ThingDtoEvent;
 import co.ex.frmwrk.config.JmsConfig;
-import co.ex.frmwrk.eventer.json.JsonMapper;
-import co.ex.frmwrk.eventer.model.impl.ThingDtoEvent;
 import co.ex.frmwrk.gateway.impl.ThingDtoSave;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;

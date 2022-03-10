@@ -1,12 +1,12 @@
 package co.ex.frmwrk.gateway.msg.impl;
 
+import co.ex.app.cmd.impl.AppThingCommandSave;
 import co.ex.app.driving.cmd.bus.CommandBusDrivingApp;
+import co.ex.app.model.AppThingComments;
+import co.ex.app.model.AppThingPart;
+import co.ex.app.model.AppThingParts;
 import co.ex.frmwrk.gateway.persist.ThingEntity;
 import co.ex.frmwrk.gateway.persist.ThingEntityRepository;
-import com.ex.thing.cmd.impl.AppThingCommandSave;
-import com.ex.thing.model.AppThingComments;
-import com.ex.thing.model.AppThingPart;
-import com.ex.thing.model.AppThingParts;
 import org.apache.activemq.artemis.core.server.embedded.EmbeddedActiveMQ;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,91 +29,97 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AppCommandSaveMsgTest {
-  Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+    Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
-  @LocalServerPort private int port;
+    @LocalServerPort
+    private int port;
 
-  @Autowired private CommandBusDrivingApp commandBusDrivingApp;
+    @Autowired
+    private CommandBusDrivingApp commandBusDrivingApp;
 
-  @Autowired private ThingEntityRepository thingRepository;
+    @Autowired
+    private ThingEntityRepository thingRepository;
 
-  @Autowired private EmbeddedActiveMQ embeddedActiveMQ;
+    @Autowired
+    private EmbeddedActiveMQ embeddedActiveMQ;
 
-  @Autowired private CommandHandlerDrivenFrmSaveMsgListener commandHandlerDrivenFrmSaveMsgListener;
+    @Autowired
+    private CommandHandlerDrivenFrmSaveMsgListener commandHandlerDrivenFrmSaveMsgListener;
 
-  @Autowired private EventQueueListener msgInQueueListener;
+    @Autowired
+    private EventQueueListener msgInQueueListener;
 
-  @Test
-  @Transactional
-  public void testCreateThingCommandVolume() {
+    @Test
+    @Transactional
+    public void testCreateThingCommandVolume() {
 
-    int nbrMsgs = 10;
+        int nbrMsgs = 10;
 
-    long sent = 0;
+        long sent = 0;
 
-    final boolean[] done = {false};
-    Object lock = new Object();
+        final boolean[] done = {false};
+        Object lock = new Object();
 
-    PropertyChangeListener pcl =
-        new PropertyChangeListener() {
-          @Override
-          public void propertyChange(PropertyChangeEvent evt) {
-            synchronized (lock) {
-              Integer newVal = (Integer) evt.getNewValue();
-              if (newVal.intValue() >= nbrMsgs) {
-                done[0] = true;
-              }
-              lock.notify();
-            }
-          }
-        };
-    commandHandlerDrivenFrmSaveMsgListener.addPropertyChangeListener(pcl);
+        PropertyChangeListener pcl =
+                new PropertyChangeListener() {
+                    @Override
+                    public void propertyChange(PropertyChangeEvent evt) {
+                        synchronized (lock) {
+                            Integer newVal = (Integer) evt.getNewValue();
+                            if (newVal.intValue() >= nbrMsgs) {
+                                done[0] = true;
+                            }
+                            lock.notify();
+                        }
+                    }
+                };
+        commandHandlerDrivenFrmSaveMsgListener.addPropertyChangeListener(pcl);
 
-    AppThingPart thingPart1 = AppThingPart.builder().partId("1").qty(1).build();
-    AppThingPart thingPart2 = AppThingPart.builder().partId("2").qty(2).build();
-    AppThingPart thingPart3 = AppThingPart.builder().partId("3").qty(3).build();
+        AppThingPart thingPart1 = AppThingPart.builder().partId("1").qty(1).build();
+        AppThingPart thingPart2 = AppThingPart.builder().partId("2").qty(2).build();
+        AppThingPart thingPart3 = AppThingPart.builder().partId("3").qty(3).build();
 
-    List<AppThingPart> appParts =
-        new ArrayList<>(Arrays.asList(thingPart1, thingPart2, thingPart3));
-    AppThingParts thingParts = AppThingParts.builder().parts(appParts).build();
+        List<AppThingPart> appParts =
+                new ArrayList<>(Arrays.asList(thingPart1, thingPart2, thingPart3));
+        AppThingParts thingParts = AppThingParts.builder().parts(appParts).build();
 
-    AppThingComments thingComments =
-        AppThingComments.builder().comments(Arrays.asList("Larry", "Moe", "Curly")).build();
+        AppThingComments thingComments =
+                AppThingComments.builder().comments(Arrays.asList("Larry", "Moe", "Curly")).build();
 
-    long strt = System.currentTimeMillis();
+        long strt = System.currentTimeMillis();
 
-    for (int i = 0; i < nbrMsgs; i++) {
-      AppThingCommandSave appThingCommandSave =
-          AppThingCommandSave.builder()
-              .thingNbr(null)
-              .comments(thingComments)
-              .parts(thingParts)
-              .build();
-      commandBusDrivingApp.perform(appThingCommandSave);
-      sent++;
-    }
-
-    synchronized (lock) {
-      while (true) {
-        try {
-          if (done[0] == true) {
-            break;
-          }
-          lock.wait();
-        } catch (InterruptedException e) {
-          e.printStackTrace();
+        for (int i = 0; i < nbrMsgs; i++) {
+            AppThingCommandSave appThingCommandSave =
+                    AppThingCommandSave.builder()
+                            .thingNbr(null)
+                            .comments(thingComments)
+                            .parts(thingParts)
+                            .build();
+            commandBusDrivingApp.perform(appThingCommandSave);
+            sent++;
         }
-      }
-    }
 
-    System.out.println("start listing");
-    List<ThingEntity> thingEntities = thingRepository.findByThingNbrOrderByDttm(10L);
-    assertEquals(nbrMsgs, thingEntities.size());
-    thingEntities.stream()
-        .forEach(
-            e -> {
-              System.out.println("*** " + e.toString());
-            });
-    System.out.println("end listing");
-  }
+        synchronized (lock) {
+            while (true) {
+                try {
+                    if (done[0] == true) {
+                        break;
+                    }
+                    lock.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        System.out.println("start listing");
+        List<ThingEntity> thingEntities = thingRepository.findByThingNbrOrderByDttm(10L);
+        assertEquals(nbrMsgs, thingEntities.size());
+        thingEntities.stream()
+                .forEach(
+                        e -> {
+                            System.out.println("*** " + e.toString());
+                        });
+        System.out.println("end listing");
+    }
 }

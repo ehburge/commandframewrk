@@ -1,6 +1,6 @@
 package co.ex.frmwrk.frmin.rest;
 
-import com.ex.thing.cmd.impl.AppThingCommandSave;
+import co.ex.app.cmd.impl.AppThingCommandSave;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
