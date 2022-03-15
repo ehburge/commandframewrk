@@ -39,7 +39,7 @@ dependencies {
 
     implementation project(':thingapp')
     implementation project(':thingdomain')
-    //implementation project(':thingappdommapping')
+    implementation project(':framewrk-eventer-mapping')
     implementation project(':eventer')
 
     implementation 'org.springframework.boot:spring-boot-starter-artemis'
@@ -51,13 +51,11 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-jetty"
 
     testImplementation 'com.h2database:h2:2.1.210'
-    ''
+
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'org.postgresql:postgresql'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
-    implementation 'com.google.inject:guice:5.1.0'
 
     implementation "org.mapstruct:mapstruct:${mapstructVersion}"
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"

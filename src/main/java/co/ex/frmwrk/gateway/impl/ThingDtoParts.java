@@ -1,5 +1,6 @@
 package co.ex.frmwrk.gateway.impl;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -12,5 +13,8 @@ import java.util.List;
 @Jacksonized
 @Builder
 public class ThingDtoParts {
+
+  private String partsCompatibility;
+  @JsonProperty("parts")
   private List<ThingDtoPart> parts;
 }

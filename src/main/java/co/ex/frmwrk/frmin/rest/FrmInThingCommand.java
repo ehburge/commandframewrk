@@ -20,7 +20,6 @@ public class FrmInThingCommand {
   private DtoRole role;
   private String eventKind;
   private String promoCodes;
-  private String partsCompatibility;
   private ThingDtoComments comments;
   private ThingDtoParts parts;
 }

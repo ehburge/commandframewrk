@@ -1,7 +1,7 @@
 package co.ex.frmwrk.gateway.topic.impl;
 
 import co.ex.eventer.event.JsonMapper;
-import co.ex.eventer.model.ThingDtoEvent;
+import co.ex.framewrk.eventer.model.ThingDtoSaveEvent;
 import co.ex.frmwrk.config.JmsConfig;
 import co.ex.frmwrk.gateway.impl.ThingDtoSave;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public class TopicListenToEventer {
   @JmsListener(destination = JmsConfig.SEND_LISTEN_TOPIC)
   public void topicListen(ThingDtoSave thingDtoSave) {
 
-    ThingDtoEvent thingDtoEvent = dtoSaveEventMapper.dtoSaveToDtoEvent(thingDtoSave);
+    ThingDtoSaveEvent thingDtoEvent = dtoSaveEventMapper.dtoSaveToDtoEvent(thingDtoSave);
 
     LOGGER.info("*** Sending ThingDtoEvent to Eventer\n" + JsonMapper.toJson(thingDtoEvent));
     jmsTemplate.convertAndSend(JmsConfig.EVENT_Q, thingDtoEvent);
