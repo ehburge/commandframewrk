@@ -27,10 +27,6 @@ public class CommandBusDrivenFrmAdapterImpl implements CommandBusDrivenFrm {
 
   @Override
   public void perform(AppCommand appCommand) {
-    //    ThingOutDto thingDtoSave =
-    //
-    // AppThingCommandSaveThingDtoSaveMapper.INSTANCE.appThingCommandSaveToThingDtoSave();.appThingCommandSaveToThingDtoSave(
-    //            (AppThingCommandSave) appCommand);
     ThingDtoSave thingDtoSave =
         appThingCommandSaveThingDtoSaveMapper.appThingCommandSaveToThingDtoSave(
             (AppThingCommandSave) appCommand);

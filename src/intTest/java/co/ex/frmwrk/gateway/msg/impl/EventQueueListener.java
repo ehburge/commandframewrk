@@ -1,7 +1,7 @@
 package co.ex.frmwrk.gateway.msg.impl;
 
-import co.ex.frmwrk.eventer.json.JsonMapper;
-import co.ex.frmwrk.eventer.model.impl.ThingDtoEvent;
+import co.ex.eventer.event.JsonMapper;
+import co.ex.framewrk.eventer.model.ThingDtoSaveEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -11,7 +11,7 @@ public class EventQueueListener {
   Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
   //  @JmsListener(destination = JmsConfig.EVENT_Q)
-  public void listen(ThingDtoEvent thingDtoEvent) {
+  public void listen( ThingDtoSaveEvent thingDtoEvent) {
 
     LOGGER.info(
         "*** EventQueueListener ThingDtoEvent received " + JsonMapper.toJson(thingDtoEvent));

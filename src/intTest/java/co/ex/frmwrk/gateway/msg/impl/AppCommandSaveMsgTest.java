@@ -1,10 +1,12 @@
 package co.ex.frmwrk.gateway.msg.impl;
 
 import co.ex.app.cmd.impl.AppThingCommandSave;
+import co.ex.app.config.AppSetupMapBeans;
 import co.ex.app.driving.cmd.bus.CommandBusDrivingApp;
 import co.ex.app.model.AppThingComments;
 import co.ex.app.model.AppThingPart;
 import co.ex.app.model.AppThingParts;
+import co.ex.frmwrk.config.FrmWrkConfig;
 import co.ex.frmwrk.gateway.persist.ThingEntity;
 import co.ex.frmwrk.gateway.persist.ThingEntityRepository;
 import org.apache.activemq.artemis.core.server.embedded.EmbeddedActiveMQ;
@@ -23,6 +25,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -35,6 +38,8 @@ public class AppCommandSaveMsgTest {
     private int port;
 
     @Autowired
+    AppSetupMapBeans appSetupMapBeans;
+
     private CommandBusDrivingApp commandBusDrivingApp;
 
     @Autowired
@@ -53,6 +58,8 @@ public class AppCommandSaveMsgTest {
     @Transactional
     public void testCreateThingCommandVolume() {
 
+        commandBusDrivingApp = appSetupMapBeans.getCommandBusDrivingApp();
+
         int nbrMsgs = 10;
 
         long sent = 0;
@@ -61,16 +68,13 @@ public class AppCommandSaveMsgTest {
         Object lock = new Object();
 
         PropertyChangeListener pcl =
-                new PropertyChangeListener() {
-                    @Override
-                    public void propertyChange(PropertyChangeEvent evt) {
-                        synchronized (lock) {
-                            Integer newVal = (Integer) evt.getNewValue();
-                            if (newVal.intValue() >= nbrMsgs) {
-                                done[0] = true;
-                            }
-                            lock.notify();
+                evt -> {
+                    synchronized (lock) {
+                        Integer newVal = (Integer) evt.getNewValue();
+                        if (newVal.intValue() >= nbrMsgs) {
+                            done[0] = true;
                         }
+                        lock.notify();
                     }
                 };
         commandHandlerDrivenFrmSaveMsgListener.addPropertyChangeListener(pcl);
@@ -91,6 +95,7 @@ public class AppCommandSaveMsgTest {
         for (int i = 0; i < nbrMsgs; i++) {
             AppThingCommandSave appThingCommandSave =
                     AppThingCommandSave.builder()
+                            .uuid( UUID.randomUUID() )
                             .thingNbr(null)
                             .comments(thingComments)
                             .parts(thingParts)

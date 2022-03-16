@@ -14,7 +14,7 @@ dependencies {
 
     intTestImplementation 'org.apache.activemq:artemis-server'
     intTestImplementation 'org.apache.activemq:artemis-jms-server'
-    intTestImplementation('org.springframework.boot:spring-boot-starter-test:2.6.2')
+    intTestImplementation('org.springframework.boot:spring-boot-starter-test:2.6.4')
 }
 
 task integrationTest(type: Test) {

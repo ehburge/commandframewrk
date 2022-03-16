@@ -1,28 +1,45 @@
 package co.ex.frmwrk.config;
 
+import co.ex.app.cmd.impl.AppThingCommandSave;
+import co.ex.app.driven.cmd.bus.CommandBusDrivenFrm;
+import co.ex.frmwrk.driven.handler.CommandHandlerDrivenFrm;
+import co.ex.frmwrk.frmin.rest.FrmInThingCommand;
+import co.ex.frmwrk.gateway.impl.ThingDtoSave;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 public class FrmWrkConfig {
 
-  // Driving
-  //
-  //  @Bean
-  //  public CommandBusDrivingApp makeCommandBusDriving() {
-  //    CommandBusDrivingApp commandBusDrivingApp =
-  //    return commandBusDrivingApp;
-  //  }
-  //
-  //  // Driven
-  //
-  //  @Bean
-  //  public Map<Class, CommandBusDrivenFrm> commandBusDrivenFrmMap(
-  //      CommandBusDrivenFrm commandBusDrivenFrm) {
-  //    Map<Class, CommandBusDrivenFrm> commandBusDrivenFrmMap = new HashMap<>();
-  //    commandBusDrivenFrmMap.put(AppThingCommandSave.class, commandBusDrivenFrm);
-  //
-  //    return commandBusDrivenFrmMap;
-  //  }
+  final CommandHandlerDrivenFrm commandHandlerDrivenFrm;
+
+  public FrmWrkConfig(CommandHandlerDrivenFrm commandHandlerDrivenFrm) {
+    this.commandHandlerDrivenFrm = commandHandlerDrivenFrm;
+  }
+
+  @Bean
+  public Map<Class<?>, CommandBusDrivenFrm> commandBusDrivenFrmMap(
+      CommandBusDrivenFrm commandBusDrivenFrm) {
+
+    Map<Class<?>, CommandBusDrivenFrm> cbDrivenFrm_map = new HashMap<>();
+    cbDrivenFrm_map.put(AppThingCommandSave.class, commandBusDrivenFrm);
+
+    // setupMapBeans.putCommandBusDrivenFrm(cbDrivenFrm_map);
+    return cbDrivenFrm_map;
+  }
+
+  @Bean
+  public Map<Class<?>, CommandHandlerDrivenFrm> makeCommandHandlerDrivenFrmMap() {
+
+    Map<Class<?>, CommandHandlerDrivenFrm> chDrivenFrm_map = new HashMap<>();
+    chDrivenFrm_map.put( ThingDtoSave.class, commandHandlerDrivenFrm);
+
+    return chDrivenFrm_map;
+  }
+}
   //
   //  @Bean
   //  public CommandHandlerDrivenApp attachSaveThingAccessAdapter(
@@ -54,4 +71,3 @@ public class FrmWrkConfig {
   //
   //    return thingAccessAdapterPersistMap;
   //  }
-}

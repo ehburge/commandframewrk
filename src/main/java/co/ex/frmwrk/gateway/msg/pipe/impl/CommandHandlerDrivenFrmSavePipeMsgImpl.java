@@ -8,7 +8,6 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
-@Component
 public class CommandHandlerDrivenFrmSavePipeMsgImpl
     implements CommandHandlerDrivenFrm<ThingDtoSave>,
         co.ex.frmwrk.gateway.msg.CommandHandlerDrivenFrmSaveMsg {
