@@ -50,8 +50,8 @@ dependencies {
 
     implementation "org.springframework.boot:spring-boot-starter-jetty"
 
-    testImplementation 'com.h2database:h2:2.1.210'
-
+//     testImplementation 'com.h2database:h2:2.1.210'
+//     testRuntimeOnly 'com.h2database:h2:2.1.210'
     runtimeOnly 'org.postgresql:postgresql:42.3.3'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

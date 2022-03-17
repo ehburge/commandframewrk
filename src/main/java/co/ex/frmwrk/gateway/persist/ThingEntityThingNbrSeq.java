@@ -6,19 +6,21 @@ import org.springframework.jdbc.support.incrementer.PostgresSequenceMaxValueIncr
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
+import java.util.Random;
 
 @Component
 public class ThingEntityThingNbrSeq {
 
-  DataFieldMaxValueIncrementer incrementer;
-
-  public ThingEntityThingNbrSeq(DataSource dataSource) {
-    incrementer = new PostgresSequenceMaxValueIncrementer(dataSource, "thing_sequence");
-  }
+//  DataFieldMaxValueIncrementer incrementer;
+//
+//  public ThingEntityThingNbrSeq(DataSource dataSource) {
+//    incrementer = new PostgresSequenceMaxValueIncrementer(dataSource, "thing_sequence");
+//  }
 
   public void setThingNbrWhenNull(ThingDtoSave thingDtoSave) {
     if (thingDtoSave.getThingNbr() == null) {
-      thingDtoSave.setThingNbr(incrementer.nextLongValue());
+      //thingDtoSave.setThingNbr(incrementer.nextLongValue());
+      thingDtoSave.setThingNbr( new Random().nextLong() );
     }
   }
 }
