@@ -6,7 +6,6 @@ import co.ex.app.driving.cmd.bus.CommandBusDrivingApp;
 import co.ex.app.model.AppThingComments;
 import co.ex.app.model.AppThingPart;
 import co.ex.app.model.AppThingParts;
-import co.ex.frmwrk.config.FrmWrkConfig;
 import co.ex.frmwrk.gateway.persist.ThingEntity;
 import co.ex.frmwrk.gateway.persist.ThingEntityRepository;
 import org.apache.activemq.artemis.core.server.embedded.EmbeddedActiveMQ;
@@ -20,7 +19,6 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,99 +30,90 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AppCommandSaveMsgTest {
-    Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+  Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+  @Autowired AppSetupMapBeans appSetupMapBeans;
+  @LocalServerPort private int port;
+  private CommandBusDrivingApp commandBusDrivingApp;
 
-    @LocalServerPort
-    private int port;
+  @Autowired private ThingEntityRepository thingRepository;
 
-    @Autowired
-    AppSetupMapBeans appSetupMapBeans;
+  @Autowired private EmbeddedActiveMQ embeddedActiveMQ;
 
-    private CommandBusDrivingApp commandBusDrivingApp;
+  @Autowired private CommandHandlerDrivenFrmSaveMsgListener commandHandlerDrivenFrmSaveMsgListener;
 
-    @Autowired
-    private ThingEntityRepository thingRepository;
+  @Autowired private EventQueueListener msgInQueueListener;
 
-    @Autowired
-    private EmbeddedActiveMQ embeddedActiveMQ;
+  @Test
+  @Transactional
+  public void testCreateThingCommandVolume() {
 
-    @Autowired
-    private CommandHandlerDrivenFrmSaveMsgListener commandHandlerDrivenFrmSaveMsgListener;
+    commandBusDrivingApp = appSetupMapBeans.getCommandBusDrivingApp();
 
-    @Autowired
-    private EventQueueListener msgInQueueListener;
+    int nbrMsgs = 10;
 
-    @Test
-    @Transactional
-    public void testCreateThingCommandVolume() {
+    long sent = 0;
 
-        commandBusDrivingApp = appSetupMapBeans.getCommandBusDrivingApp();
+    final boolean[] done = {false};
+    Object lock = new Object();
 
-        int nbrMsgs = 10;
-
-        long sent = 0;
-
-        final boolean[] done = {false};
-        Object lock = new Object();
-
-        PropertyChangeListener pcl =
-                evt -> {
-                    synchronized (lock) {
-                        Integer newVal = (Integer) evt.getNewValue();
-                        if (newVal.intValue() >= nbrMsgs) {
-                            done[0] = true;
-                        }
-                        lock.notify();
-                    }
-                };
-        commandHandlerDrivenFrmSaveMsgListener.addPropertyChangeListener(pcl);
-
-        AppThingPart thingPart1 = AppThingPart.builder().partId("1").qty(1).build();
-        AppThingPart thingPart2 = AppThingPart.builder().partId("2").qty(2).build();
-        AppThingPart thingPart3 = AppThingPart.builder().partId("3").qty(3).build();
-
-        List<AppThingPart> appParts =
-                new ArrayList<>(Arrays.asList(thingPart1, thingPart2, thingPart3));
-        AppThingParts thingParts = AppThingParts.builder().parts(appParts).build();
-
-        AppThingComments thingComments =
-                AppThingComments.builder().comments(Arrays.asList("Larry", "Moe", "Curly")).build();
-
-        long strt = System.currentTimeMillis();
-
-        for (int i = 0; i < nbrMsgs; i++) {
-            AppThingCommandSave appThingCommandSave =
-                    AppThingCommandSave.builder()
-                            .uuid( UUID.randomUUID() )
-                            .thingNbr(null)
-                            .comments(thingComments)
-                            .parts(thingParts)
-                            .build();
-            commandBusDrivingApp.perform(appThingCommandSave);
-            sent++;
-        }
-
-        synchronized (lock) {
-            while (true) {
-                try {
-                    if (done[0] == true) {
-                        break;
-                    }
-                    lock.wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+    PropertyChangeListener pcl =
+        evt -> {
+          synchronized (lock) {
+            Integer newVal = (Integer) evt.getNewValue();
+            if (newVal.intValue() >= nbrMsgs) {
+              done[0] = true;
             }
-        }
+            lock.notify();
+          }
+        };
+    commandHandlerDrivenFrmSaveMsgListener.addPropertyChangeListener(pcl);
 
-        System.out.println("start listing");
-        List<ThingEntity> thingEntities = thingRepository.findByThingNbrOrderByDttm(10L);
-        assertEquals(nbrMsgs, thingEntities.size());
-        thingEntities.stream()
-                .forEach(
-                        e -> {
-                            System.out.println("*** " + e.toString());
-                        });
-        System.out.println("end listing");
+    AppThingPart thingPart1 = AppThingPart.builder().partId("1").qty(1).build();
+    AppThingPart thingPart2 = AppThingPart.builder().partId("2").qty(2).build();
+    AppThingPart thingPart3 = AppThingPart.builder().partId("3").qty(3).build();
+
+    List<AppThingPart> appParts =
+        new ArrayList<>(Arrays.asList(thingPart1, thingPart2, thingPart3));
+    AppThingParts thingParts = AppThingParts.builder().parts(appParts).build();
+
+    AppThingComments thingComments =
+        AppThingComments.builder().comments(Arrays.asList("Larry", "Moe", "Curly")).build();
+
+    long strt = System.currentTimeMillis();
+
+    for (int i = 0; i < nbrMsgs; i++) {
+      AppThingCommandSave appThingCommandSave =
+          AppThingCommandSave.builder()
+              .uuid(UUID.randomUUID())
+              .thingNbr(null)
+              .comments(thingComments)
+              .parts(thingParts)
+              .build();
+      commandBusDrivingApp.perform(appThingCommandSave);
+      sent++;
     }
+
+    synchronized (lock) {
+      while (true) {
+        try {
+          if (done[0] == true) {
+            break;
+          }
+          lock.wait();
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+
+    System.out.println("start listing");
+    List<ThingEntity> thingEntities = thingRepository.findByThingNbrOrderByDttm(10L);
+    assertEquals(nbrMsgs, thingEntities.size());
+    thingEntities.stream()
+        .forEach(
+            e -> {
+              System.out.println("*** " + e.toString());
+            });
+    System.out.println("end listing");
+  }
 }

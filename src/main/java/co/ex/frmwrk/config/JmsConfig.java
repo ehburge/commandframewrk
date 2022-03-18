@@ -1,11 +1,16 @@
 package co.ex.frmwrk.config;
 
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.annotation.EnableJms;
+import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.support.converter.MappingJackson2MessageConverter;
 import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.jms.support.converter.MessageType;
+
+import javax.jms.ConnectionFactory;
 
 @EnableJms
 @Configuration
@@ -15,6 +20,28 @@ public class JmsConfig {
   public static final String EVENT_Q = "event.queue";
   public static final String SEND_LISTEN_TOPIC = "send.listen.topic";
 
+//  @Bean
+//  public DefaultJmsListenerContainerFactory jmsListenerContainerFactory(
+//      @Qualifier("jmsConnectionFactory") ConnectionFactory connectionFactory,
+//      DefaultJmsListenerContainerFactoryConfigurer configurer) {
+//
+//    DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
+//    configurer.configure(factory, connectionFactory);
+//    factory.setDestinationResolver(null);
+//    factory.setConcurrency("3-10");
+//    factory.setClientId("ClientID");
+//    factory.setSubscriptionDurable(false);
+//    return factory;
+//  }
+
+  //  @Bean
+  //  public JmsListenerContainerFactory<?> myFactory(
+  //          ConnectionFactory connectionFactory,
+  //          DefaultJmsListenerContainerFactoryConfigurer configurer) {
+  //    DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
+  //    configurer.configure(factory, connectionFactory);
+  //    return factory;
+  //  }
   //  @Value("${activemq.broker-url}")
   //  private String brokerUrl;
   // https://codenotfound.com/spring-jms-topic-example.html
@@ -54,16 +81,16 @@ public class JmsConfig {
   //    return activeMQConnectionFactory;
   //  }
   //
-  //  @Bean
-  //  public DefaultJmsListenerContainerFactory jmsListenerContainerFactory() {
-  //    DefaultJmsListenerContainerFactory factory =
-  //            new DefaultJmsListenerContainerFactory();
-  //    factory
-  //            .setConnectionFactory(receiverActiveMQConnectionFactory());
-  //    factory.setPubSubDomain(true);
-  //
-  //    return factory;
-  //  }
+  /*    @Bean
+  public DefaultJmsListenerContainerFactory jmsListenerContainerFactory() {
+    DefaultJmsListenerContainerFactory factory =
+            new DefaultJmsListenerContainerFactory();
+    factory
+            .setConnectionFactory(receiverActiveMQConnectionFactory());
+    factory.setPubSubDomain(true);
+
+    return factory;
+  }*/
 
   @Bean
   public MessageConverter messageConverter() {

@@ -12,9 +12,12 @@ configurations {
 
 dependencies {
 
+
+    intTestImplementation 'org.springframework.boot:spring-boot-starter-artemis'
     intTestImplementation 'org.apache.activemq:artemis-server'
     intTestImplementation 'org.apache.activemq:artemis-jms-server'
-    intTestImplementation('org.springframework.boot:spring-boot-starter-test:2.6.4')
+    intTestImplementation('org.springframework.boot:spring-boot-starter-test')
+    intTestImplementation 'com.h2database:h2:2.1.210'
 }
 
 task integrationTest(type: Test) {

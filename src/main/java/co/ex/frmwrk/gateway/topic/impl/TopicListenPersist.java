@@ -16,9 +16,12 @@ public class TopicListenPersist {
   private static final Logger LOGGER = LoggerFactory.getLogger(TopicListenPersist.class);
   private final PersistThingDto persistThingDto;
 
-  @JmsListener(destination = JmsConfig.SEND_LISTEN_TOPIC)
+  @JmsListener(destination = JmsConfig.SEND_LISTEN_TOPIC, subscription = JmsConfig.SEND_LISTEN_TOPIC, id = "persist")
   public void topicListen(ThingDtoSave thingDtoSave) {
-    LOGGER.info("*** Persistng ThingDtoSave\n" + JsonMapper.toJson(thingDtoSave));
+    LOGGER.debug(
+            "TopicListenPersist.topicListen()"
+                    .concat(System.lineSeparator())
+                    .concat(JsonMapper.toJson(thingDtoSave)));
     persistThingDto.persist(thingDtoSave);
   }
 }

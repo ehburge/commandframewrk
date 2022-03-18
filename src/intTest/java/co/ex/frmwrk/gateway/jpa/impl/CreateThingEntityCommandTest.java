@@ -6,7 +6,7 @@ import co.ex.frmwrk.gateway.impl.ThingDtoParts;
 import co.ex.frmwrk.gateway.impl.ThingDtoSave;
 import co.ex.frmwrk.gateway.persist.ThingEntity;
 import co.ex.frmwrk.gateway.persist.ThingEntityRepository;
-import co.ex.frmwrk.gateway.persist.ThingEntityThingNbrSeq;
+import co.ex.frmwrk.gateway.persist.impl.ThingEntityThingNbrSeqPostgres;
 import co.ex.frmwrk.mapping.ThingDtoSave_ThingEntity;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,7 +30,7 @@ public class CreateThingEntityCommandTest {
 
   @Autowired private ThingEntityRepository thingRepository;
   @Autowired private ThingDtoSave_ThingEntity thingDtoSave_thingEntity;
-  @Autowired private ThingEntityThingNbrSeq thingNbrSeq;
+  @Autowired private ThingEntityThingNbrSeqPostgres thingNbrSeq;
 
   @Test
   public void createThingCommand() {

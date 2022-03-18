@@ -1,6 +1,6 @@
 package co.ex.frmwrk.gateway.topic.impl;
 
-import co.ex.eventer.event.JsonMapper;
+import co.ex.app.model.JsonMapper;
 import co.ex.framewrk.eventer.model.ThingDtoSaveEvent;
 import co.ex.frmwrk.config.JmsConfig;
 import co.ex.frmwrk.gateway.impl.ThingDtoSave;
@@ -18,12 +18,18 @@ public class TopicListenToEventer {
   private final JmsTemplate jmsTemplate;
   private final ThingDtoSave_EventMapper dtoSaveEventMapper;
 
-  @JmsListener(destination = JmsConfig.SEND_LISTEN_TOPIC)
+  @JmsListener(destination = JmsConfig.SEND_LISTEN_TOPIC, subscription = JmsConfig.SEND_LISTEN_TOPIC, id = "ClientID")
   public void topicListen(ThingDtoSave thingDtoSave) {
-
+    LOGGER.debug(
+            "TopicListenToEventer.topicListen()"
+                    .concat(System.lineSeparator())
+                    .concat( JsonMapper.toJson(thingDtoSave)));
     ThingDtoSaveEvent thingDtoEvent = dtoSaveEventMapper.dtoSaveToDtoEvent(thingDtoSave);
+    LOGGER.debug(
+            "TopicListenToEventer.topicListen() - ThingDtoSaveEvent"
+                    .concat(System.lineSeparator())
+                    .concat( JsonMapper.toJson(thingDtoEvent)));
 
-    LOGGER.info("*** Sending ThingDtoEvent to Eventer\n" + JsonMapper.toJson(thingDtoEvent));
     jmsTemplate.convertAndSend(JmsConfig.EVENT_Q, thingDtoEvent);
   }
 }
