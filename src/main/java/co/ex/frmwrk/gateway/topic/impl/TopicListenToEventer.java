@@ -18,7 +18,11 @@ public class TopicListenToEventer {
   private final JmsTemplate jmsTemplate;
   private final ThingDtoSave_EventMapper dtoSaveEventMapper;
 
-  @JmsListener(destination = JmsConfig.SEND_LISTEN_TOPIC, subscription = JmsConfig.SEND_LISTEN_TOPIC, id = "ClientID")
+  @JmsListener(
+      destination = "topic-clientid",
+      id = "frmwrk-eventer",
+      containerFactory = "jmsListenerContainerFactory",
+      subscription = "frmwrk")
   public void topicListen(ThingDtoSave thingDtoSave) {
     LOGGER.debug(
             "TopicListenToEventer.topicListen()"
@@ -30,6 +34,6 @@ public class TopicListenToEventer {
                     .concat(System.lineSeparator())
                     .concat( JsonMapper.toJson(thingDtoEvent)));
 
-    jmsTemplate.convertAndSend(JmsConfig.EVENT_Q, thingDtoEvent);
+    jmsTemplate.convertAndSend(JmsConfig.EVENT_TOPIC, thingDtoEvent);
   }
 }

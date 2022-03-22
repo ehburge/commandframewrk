@@ -6,13 +6,14 @@ import lombok.Getter;
 import lombok.ToString;
 import lombok.extern.jackson.Jacksonized;
 
+import java.io.Serializable;
 import java.util.List;
 
 @ToString
 @Getter
 @Jacksonized
 @Builder
-public class ThingDtoParts {
+public class ThingDtoParts implements Serializable {
 
   private String partsCompatibility;
   @JsonProperty("parts")

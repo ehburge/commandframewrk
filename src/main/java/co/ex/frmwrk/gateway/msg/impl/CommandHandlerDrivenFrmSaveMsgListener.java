@@ -47,9 +47,9 @@ public class CommandHandlerDrivenFrmSaveMsgListener {
     LOGGER.trace("Got a message " + nbrMsgs);
 
     ThingEntity thingEntity = persistThingDto.persist(thingDtoSave);
-    LOGGER.debug("persisted " + thingDtoSave + " sending to " + JmsConfig.EVENT_Q);
+    LOGGER.debug("persisted " + thingDtoSave + " sending to " + JmsConfig.EVENT_TOPIC );
 
-    jmsTemplate.convertAndSend(JmsConfig.EVENT_Q, thingDtoSave);
+    jmsTemplate.convertAndSend(JmsConfig.EVENT_TOPIC, thingDtoSave);
   }
 
   public void addPropertyChangeListener(PropertyChangeListener listener) {

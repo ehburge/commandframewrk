@@ -6,11 +6,13 @@ import lombok.Getter;
 import lombok.ToString;
 import lombok.extern.jackson.Jacksonized;
 
+import java.io.Serializable;
+
 @ToString
 @Getter
 @Jacksonized
 @Builder(access = AccessLevel.PUBLIC)
-public class ThingDtoPart {
+public class ThingDtoPart implements Serializable {
 
   private final String partId;
   private final int qty;
