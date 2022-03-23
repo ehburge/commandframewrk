@@ -1,13 +1,12 @@
 package co.ex.frmwrk.config;
 
 import org.apache.activemq.artemis.jms.client.ActiveMQConnectionFactory;
-import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
-import org.springframework.jms.config.JmsListenerContainerFactory;
 import org.springframework.jms.connection.CachingConnectionFactory;
+import org.springframework.jms.connection.SingleConnectionFactory;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.support.converter.MappingJackson2MessageConverter;
 import org.springframework.jms.support.converter.MessageConverter;
@@ -19,60 +18,88 @@ import javax.jms.JMSException;
 @Configuration
 public class JmsConfig {
 
-  public static final String THINGSAVE_Q = "thingsave.queue";
+//  public static final String THINGSAVE_Q = "thingsave.queue";
   public static final String EVENT_TOPIC = "event.topic";
-  public static final String SEND_LISTEN_TOPIC = "send.listen.topic";
+//  public static final String SEND_LISTEN_TOPIC = "send.listen.topic";
 
-  @Bean
-  public JmsTemplate jmsTemplateConfig(MessageConverter messageConverter) {
-    JmsTemplate jmsTemplate = new JmsTemplate(cachingConnectionFactory());
-    jmsTemplate.setPubSubDomain(true);
-    jmsTemplate.setMessageConverter(messageConverter);
-    return jmsTemplate;
+  @Bean(name = "jmsTemplate")
+  public JmsTemplate jmsTemplate() {
+    JmsTemplate template = new JmsTemplate();
+    template.setConnectionFactory(singleConnectionFactory());
+    template.setMessageConverter(messageConverter());
+    return template;
   }
 
-//  @Bean
-//  public JmsPoolConnectionFactory pooledConnectionFactoryOnline() {
-//    JmsPoolConnectionFactory poolingFactory = new JmsPoolConnectionFactory();
-//    poolingFactory.setConnectionFactory(senderActiveMQConnectionFactory());
-//    poolingFactory.setMaxConnections(3);
-//    poolingFactory.setConnectionIdleTimeout(0);
-//
-//    return poolingFactory;
-//  }
-  //https://github.com/zorro2b/artemis-springboot/blob/main/src/main/java/com/example/amqdemo/AmqdemoApplication.java
+  @Bean(name = "jmsTemplateAnycast")
+  public JmsTemplate jmsTemplateAnycast() {
+    JmsTemplate template = new JmsTemplate();
+    template.setPubSubDomain(false);
+    template.setConnectionFactory(singleConnectionFactory());
+    template.setMessageConverter(messageConverter());
+    return template;
+  }
+
+  @Bean(name = "jmsTemplateMulticast")
+  public JmsTemplate jmsTemplateMulticast() {
+    JmsTemplate template = new JmsTemplate();
+    template.setPubSubDomain(true);
+    template.setConnectionFactory(singleConnectionFactory());
+    template.setMessageConverter(messageConverter());
+    return template;
+  }
+
+  //  @Bean
+  //  public JmsPoolConnectionFactory pooledConnectionFactoryOnline() {
+  //    JmsPoolConnectionFactory poolingFactory = new JmsPoolConnectionFactory();
+  //    poolingFactory.setConnectionFactory(senderActiveMQConnectionFactory());
+  //    poolingFactory.setMaxConnections(3);
+  //    poolingFactory.setConnectionIdleTimeout(0);
+  //
+  //    return poolingFactory;
+  //  }
   @Bean
-  public JmsListenerContainerFactory<?> jmsListenerContainerFactory( DefaultJmsListenerContainerFactoryConfigurer configurer) {
+  public DefaultJmsListenerContainerFactory jmsListenerContainerFactory() {
     DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
-
-    //logger.info("Configuring JMS with clientId "+clientId);
-    CachingConnectionFactory ccFactory = cachingConnectionFactory();
-    // This provides all boot's default to this factory, including the message converter
-    configurer.configure(factory, ccFactory);
-    factory.setPubSubDomain(true);
-    factory.setClientId("topic-clientid");
-    factory.setSubscriptionDurable(true);
-//		factory.setSubscriptionShared(true);
-//		factory.setConcurrency("1");
-    ccFactory.setClientId("topic-clientid");
-
+    factory.setConnectionFactory(singleConnectionFactory());
+    factory.setConcurrency("1-1");
+    factory.setPubSubDomain( true );
+    factory.setSubscriptionDurable( false );
     return factory;
   }
+  // https://github.com/zorro2b/artemis-springboot/blob/main/src/main/java/com/example/amqdemo/AmqdemoApplication.java
+  //  @Bean
+  //  public JmsListenerContainerFactory<?> jmsListenerContainerFactory(
+  // DefaultJmsListenerContainerFactoryConfigurer configurer) {
+  //    DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
+  //
+  //    //logger.info("Configuring JMS with clientId "+clientId);
+  //    CachingConnectionFactory ccFactory = cachingConnectionFactory();
+  //    // This provides all boot's default to this factory, including the message converter
+  //    configurer.configure(factory, ccFactory);
+  //    factory.setPubSubDomain(true);
+  //    factory.setClientId("topic-clientid");
+  //    factory.setSubscriptionDurable(true);
+  ////		factory.setSubscriptionShared(true);
+  ////		factory.setConcurrency("1");
+  //    ccFactory.setClientId("topic-clientid");
+  //
+  //    return factory;
+  //  }
 
   //  //
   // https://www.tabnine.com/code/java/classes/org.springframework.jms.config.DefaultJmsListenerContainerFactory
-//  @Bean
-//  public DefaultJmsListenerContainerFactory jmsListenerContainerFactory(
-//      SingleConnectionFactory singleConnectionFactory,
-//      DefaultJmsListenerContainerFactoryConfigurer configurer) {
-//    DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
-//    configurer.configure(factory, singleConnectionFactory);
-//    singleConnectionFactory.setClientId("brokerClientId");
-//    factory.setPubSubDomain(true);
-//    factory.setSubscriptionDurable(true);
-//    factory.setClientId("brokerClientId");
-//    return factory;
-//  }
+  //  @Bean
+  //  public DefaultJmsListenerContainerFactory jmsListenerContainerFactory(
+  //      SingleConnectionFactory singleConnectionFactory,
+  //      DefaultJmsListenerContainerFactoryConfigurer configurer) {
+  //    DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
+  //    configurer.configure(factory, singleConnectionFactory);
+  //    singleConnectionFactory.setClientId("brokerClientId");
+  //    factory.setPubSubDomain(true);
+  //    factory.setSubscriptionDurable(true);
+  //    factory.setClientId("brokerClientId");
+  //    return factory;
+  //  }
 
   //  @Bean
   //  public JmsListenerContainerFactory<?> myFactory(
@@ -90,17 +117,19 @@ public class JmsConfig {
     ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory();
     try {
       activeMQConnectionFactory.setBrokerURL("tcp://localhost:61616");
-    } catch ( JMSException e ) {
+    } catch (JMSException e) {
       e.printStackTrace();
     }
 
     return activeMQConnectionFactory;
   }
-//
-//  @Bean
-//  public SingleConnectionFactory singleConnectionFactory() {
-//    return new SingleConnectionFactory(senderActiveMQConnectionFactory());
-//  }
+
+    @Bean
+    public SingleConnectionFactory singleConnectionFactory() {
+      SingleConnectionFactory connectionFactory = new SingleConnectionFactory(senderActiveMQConnectionFactory());
+      connectionFactory.setClientId( "thing" );
+      return connectionFactory;
+    }
 
   @Bean
   public CachingConnectionFactory cachingConnectionFactory() {

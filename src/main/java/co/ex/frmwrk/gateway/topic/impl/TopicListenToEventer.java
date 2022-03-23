@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
@@ -18,21 +19,18 @@ public class TopicListenToEventer {
   private final JmsTemplate jmsTemplate;
   private final ThingDtoSave_EventMapper dtoSaveEventMapper;
 
-  @JmsListener(
-      destination = "topic-clientid",
-      id = "frmwrk-eventer",
-      containerFactory = "jmsListenerContainerFactory",
-      subscription = "frmwrk")
+  @JmsListener(destination = "VirtualTopic.send-listen")
   public void topicListen(ThingDtoSave thingDtoSave) {
     LOGGER.debug(
-            "TopicListenToEventer.topicListen()"
-                    .concat(System.lineSeparator())
-                    .concat( JsonMapper.toJson(thingDtoSave)));
+        "TopicListenToEventer.topicListen()"
+            .concat(System.lineSeparator())
+            .concat(JsonMapper.toJson(thingDtoSave)));
+
     ThingDtoSaveEvent thingDtoEvent = dtoSaveEventMapper.dtoSaveToDtoEvent(thingDtoSave);
     LOGGER.debug(
-            "TopicListenToEventer.topicListen() - ThingDtoSaveEvent"
-                    .concat(System.lineSeparator())
-                    .concat( JsonMapper.toJson(thingDtoEvent)));
+        "TopicListenToEventer.topicListen() - ThingDtoSaveEvent"
+            .concat(System.lineSeparator())
+            .concat(JsonMapper.toJson(thingDtoEvent)));
 
     jmsTemplate.convertAndSend(JmsConfig.EVENT_TOPIC, thingDtoEvent);
   }

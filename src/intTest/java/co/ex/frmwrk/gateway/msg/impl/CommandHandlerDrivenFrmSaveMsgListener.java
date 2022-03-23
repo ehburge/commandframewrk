@@ -38,7 +38,7 @@ public class CommandHandlerDrivenFrmSaveMsgListener {
     return nbrMsgs;
   }
 
-  @JmsListener(destination = JmsConfig.THINGSAVE_Q)
+  //@JmsListener(destination = JmsConfig.THINGSAVE_Q)
   public void listen(
       @Payload ThingDtoSave thingDtoSave, @Headers MessageHeaders messageHeaders, Message message) {
 

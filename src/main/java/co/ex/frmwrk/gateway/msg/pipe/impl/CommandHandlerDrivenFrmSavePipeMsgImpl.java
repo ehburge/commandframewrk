@@ -16,6 +16,6 @@ public class CommandHandlerDrivenFrmSavePipeMsgImpl
 
   @Override
   public void handle(ThingDtoSave thingDtoSave) {
-    jmsTemplate.convertAndSend(JmsConfig.THINGSAVE_Q, thingDtoSave);
+    //jmsTemplate.convertAndSend(JmsConfig.THINGSAVE_Q, thingDtoSave);
   }
 }
