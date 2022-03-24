@@ -31,7 +31,7 @@ public class TopicSendListen {
             .concat(System.lineSeparator())
             .concat(JsonMapper.toJson(thingDtoSave)));
 
-    String json = co.ex.eventer.event.JsonMapper.toJson(thingDtoSave);
+    //String json = co.ex.eventer.event.JsonMapper.toJson(thingDtoSave);
     jmsTemplate.convertAndSend("multicast://VirtualTopic.send-listen", thingDtoSave);
     // jmsTopicTemplate.convertAndSend("send.persist.topic", thingDtoSave);
   }

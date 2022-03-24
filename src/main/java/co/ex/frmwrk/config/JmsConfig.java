@@ -12,6 +12,8 @@ import org.springframework.jms.support.converter.MappingJackson2MessageConverter
 import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.jms.support.converter.MessageType;
 
+import javax.jms.Connection;
+import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
 
 @EnableJms
@@ -19,7 +21,7 @@ import javax.jms.JMSException;
 public class JmsConfig {
 
 //  public static final String THINGSAVE_Q = "thingsave.queue";
-  public static final String EVENT_TOPIC = "event.topic";
+  public static final String EVENT_QUEUE = "event.queue";
 //  public static final String SEND_LISTEN_TOPIC = "send.listen.topic";
 
   @Bean(name = "jmsTemplate")
@@ -117,7 +119,7 @@ public class JmsConfig {
     ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory();
     try {
       activeMQConnectionFactory.setBrokerURL("tcp://localhost:61616");
-    } catch (JMSException e) {
+    } catch ( JMSException e) {
       e.printStackTrace();
     }
 
@@ -126,14 +128,14 @@ public class JmsConfig {
 
     @Bean
     public SingleConnectionFactory singleConnectionFactory() {
-      SingleConnectionFactory connectionFactory = new SingleConnectionFactory(senderActiveMQConnectionFactory());
+      SingleConnectionFactory connectionFactory = new SingleConnectionFactory( senderActiveMQConnectionFactory() );
       connectionFactory.setClientId( "thing" );
       return connectionFactory;
     }
 
   @Bean
   public CachingConnectionFactory cachingConnectionFactory() {
-    return new CachingConnectionFactory(senderActiveMQConnectionFactory());
+    return new CachingConnectionFactory( senderActiveMQConnectionFactory() );
   }
   //
   //  @Bean

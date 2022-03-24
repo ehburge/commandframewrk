@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jms.annotation.JmsListener;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
@@ -16,7 +17,7 @@ public class TopicListenPersist {
   private final PersistThingDto persistThingDto;
 
   @JmsListener(destination = "VirtualTopic.send-listen")
-  public void topicListen(String json) {
+  public void topicListen(@Payload String json) {
     ThingDtoSave thingDtoSave = JsonMapper.fromJson(json, ThingDtoSave.class);
     LOGGER.debug(
         "TopicListenPersist.topicListen()"
