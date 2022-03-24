@@ -18,9 +18,10 @@ public class TopicListenToEventer {
   private static final Logger LOGGER = LoggerFactory.getLogger(TopicListenToEventer.class);
   private final JmsTemplate jmsTemplate;
   private final ThingDtoSave_EventMapper dtoSaveEventMapper;
+  private String thingDtoSaveEvent;
 
   @JmsListener(destination = "VirtualTopic.send-listen")
-  public void topicListen(@Payload String json) {
+  public void topicListen(String json) {
     ThingDtoSave thingDtoSave = co.ex.eventer.event.JsonMapper.fromJson(json, ThingDtoSave.class);
     LOGGER.debug(
         "TopicListenToEventer.topicListen()"
@@ -28,11 +29,13 @@ public class TopicListenToEventer {
             .concat(JsonMapper.toJson(thingDtoSave)));
 
     ThingDtoSaveEvent thingDtoEvent = dtoSaveEventMapper.dtoSaveToDtoEvent(thingDtoSave);
+    String sendJson = JsonMapper.toJson(thingDtoEvent);
+    thingDtoSaveEvent = "ThingDtoSaveEvent";
     LOGGER.debug(
-        "TopicListenToEventer.topicListen() - ThingDtoSaveEvent"
+        ("TopicListenToEventer.topicListen() - " + thingDtoSaveEvent)
             .concat(System.lineSeparator())
-            .concat(JsonMapper.toJson(thingDtoEvent)));
+            .concat(sendJson));
 
-    jmsTemplate.convertAndSend(JmsConfig.EVENT_QUEUE, thingDtoEvent);
+    jmsTemplate.convertAndSend(JmsConfig.EVENT_Q, sendJson);
   }
 }

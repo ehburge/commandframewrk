@@ -21,14 +21,14 @@ import javax.jms.JMSException;
 public class JmsConfig {
 
 //  public static final String THINGSAVE_Q = "thingsave.queue";
-  public static final String EVENT_QUEUE = "event.queue";
+  public static final String EVENT_Q = "event.queue";
 //  public static final String SEND_LISTEN_TOPIC = "send.listen.topic";
 
   @Bean(name = "jmsTemplate")
   public JmsTemplate jmsTemplate() {
     JmsTemplate template = new JmsTemplate();
     template.setConnectionFactory(singleConnectionFactory());
-    template.setMessageConverter(messageConverter());
+    //template.setMessageConverter(messageConverter());
     return template;
   }
 
@@ -37,7 +37,7 @@ public class JmsConfig {
     JmsTemplate template = new JmsTemplate();
     template.setPubSubDomain(false);
     template.setConnectionFactory(singleConnectionFactory());
-    template.setMessageConverter(messageConverter());
+    //template.setMessageConverter(messageConverter());
     return template;
   }
 
@@ -46,7 +46,7 @@ public class JmsConfig {
     JmsTemplate template = new JmsTemplate();
     template.setPubSubDomain(true);
     template.setConnectionFactory(singleConnectionFactory());
-    template.setMessageConverter(messageConverter());
+    //template.setMessageConverter(messageConverter());
     return template;
   }
 
@@ -133,10 +133,10 @@ public class JmsConfig {
       return connectionFactory;
     }
 
-  @Bean
-  public CachingConnectionFactory cachingConnectionFactory() {
-    return new CachingConnectionFactory( senderActiveMQConnectionFactory() );
-  }
+//  @Bean
+//  public CachingConnectionFactory cachingConnectionFactory() {
+//    return new CachingConnectionFactory( senderActiveMQConnectionFactory() );
+//  }
   //
   //  @Bean
   //  public JmsTopicTemplate jmsTopicTemplate() {
