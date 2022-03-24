@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Getter
 @Jacksonized
 @Builder(access = AccessLevel.PUBLIC)
-public class ThingDtoPart implements Serializable {
+public class ThingDtoPart {
 
   private final String partId;
   private final int qty;

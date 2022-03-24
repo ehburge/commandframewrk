@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @Jacksonized
 @Builder(access = AccessLevel.PUBLIC)
-public class ThingDtoComments implements Serializable {
+public class ThingDtoComments {
   @JsonProperty("commants")
   private List<String> comments;
 }

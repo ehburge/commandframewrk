@@ -13,7 +13,7 @@ import java.util.List;
 @Getter
 @Jacksonized
 @Builder
-public class ThingDtoParts implements Serializable {
+public class ThingDtoParts {
 
   private String partsCompatibility;
   @JsonProperty("parts")

@@ -3,12 +3,10 @@ package co.ex.frmwrk.gateway.topic.impl;
 import co.ex.eventer.event.JsonMapper;
 import co.ex.frmwrk.gateway.impl.ThingDtoSave;
 import co.ex.frmwrk.gateway.persist.impl.PersistThingDto;
-import jdk.jfr.Percentage;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jms.annotation.JmsListener;
-import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
@@ -18,7 +16,8 @@ public class TopicListenPersist {
   private final PersistThingDto persistThingDto;
 
   @JmsListener(destination = "VirtualTopic.send-listen")
-  public void topicListen(ThingDtoSave thingDtoSave) {
+  public void topicListen(String json) {
+    ThingDtoSave thingDtoSave = JsonMapper.fromJson(json, ThingDtoSave.class);
     LOGGER.debug(
         "TopicListenPersist.topicListen()"
             .concat(System.lineSeparator())
