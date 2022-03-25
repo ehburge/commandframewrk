@@ -1,6 +1,7 @@
 package co.ex.frmwrk.gateway.topic.impl;
 
 import co.ex.app.model.JsonMapper;
+import co.ex.frmwrk.config.JmsConfig;
 import co.ex.frmwrk.gateway.impl.ThingDtoSave;
 import co.ex.frmwrk.gateway.persist.ThingEntityThingNbrSeq;
 import org.slf4j.Logger;
@@ -32,7 +33,6 @@ public class TopicSendListen {
             .concat(JsonMapper.toJson(thingDtoSave)));
 
     String json = co.ex.eventer.event.JsonMapper.toJson(thingDtoSave);
-    jmsTemplate.convertAndSend("multicast://VirtualTopic.send-listen", json);
-    // jmsTopicTemplate.convertAndSend("send.persist.topic", thingDtoSave);
+    jmsTemplate.convertAndSend("multicast://".concat( JmsConfig.SEND_LISTEN_TOPIC ), json);
   }
 }

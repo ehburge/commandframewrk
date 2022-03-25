@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
@@ -20,7 +19,7 @@ public class TopicListenToEventer {
   private final ThingDtoSave_EventMapper dtoSaveEventMapper;
   private String thingDtoSaveEvent;
 
-  @JmsListener(destination = "VirtualTopic.send-listen")
+  @JmsListener(destination = JmsConfig.SEND_LISTEN_TOPIC)
   public void topicListen(String json) {
     ThingDtoSave thingDtoSave = co.ex.eventer.event.JsonMapper.fromJson(json, ThingDtoSave.class);
     LOGGER.debug(
@@ -36,6 +35,6 @@ public class TopicListenToEventer {
             .concat(System.lineSeparator())
             .concat(sendJson));
 
-    jmsTemplate.convertAndSend(JmsConfig.EVENT_Q, sendJson);
+    jmsTemplate.convertAndSend("anycast://".concat(JmsConfig.EVENT_Q), sendJson);
   }
 }
