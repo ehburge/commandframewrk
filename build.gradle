@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.6.6'
+    id 'org.springframework.boot' version '2.7.0'
     id 'java-library'
 }
 
@@ -25,11 +25,6 @@ ext {
 group 'co.ex.frmwrk'
 version = '0.0.1-SNAPSHOT'
 //sourceCompatibility = 17
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
-    }
-}
 //configurations {
 //    compile.exclude module: 'spring-boot-starter-tomcat'
 //}
