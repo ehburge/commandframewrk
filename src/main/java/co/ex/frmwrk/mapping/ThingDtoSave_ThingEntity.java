@@ -1,13 +1,11 @@
 package co.ex.frmwrk.mapping;
 
-import co.ex.eventer.event.JsonMapper;
+import co.ex.eventer.JsonMapper;
 import co.ex.frmwrk.gateway.impl.ThingDtoSave;
 import co.ex.frmwrk.gateway.persist.ThingEntity;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
+import org.mapstruct.*;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public abstract class ThingDtoSave_ThingEntity {
 
   @Mappings({
@@ -15,7 +13,7 @@ public abstract class ThingDtoSave_ThingEntity {
     @Mapping(target = "content_type", expression = "java(thingDtoSave.getClass().getName())"),
     @Mapping(
         target = "entity_content",
-        expression = "java(co.ex.eventer.event.JsonMapper.toJson(thingDtoSave))"),
+        expression = "java(co.ex.eventer.JsonMapper.toJson(thingDtoSave))"),
     @Mapping(
         target = "dttm",
         expression = "java(new java.sql.Timestamp(new java.util.Date().getTime()))")

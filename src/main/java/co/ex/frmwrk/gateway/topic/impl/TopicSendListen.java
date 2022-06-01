@@ -32,7 +32,7 @@ public class TopicSendListen {
             .concat(System.lineSeparator())
             .concat(JsonMapper.toJson(thingDtoSave)));
 
-    String json = co.ex.eventer.event.JsonMapper.toJson(thingDtoSave);
+    String json = co.ex.eventer.JsonMapper.toJson(thingDtoSave);
     jmsTemplate.convertAndSend("multicast://".concat( JmsConfig.SEND_LISTEN_TOPIC ), json);
   }
 }
