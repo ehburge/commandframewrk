@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.ToString;
 import lombok.extern.jackson.Jacksonized;
 
-import java.io.Serializable;
-
 @ToString
 @Getter
 @Jacksonized

@@ -1,26 +1,22 @@
 package co.ex.frmwrk.config;
 
+import jakarta.jms.JMSException;
 import org.apache.activemq.artemis.jms.client.ActiveMQConnectionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
-import org.springframework.jms.connection.CachingConnectionFactory;
 import org.springframework.jms.connection.SingleConnectionFactory;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.support.converter.MappingJackson2MessageConverter;
 import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.jms.support.converter.MessageType;
 
-import javax.jms.Connection;
-import javax.jms.ConnectionFactory;
-import javax.jms.JMSException;
-
 @EnableJms
 @Configuration
 public class JmsConfig {
 
-//  public static final String THINGSAVE_Q = "thingsave.queue";
+  //  public static final String THINGSAVE_Q = "thingsave.queue";
   public static final String EVENT_Q = "event.queue";
   public static final String SEND_LISTEN_TOPIC = "send.listen.topic";
 
@@ -64,8 +60,8 @@ public class JmsConfig {
     DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
     factory.setConnectionFactory(singleConnectionFactory());
     factory.setConcurrency("1-1");
-    factory.setPubSubDomain( true );
-    factory.setSubscriptionDurable( false );
+    factory.setPubSubDomain(true);
+    factory.setSubscriptionDurable(false);
     return factory;
   }
   // https://github.com/zorro2b/artemis-springboot/blob/main/src/main/java/com/example/amqdemo/AmqdemoApplication.java
@@ -119,24 +115,25 @@ public class JmsConfig {
     ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory();
     try {
       activeMQConnectionFactory.setBrokerURL("tcp://localhost:61616");
-    } catch ( JMSException e) {
+    } catch (JMSException e) {
       e.printStackTrace();
     }
 
     return activeMQConnectionFactory;
   }
 
-    @Bean
-    public SingleConnectionFactory singleConnectionFactory() {
-      SingleConnectionFactory connectionFactory = new SingleConnectionFactory( senderActiveMQConnectionFactory() );
-      connectionFactory.setClientId( "thing" );
-      return connectionFactory;
-    }
+  @Bean
+  public SingleConnectionFactory singleConnectionFactory() {
+    SingleConnectionFactory connectionFactory =
+        new SingleConnectionFactory(senderActiveMQConnectionFactory());
+    connectionFactory.setClientId("thing");
+    return connectionFactory;
+  }
 
-//  @Bean
-//  public CachingConnectionFactory cachingConnectionFactory() {
-//    return new CachingConnectionFactory( senderActiveMQConnectionFactory() );
-//  }
+  //  @Bean
+  //  public CachingConnectionFactory cachingConnectionFactory() {
+  //    return new CachingConnectionFactory( senderActiveMQConnectionFactory() );
+  //  }
   //
   //  @Bean
   //  public JmsTopicTemplate jmsTopicTemplate() {

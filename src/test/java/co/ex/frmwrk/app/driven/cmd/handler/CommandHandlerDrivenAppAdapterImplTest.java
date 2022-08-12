@@ -11,6 +11,7 @@ import co.ex.app.model.AppThingParts;
 import co.ex.domain.config.SetupMapBeans;
 import co.ex.frmwrk.driven.bus.impl.CommandBusDrivenFrmAdapterImpl;
 import co.ex.frmwrk.driven.handler.CommandHandlerDrivenFrm;
+import co.ex.frmwrk.gateway.ThingDto;
 import co.ex.frmwrk.gateway.impl.ThingDtoSave;
 import co.ex.frmwrk.mapping.AppThingCommandSaveThingDtoSaveMapper;
 import co.ex.frmwrk.mapping.AppThingCommandSaveThingDtoSaveMapperImpl;
@@ -38,11 +39,11 @@ class CommandHandlerDrivenAppAdapterImplTest {
   @BeforeAll
   static void setupAll() {
 
-    setupMapBeans = new SetupMapBeans( null );
+    setupMapBeans = new SetupMapBeans(null);
     setupMapBeans.setup();
-    appMapBeans= new AppMapBeans();
+    appMapBeans = new AppMapBeans();
     appMapBeans.postConstruct();
-    appSetupMapBeans = new AppSetupMapBeans( appMapBeans, setupMapBeans );
+    appSetupMapBeans = new AppSetupMapBeans(appMapBeans, setupMapBeans);
     appSetupMapBeans.setup();
   }
 
@@ -99,8 +100,8 @@ class CommandHandlerDrivenAppAdapterImplTest {
     private ThingDtoSave thingDtoSave;
 
     @Override
-    public void handle(ThingDtoSave thingDto) {
-      thingDtoSave = thingDto;
+    public void handle(ThingDto thingDto) {
+      thingDtoSave = (ThingDtoSave) thingDto;
     }
 
     public ThingDtoSave getThingDtoSave() {

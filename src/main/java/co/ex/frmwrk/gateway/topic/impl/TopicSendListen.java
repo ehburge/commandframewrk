@@ -1,38 +1,19 @@
 package co.ex.frmwrk.gateway.topic.impl;
 
-import co.ex.app.model.JsonMapper;
-import co.ex.frmwrk.config.JmsConfig;
-import co.ex.frmwrk.gateway.impl.ThingDtoSave;
-import co.ex.frmwrk.gateway.persist.ThingEntityThingNbrSeq;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.jms.core.JmsTemplate;
+import co.ex.frmwrk.gateway.ThingDto;
+import co.ex.frmwrk.gateway.ports.bus.DtoSenderBus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
+import java.util.Map;
 
+@RequiredArgsConstructor
 @Component
 public class TopicSendListen {
-  private static Logger LOGGER = LoggerFactory.getLogger(TopicSendListen.class);
-  private final JmsTemplate jmsTemplate;
-  private final ThingEntityThingNbrSeq thingNbrSeq;
-  public TopicSendListen(
-      @Qualifier("jmsTemplate") JmsTemplate jmsTemplate,
-      ThingEntityThingNbrSeq thingNbrSeq) {
-    this.jmsTemplate = jmsTemplate;
-    this.thingNbrSeq = thingNbrSeq;
-  }
 
-  public void sendThingDto(ThingDtoSave thingDtoSave) {
+  private final Map<Class<?>, DtoSenderBus> cbMap;
 
-    thingNbrSeq.setThingNbrWhenNull(thingDtoSave);
-    LOGGER.debug(
-        "TopicSendListen.sendThingDto()"
-            .concat(System.lineSeparator())
-            .concat(JsonMapper.toJson(thingDtoSave)));
-
-    String json = co.ex.eventer.JsonMapper.toJson(thingDtoSave);
-    jmsTemplate.convertAndSend("multicast://".concat( JmsConfig.SEND_LISTEN_TOPIC ), json);
+  public void sendThingDto(ThingDto thingDto) {
+    cbMap.get(thingDto.getClass()).perform(thingDto);
   }
 }

@@ -5,7 +5,9 @@ import co.ex.frmwrk.gateway.impl.ThingDtoSave;
 import co.ex.frmwrk.gateway.persist.ThingEntity;
 import org.mapstruct.*;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, injectionStrategy = InjectionStrategy.CONSTRUCTOR)
+@Mapper(
+    componentModel = MappingConstants.ComponentModel.SPRING,
+    injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public abstract class ThingDtoSave_ThingEntity {
 
   @Mappings({
@@ -19,8 +21,6 @@ public abstract class ThingDtoSave_ThingEntity {
         expression = "java(new java.sql.Timestamp(new java.util.Date().getTime()))")
   })
   public abstract ThingEntity thingDtoSaveToThingEntity(ThingDtoSave thingDtoSave);
-
-  public abstract ThingDtoSave thingEntityToThingDtoSave(ThingEntity thingEntity);
 
   public ThingDtoSave fromEntityContent(ThingEntity thingEntity) {
     ThingDtoSave thingDtoSave = null;

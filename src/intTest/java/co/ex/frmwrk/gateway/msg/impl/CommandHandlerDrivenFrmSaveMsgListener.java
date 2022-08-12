@@ -7,7 +7,6 @@ import co.ex.frmwrk.gateway.persist.impl.PersistThingDto;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
@@ -38,7 +37,7 @@ public class CommandHandlerDrivenFrmSaveMsgListener {
     return nbrMsgs;
   }
 
-  //@JmsListener(destination = JmsConfig.THINGSAVE_Q)
+  // @JmsListener(destination = JmsConfig.THINGSAVE_Q)
   public void listen(
       @Payload ThingDtoSave thingDtoSave, @Headers MessageHeaders messageHeaders, Message message) {
 
@@ -47,7 +46,7 @@ public class CommandHandlerDrivenFrmSaveMsgListener {
     LOGGER.trace("Got a message " + nbrMsgs);
 
     ThingEntity thingEntity = persistThingDto.persist(thingDtoSave);
-    LOGGER.debug("persisted " + thingDtoSave + " sending to " + JmsConfig.EVENT_TOPIC );
+    LOGGER.debug("persisted " + thingDtoSave + " sending to " + JmsConfig.EVENT_TOPIC);
 
     jmsTemplate.convertAndSend(JmsConfig.EVENT_TOPIC, thingDtoSave);
   }

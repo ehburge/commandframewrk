@@ -13,7 +13,7 @@ import java.util.UUID;
 @Getter
 @Jacksonized
 @Builder
-public class ThingDtoSave implements ThingDto {
+public class ThingDtoSave100 implements ThingDto {
 
   private UUID uuid;
   @Setter private Long thingNbr;

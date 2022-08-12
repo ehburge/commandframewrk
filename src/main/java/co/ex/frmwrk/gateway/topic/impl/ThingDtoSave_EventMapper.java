@@ -1,6 +1,6 @@
 package co.ex.frmwrk.gateway.topic.impl;
 
-import co.ex.framewrk.eventer.model.ThingDtoSaveEvent;
+import co.ex.framewrk.eventer.model.impl000.ThingDtoSaveEvent000;
 import co.ex.frmwrk.gateway.impl.ThingDtoSave;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
@@ -11,5 +11,5 @@ import org.mapstruct.MappingConstants;
     injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface ThingDtoSave_EventMapper {
 
-  ThingDtoSaveEvent dtoSaveToDtoEvent(ThingDtoSave thingDtoSave);
+  ThingDtoSaveEvent000 dtoSaveToDtoEvent(ThingDtoSave thingDtoSave);
 }

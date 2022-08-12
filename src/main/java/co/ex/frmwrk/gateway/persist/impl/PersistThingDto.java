@@ -13,15 +13,15 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @Component
 public class PersistThingDto {
-  Logger LOGGER = LoggerFactory.getLogger( PersistThingDto.class );
+  Logger LOGGER = LoggerFactory.getLogger(PersistThingDto.class);
 
   private final ThingDtoSave_ThingEntity thingDtoSaveThingEntity;
   private final ThingEntityRepository thingRepository;
 
   public ThingEntity persist(ThingDtoSave thingDtoSave) {
     LOGGER.debug(
-            "PersistThingDto.persist()".concat(System.lineSeparator()),
-            JsonMapper.toJson(thingDtoSave));
+        "PersistThingDto.persist()".concat(System.lineSeparator()),
+        JsonMapper.toJson(thingDtoSave));
 
     ThingEntity thingEntity = thingDtoSaveThingEntity.thingDtoSaveToThingEntity(thingDtoSave);
 

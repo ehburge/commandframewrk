@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.ToString;
 import lombok.extern.jackson.Jacksonized;
 
-import java.io.Serializable;
 import java.util.List;
 
 @ToString
@@ -16,6 +15,7 @@ import java.util.List;
 public class ThingDtoParts {
 
   private String partsCompatibility;
+
   @JsonProperty("parts")
   private List<ThingDtoPart> parts;
 }

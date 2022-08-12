@@ -3,9 +3,6 @@ package co.ex.frmwrk.config;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-
 @Configuration
 @ComponentScan(basePackages = "co.ex.framewrk.eventer")
-public class ThingEventerScan {
-
-}
+public class ThingEventerScan {}

@@ -2,10 +2,7 @@ package co.ex.frmwrk.gateway.impl;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.jackson.Jacksonized;
-
-import java.io.Serializable;
 
 @Getter
 @Jacksonized

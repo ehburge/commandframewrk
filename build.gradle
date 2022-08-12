@@ -1,10 +1,10 @@
 plugins {
-    id 'org.springframework.boot' version '2.7.0'
+	id 'org.springframework.boot' version '3.0.0-SNAPSHOT'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java-library'
 }
 
 apply plugin: 'java'
-apply plugin: 'io.spring.dependency-management'
 
 java {
     toolchain {
@@ -13,8 +13,8 @@ java {
 }
 repositories {
     mavenCentral()
-    maven { url 'https://repo.spring.io/milestone' }
-    maven { url 'https://repo.spring.io/snapshot' }
+	maven { url 'https://repo.spring.io/milestone' }
+	maven { url 'https://repo.spring.io/snapshot' }
 }
 
 ext {
@@ -37,17 +37,17 @@ dependencies {
     implementation project(':framewrk-eventer-mapping')
     implementation project(':eventer')
 
-    implementation 'org.springframework.boot:spring-boot-starter-artemis'
+    implementation 'org.springframework.boot:spring-boot-starter-artemis:3.0.0-M4'
     //implementation 'org.messaginghub:pooled-jms'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation("org.springframework.boot:spring-boot-starter-web") {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:+'
+    implementation("org.springframework.boot:spring-boot-starter-web:+") {
         exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
     }
-    implementation "org.springframework.boot:spring-boot-starter-jetty"
+    implementation "org.springframework.boot:spring-boot-starter-jetty:+"
 
-    runtimeOnly 'org.postgresql:postgresql:42.3.3'
+    runtimeOnly 'org.postgresql:postgresql:42.3.6'
 
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    //testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     implementation "org.mapstruct:mapstruct:${mapstructVersion}"
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"

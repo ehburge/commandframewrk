@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 public class ThingController {
-  private static Logger LOGGER = LoggerFactory.getLogger(ThingController.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(ThingController.class);
 
   private final FrmInThingService frmInThingService;
   private final FrmInThingToAppThingSaveMapper mapper;

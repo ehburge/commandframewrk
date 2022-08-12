@@ -10,8 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Profile;
-import org.springframework.test.context.ActiveProfiles;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,8 +19,7 @@ import java.util.UUID;
 @SpringBootTest
 class TopicSendListenTest {
 
-  @Autowired
-  TopicSendListen topicSendListen;
+  @Autowired TopicSendListen topicSendListen;
   ThingDtoPart thingPart1 = ThingDtoPart.builder().partId("1").qty(1).build();
   ThingDtoPart thingPart2 = ThingDtoPart.builder().partId("2").qty(2).build();
   ThingDtoPart thingPart3 = ThingDtoPart.builder().partId("3").qty(3).build();
@@ -47,7 +44,7 @@ class TopicSendListenTest {
               .thingNbr(Long.valueOf(i))
               .comments(thingComments)
               .parts(thingParts)
-              .eventKind( KindOfEvent.CREATED.name())
+              .eventKind(KindOfEvent.CREATED.name())
               .build();
 
       topicSendListen.sendThingDto(thingDtoSave);
