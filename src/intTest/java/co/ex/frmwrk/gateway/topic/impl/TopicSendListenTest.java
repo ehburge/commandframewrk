@@ -4,22 +4,26 @@ import co.ex.eventer.event.KindOfEvent;
 import co.ex.frmwrk.gateway.impl.ThingDtoComments;
 import co.ex.frmwrk.gateway.impl.ThingDtoPart;
 import co.ex.frmwrk.gateway.impl.ThingDtoParts;
-import co.ex.frmwrk.gateway.impl.ThingDtoSave;
+import co.ex.frmwrk.gateway.impl.ThingDtoSave000;
+import co.ex.frmwrk.gateway.msg.impl.EventQueueListener;
+import co.ex.frmwrk.gateway.ports.bus.DtoSenderBus;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
-
 @SpringBootTest
 class TopicSendListenTest {
 
-  @Autowired TopicSendListen topicSendListen;
+  @Autowired Map<Class<?>, DtoSenderBus> cbMap;
+
+  @Autowired EventQueueListener eventQueueListener;
+
   ThingDtoPart thingPart1 = ThingDtoPart.builder().partId("1").qty(1).build();
   ThingDtoPart thingPart2 = ThingDtoPart.builder().partId("2").qty(2).build();
   ThingDtoPart thingPart3 = ThingDtoPart.builder().partId("3").qty(3).build();
@@ -38,22 +42,15 @@ class TopicSendListenTest {
   void sendThingDto() {
     System.out.println("*** Sending ThingDtoSave");
     for (int i = 0; i < 30; i++) {
-      ThingDtoSave thingDtoSave =
-          ThingDtoSave.builder()
-              .uuid(UUID.randomUUID())
+      ThingDtoSave000 thingDtoSave000 =
+          ThingDtoSave000.builder()
               .thingNbr(Long.valueOf(i))
               .comments(thingComments)
               .parts(thingParts)
               .eventKind(KindOfEvent.CREATED.name())
               .build();
 
-      topicSendListen.sendThingDto(thingDtoSave);
-    }
-
-    try {
-      Thread.sleep(5000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
+      cbMap.get(thingDtoSave000.getClass()).perform(thingDtoSave000);
     }
   }
 }

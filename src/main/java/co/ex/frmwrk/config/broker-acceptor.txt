@@ -1,3 +1,4 @@
-Artemis 2.20.0
-This sets up multicast://, anycast:// in TopicSendListen
+Artemis
+This sets up multicast://, anycast://
+put in activemq-artemis-n.n.n/<broker name>/etc/broker.xml
 <acceptor name="artemis">tcp://0.0.0.0:61616?tcpSendBufferSize=1048576;tcpReceiveBufferSize=1048576;amqpMinLargeMessageSize=102400;anycastPrefix=anycast://;multicastPrefix=multicast://;virtualTopicConsumerWildcards=Consumer.*.%3E%3B2;protocols=CORE,AMQP,STOMP,HORNETQ,MQTT,OPENWIRE;useEpoll=true;amqpCredits=1000;amqpLowCredits=300;amqpDuplicateDetection=true;supportAdvisory=false;suppressInternalManagementObjects=false</acceptor>

@@ -1,7 +1,7 @@
 package co.ex.frmwrk.frmin.rest;
 
-import co.ex.app.cmd.impl.AppThingCommandSave;
 import co.ex.eventer.JsonMapper;
+import co.ex.frmwrk.frmin.cmd.impl.FrmInThingCommand000;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +13,6 @@ public class ThingController {
   private static final Logger LOGGER = LoggerFactory.getLogger(ThingController.class);
 
   private final FrmInThingService frmInThingService;
-  private final FrmInThingToAppThingSaveMapper mapper;
 
   @GetMapping(value = "/")
   public String getthingCommand() {
@@ -23,7 +22,7 @@ public class ThingController {
 
   @PutMapping("/thing")
   public String thingCommand(
-      @RequestBody FrmInThingCommand thingIncoming,
+      @RequestBody FrmInThingCommand000 thingIncoming,
       @RequestHeader(value = "Accept") String version) {
 
     LOGGER.debug(
@@ -34,10 +33,9 @@ public class ThingController {
             .concat(System.lineSeparator())
             .concat(JsonMapper.toJson(thingIncoming)));
 
-    AppThingCommandSave thingCommandSave = mapper.frmInThingToAppThing(thingIncoming);
 
-    frmInThingService.perform(thingCommandSave);
+    frmInThingService.perform(thingIncoming);
 
-    return "Sent Thing command " + thingIncoming.getUuid();
+    return "Sent Thing command " + thingIncoming.getThingNbr();
   }
 }

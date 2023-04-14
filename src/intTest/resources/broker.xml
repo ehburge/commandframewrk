@@ -1,0 +1,15 @@
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:activemq" xsi:schemaLocation="urn:activemq /schema/artemis-server.xsd">
+    <core xmlns="urn:activemq:core">
+
+        <persistence-enabled>false</persistence-enabled>
+
+        <security-enabled>false</security-enabled>
+
+        <acceptors>
+            <acceptor name="in-vm">vm://0</acceptor>
+            <!-- can be here but not necessary for anycast and multicast prefixes to work when vm: !-->
+            <!-- <acceptor name="artemis">vm://0?tcpSendBufferSize=1048576;tcpReceiveBufferSize=1048576;amqpMinLargeMessageSize=102400;anycastPrefix=anycast://;multicastPrefix=multicast://;virtualTopicConsumerWildcards=Consumer.*.%3E%3B2;protocols=CORE,AMQP,STOMP,HORNETQ,MQTT,OPENWIRE;useEpoll=true;amqpCredits=1000;amqpLowCredits=300;amqpDuplicateDetection=true;supportAdvisory=false;suppressInternalManagementObjects=false</acceptor>
+            !-->
+        </acceptors>
+    </core>
+</configuration>

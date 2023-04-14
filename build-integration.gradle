@@ -7,17 +7,31 @@ sourceSets {
 
 configurations {
     intTestImplementation.extendsFrom implementation
+    intTestCompileOnly.extendsFrom compileOnly
     intTestRuntimeOnly.extendsFrom runtimeOnly
+    intAnnotationProcessor.extendsFrom annotationProcessor
+    intTestAnnotationProcessor.extendsFrom testAnnotationProcessor
 }
 
 dependencies {
 
 
-    //intTestImplementation 'org.springframework.boot:spring-boot-starter-artemis'
-//     intTestImplementation 'org.apache.activemq:artemis-server'
-//     intTestImplementation 'org.apache.activemq:artemis-jms-server'
-    intTestImplementation('org.springframework.boot:spring-boot-starter-test')
-    intTestImplementation 'com.h2database:h2:2.1.210'
+    implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+    intAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    intTestAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+
+    annotationProcessor "org.projectlombok:lombok-mapstruct-binding:${lombokMapstructBindingVersion}"
+
+    intTestCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    intAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    intTestCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    intTestAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+    intTestImplementation('org.springframework.boot:spring-boot-starter-test:3.0.5')
+
+    // for EmbeddedActiveMQ
+    intTestImplementation 'org.apache.activemq:artemis-jakarta-server:2.28.0'
+    intTestRuntimeOnly 'com.h2database:h2:2.1.214'
 }
 
 task integrationTest(type: Test) {

@@ -1,13 +1,18 @@
 package co.ex.frmwrk.gateway.msg.impl;
 
-import co.ex.app.cmd.impl.AppThingCommandSave;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import co.ex.app.cmd.impl.AppThingCommand000;
 import co.ex.app.config.AppSetupMapBeans;
 import co.ex.app.driving.cmd.bus.CommandBusDrivingApp;
 import co.ex.app.model.AppThingComments;
 import co.ex.app.model.AppThingPart;
 import co.ex.app.model.AppThingParts;
+import co.ex.frmwrk.frmin.persist_incoming.ThingIncomingThingNbrSeq;
 import co.ex.frmwrk.gateway.persist.ThingEntity;
 import co.ex.frmwrk.gateway.persist.ThingEntityRepository;
+import java.beans.PropertyChangeListener;
+import java.util.*;
 import org.apache.activemq.artemis.core.server.embedded.EmbeddedActiveMQ;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,17 +20,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -41,11 +38,13 @@ public class AppCommandSaveMsgTest {
 
   @Autowired private CommandHandlerDrivenFrmSaveMsgListener commandHandlerDrivenFrmSaveMsgListener;
 
-  @Autowired private EventQueueListener msgInQueueListener;
+  @Autowired private EventQueueListener eventQueueListener;
+
+  @Autowired ThingIncomingThingNbrSeq thingIncomingThingNbrSeq;
 
   @Test
   @Transactional
-  public void testCreateThingCommandVolume() {
+  public void testCreateThingCommandVolume() throws Exception {
 
     commandBusDrivingApp = appSetupMapBeans.getCommandBusDrivingApp();
 
@@ -82,16 +81,17 @@ public class AppCommandSaveMsgTest {
     long strt = System.currentTimeMillis();
 
     for (int i = 0; i < nbrMsgs; i++) {
-      AppThingCommandSave appThingCommandSave =
-          AppThingCommandSave.builder()
-              .uuid(UUID.randomUUID())
-              .thingNbr(null)
+      AppThingCommand000 appThingCommandV1 =
+          AppThingCommand000.builder()
+              .thingNbr(thingIncomingThingNbrSeq.setThingNbrWhenNull(10L))
               .comments(thingComments)
               .parts(thingParts)
               .build();
-      commandBusDrivingApp.perform(appThingCommandSave);
+      commandBusDrivingApp.perform(appThingCommandV1);
       sent++;
     }
+
+    System.out.println("loop".concat(Long.toString(System.currentTimeMillis() - strt)));
 
     synchronized (lock) {
       while (true) {
@@ -105,6 +105,7 @@ public class AppCommandSaveMsgTest {
         }
       }
     }
+    System.out.println("lock ".concat(Long.toString(System.currentTimeMillis() - strt)));
 
     System.out.println("start listing");
     List<ThingEntity> thingEntities = thingRepository.findByThingNbrOrderByDttm(10L);
@@ -115,5 +116,7 @@ public class AppCommandSaveMsgTest {
               System.out.println("*** " + e.toString());
             });
     System.out.println("end listing");
+
+    System.out.println((System.currentTimeMillis() - strt));
   }
 }

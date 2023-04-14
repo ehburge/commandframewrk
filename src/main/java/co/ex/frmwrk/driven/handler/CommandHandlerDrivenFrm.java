@@ -1,10 +1,10 @@
 package co.ex.frmwrk.driven.handler;
 
-import co.ex.frmwrk.cmd.FrmCommandHandler;
+import co.ex.frmwrk.frmin.cmd.FrmInThingCommand;
 import co.ex.frmwrk.gateway.ThingDto;
-import co.ex.frmwrk.gateway.impl.ThingDtoSave;
+import co.ex.frmwrk.gateway.impl.ThingDtoSave000;
 
-public interface CommandHandlerDrivenFrm<Dto extends ThingDto> extends FrmCommandHandler {
+public interface CommandHandlerDrivenFrm {
 
-  void handle(Dto thingDto);
+  void handle(ThingDto thingDto);
 }

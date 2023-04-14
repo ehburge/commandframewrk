@@ -1,7 +1,7 @@
 package co.ex.frmwrk.config;
 
-import jakarta.jms.JMSException;
 import org.apache.activemq.artemis.jms.client.ActiveMQConnectionFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.annotation.EnableJms;
@@ -24,7 +24,7 @@ public class JmsConfig {
   public JmsTemplate jmsTemplate() {
     JmsTemplate template = new JmsTemplate();
     template.setConnectionFactory(singleConnectionFactory());
-    //template.setMessageConverter(messageConverter());
+    template.setMessageConverter(messageConverter());
     return template;
   }
 
@@ -33,7 +33,7 @@ public class JmsConfig {
     JmsTemplate template = new JmsTemplate();
     template.setPubSubDomain(false);
     template.setConnectionFactory(singleConnectionFactory());
-    //template.setMessageConverter(messageConverter());
+    template.setMessageConverter(messageConverter());
     return template;
   }
 
@@ -42,7 +42,7 @@ public class JmsConfig {
     JmsTemplate template = new JmsTemplate();
     template.setPubSubDomain(true);
     template.setConnectionFactory(singleConnectionFactory());
-    //template.setMessageConverter(messageConverter());
+    template.setMessageConverter(messageConverter());
     return template;
   }
 
@@ -62,6 +62,7 @@ public class JmsConfig {
     factory.setConcurrency("1-1");
     factory.setPubSubDomain(true);
     factory.setSubscriptionDurable(false);
+    factory.setMessageConverter(messageConverter());
     return factory;
   }
   // https://github.com/zorro2b/artemis-springboot/blob/main/src/main/java/com/example/amqdemo/AmqdemoApplication.java
@@ -107,19 +108,12 @@ public class JmsConfig {
   //    configurer.configure(factory, connectionFactory);
   //    return factory;
   //  }
-  //  @Value("${activemq.broker-url}")
-  //  private String brokerUrl;
+  @Value("${spring.artemis.broker-url:}")
+  private String brokerUrl;
   // https://codenotfound.com/spring-jms-topic-example.html
   @Bean
   public ActiveMQConnectionFactory senderActiveMQConnectionFactory() {
-    ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory();
-    try {
-      activeMQConnectionFactory.setBrokerURL("tcp://localhost:61616");
-    } catch (JMSException e) {
-      e.printStackTrace();
-    }
-
-    return activeMQConnectionFactory;
+    return new ActiveMQConnectionFactory();
   }
 
   @Bean

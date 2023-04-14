@@ -1,5 +1,5 @@
 plugins {
-	id 'org.springframework.boot' version '3.0.0-SNAPSHOT'
+    id 'org.springframework.boot' version '3.0.0-SNAPSHOT'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java-library'
 }
@@ -13,14 +13,14 @@ java {
 }
 repositories {
     mavenCentral()
-	maven { url 'https://repo.spring.io/milestone' }
-	maven { url 'https://repo.spring.io/snapshot' }
+    maven { url 'https://repo.spring.io/milestone' }
+    maven { url 'https://repo.spring.io/snapshot' }
 }
 
 ext {
-    mapstructVersion = "1.5.+"
-    lombokVersion = "1.18.22"
-    lombokMapstructBindingVersion = "0.2.0"
+    mapstructVersion = '1.5.3.Final'
+    lombokVersion = '1.18.26'
+    lombokMapstructBindingVersion = '0.2.0'
 }
 group 'co.ex.frmwrk'
 version = '0.0.1-SNAPSHOT'
@@ -37,17 +37,20 @@ dependencies {
     implementation project(':framewrk-eventer-mapping')
     implementation project(':eventer')
 
-    implementation 'org.springframework.boot:spring-boot-starter-artemis:3.0.0-M4'
+    implementation 'org.springframework.boot:spring-boot-starter-artemis:3.0.5'
     //implementation 'org.messaginghub:pooled-jms'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:+'
-    implementation("org.springframework.boot:spring-boot-starter-web:+") {
-        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
-    }
-    implementation "org.springframework.boot:spring-boot-starter-jetty:+"
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.0.5'
+    implementation('org.springframework.boot:spring-boot-starter-web:3.0.5')
+//            {
+//        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+//    }
+//    implementation('org.springframework.boot:spring-boot-starter-jetty:3.0.5')
+//            {
+//        exclude group: 'org.eclipse.jetty', module: 'jetty-server'
+//    }
+//    implementation 'org.eclipse.jetty:jetty-server:12.0.0.beta0'
 
-    runtimeOnly 'org.postgresql:postgresql:42.3.6'
-
-    //testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    runtimeOnly 'org.postgresql:postgresql:42.5.4'
 
     implementation "org.mapstruct:mapstruct:${mapstructVersion}"
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
@@ -57,9 +60,11 @@ dependencies {
 
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
 
 }
 

@@ -5,20 +5,18 @@ import co.ex.frmwrk.driven.handler.CommandHandlerDrivenFrm;
 import co.ex.frmwrk.gateway.ThingDto;
 import co.ex.frmwrk.gateway.msg.CommandHandlerDrivenFrmSaveMsg;
 import co.ex.frmwrk.gateway.ports.bus.DtoSenderBus;
-import co.ex.frmwrk.gateway.topic.impl.TopicSendListen;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import java.util.Map;
 
 @RequiredArgsConstructor
 @Component
 public class CommandHandlerDrivenFrmSaveMsgImpl
     implements CommandHandlerDrivenFrm, CommandHandlerDrivenFrmSaveMsg {
 
-  private final TopicSendListen topicSendListen;
+  private final Map<Class<?>, DtoSenderBus> cbMap;
 
   Logger LOGGER = LoggerFactory.getLogger(CommandHandlerDrivenFrmSaveMsgImpl.class);
 
@@ -28,6 +26,6 @@ public class CommandHandlerDrivenFrmSaveMsgImpl
         "CommandHandlerDrivenFrmSaveMsgImpl.handle()".concat(System.lineSeparator()),
         JsonMapper.toJson(thingDto));
 
-    topicSendListen.sendThingDto(thingDto);
+    cbMap.get(thingDto.getClass()).perform(thingDto);
   }
 }

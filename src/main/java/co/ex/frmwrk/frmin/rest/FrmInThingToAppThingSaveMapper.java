@@ -1,6 +1,7 @@
 package co.ex.frmwrk.frmin.rest;
 
-import co.ex.app.cmd.impl.AppThingCommandSave;
+import co.ex.app.cmd.impl.AppThingCommand000;
+import co.ex.frmwrk.frmin.cmd.impl.FrmInThingCommand000;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
@@ -10,5 +11,5 @@ import org.mapstruct.MappingConstants;
     injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface FrmInThingToAppThingSaveMapper {
 
-  AppThingCommandSave frmInThingToAppThing(FrmInThingCommand frmInThingCommand);
+  AppThingCommand000 frmInThingToAppThing(FrmInThingCommand000 frmInThingCommand);
 }

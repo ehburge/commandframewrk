@@ -1,8 +1,8 @@
 package co.ex.frmwrk.frmin.rest;
 
-import co.ex.app.cmd.AppCommand;
+import co.ex.frmwrk.frmin.cmd.FrmInThingCommand;
 
 public interface FrmInThingService {
 
-  void perform(AppCommand appCommand);
+  void perform(FrmInThingCommand appCommand);
 }
