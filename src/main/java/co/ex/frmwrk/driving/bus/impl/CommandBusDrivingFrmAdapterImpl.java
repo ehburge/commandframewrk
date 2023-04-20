@@ -21,6 +21,6 @@ public class CommandBusDrivingFrmAdapterImpl implements CommandBusDrivingFrmAdap
   @Override
   public void perform(FrmInThingCommand frmInThingCommand) {
     CommandHandlerDrivingFrmAdapter drivenApp = commandHandlerDrivingFrmMap.get(frmInThingCommand.getClass());
-    commandHandlerDrivingFrmMap.get(FrmInThingCommand.class).handle(frmInThingCommand);
+    commandHandlerDrivingFrmMap.get(frmInThingCommand.getClass()).handle(frmInThingCommand);
   }
 }

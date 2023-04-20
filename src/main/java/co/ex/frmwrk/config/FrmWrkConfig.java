@@ -1,8 +1,13 @@
 package co.ex.frmwrk.config;
 
+import co.ex.app.cmd.AppCommand;
+import co.ex.app.cmd.AppCommandBus;
 import co.ex.app.cmd.impl.AppThingCommand000;
+import co.ex.app.config.AppSetupMapBeans;
 import co.ex.app.driven.cmd.bus.CommandBusDrivenFrm;
+import co.ex.app.driving.cmd.bus.CommandBusDrivingApp;
 import co.ex.frmwrk.driven.handler.CommandHandlerDrivenFrm;
+import co.ex.frmwrk.driving.bus.CommandBusDrivingFrmAdapter;
 import co.ex.frmwrk.driving.handler.CommandHandlerDrivingFrmAdapter;
 import co.ex.frmwrk.frmin.cmd.impl.FrmInThingCommand000;
 import co.ex.frmwrk.gateway.impl.ThingDtoSave000;
@@ -10,8 +15,8 @@ import co.ex.frmwrk.gateway.impl.ThingDtoSave100;
 import co.ex.frmwrk.gateway.ports.bus.DtoSenderBus;
 import co.ex.frmwrk.gateway.ports.bus.impl.DtoSenderBusImpl;
 import co.ex.frmwrk.gateway.ports.handler.DtoSenderHandler;
-import co.ex.frmwrk.gateway.ports.handler.impl.DtoSenderHandler100Impl;
 import co.ex.frmwrk.gateway.ports.handler.impl.DtoSenderHandler000Impl;
+import co.ex.frmwrk.gateway.ports.handler.impl.DtoSenderHandler100Impl;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.BeanFactory;
@@ -23,8 +28,20 @@ public class FrmWrkConfig {
 
   private final BeanFactory beanFactory;
 
-  public FrmWrkConfig(BeanFactory beanFactory) {
+  private final AppSetupMapBeans appSetupMapBeans;
+
+  public FrmWrkConfig(BeanFactory beanFactory, AppSetupMapBeans appSetupMapBeans) {
     this.beanFactory = beanFactory;
+    this.appSetupMapBeans = appSetupMapBeans;
+  }
+
+  @Bean
+  public Map<Class<?>, CommandBusDrivingFrmAdapter> makeCommandBusDrivingFrmAdapterMap(
+      CommandBusDrivingFrmAdapter commandBusDrivingFrmAdapter) {
+
+    Map<Class<?>, CommandBusDrivingFrmAdapter> commandBusDrivingFrmAdapterMap = new HashMap<>();
+    commandBusDrivingFrmAdapterMap.put(FrmInThingCommand000.class, commandBusDrivingFrmAdapter);
+    return commandBusDrivingFrmAdapterMap;
   }
 
   @Bean
@@ -34,6 +51,11 @@ public class FrmWrkConfig {
     Map<Class<?>, CommandHandlerDrivingFrmAdapter> handlerDrivingFrmAdapterMap = new HashMap<>();
     handlerDrivingFrmAdapterMap.put(FrmInThingCommand000.class, handlerDrivingFrmAdapter);
     return handlerDrivingFrmAdapterMap;
+  }
+
+  @Bean
+  public Map<Class<? extends AppCommand>, CommandBusDrivingApp> getAppCommandBusMap() {
+    return appSetupMapBeans.getCommandBusDrivingAppMap();
   }
 
   @Bean
