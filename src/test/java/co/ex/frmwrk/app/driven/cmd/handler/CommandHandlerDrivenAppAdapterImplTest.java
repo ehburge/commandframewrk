@@ -1,5 +1,6 @@
 package co.ex.frmwrk.app.driven.cmd.handler;
 
+import co.ex.app.cmd.AppCommand;
 import co.ex.app.cmd.impl.AppThingCommand000;
 import co.ex.app.config.AppMapBeans;
 import co.ex.app.config.AppSetupMapBeans;
@@ -73,7 +74,7 @@ class CommandHandlerDrivenAppAdapterImplTest {
         new CommandHandlerDrivenFrmTesting();
     chDrivenFrmMap.put(ThingDtoSave000.class, commandHandlerDrivenFrmTesting);
 
-    Map<Class<?>, CommandBusDrivenFrm> cbDrivenFrmMap = new HashMap<>();
+    Map<Class<? extends AppCommand>, CommandBusDrivenFrm> cbDrivenFrmMap = new HashMap<>();
     AppThingCommandSaveThingDtoSaveMapper saveThingDtoSaveMapper =
         new AppThingCommandSaveThingDtoSaveMapperImpl();
 

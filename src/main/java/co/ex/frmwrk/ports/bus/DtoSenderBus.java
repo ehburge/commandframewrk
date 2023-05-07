@@ -1,4 +1,4 @@
-package co.ex.frmwrk.gateway.ports.bus;
+package co.ex.frmwrk.ports.bus;
 
 import co.ex.frmwrk.gateway.ThingDto;
 
