@@ -27,7 +27,7 @@ dependencies {
     intTestCompileOnly "org.projectlombok:lombok:${lombokVersion}"
     intTestAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
-    intTestImplementation('org.springframework.boot:spring-boot-starter-test:3.0.5')
+    intTestImplementation('org.springframework.boot:spring-boot-starter-test')
 
     // for EmbeddedActiveMQ
     intTestImplementation 'org.apache.activemq:artemis-jakarta-server:2.28.0'
