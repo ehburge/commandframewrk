@@ -1,6 +1,7 @@
 package co.ex.frmwrk.frmin.rest;
 
-import co.ex.eventer.JsonMapper;
+
+import co.ex.app.model.JsonMapper;
 import co.ex.frmwrk.frmin.cmd.impl.FrmInThingCommand000;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;

@@ -35,7 +35,6 @@ dependencies {
     implementation project(':thingapp')
     implementation project(':thingdomain')
     implementation project(':framewrk-eventer-mapping')
-    implementation project(':eventer')
 
     implementation 'org.springframework.boot:spring-boot-starter-artemis:3.0.5'
     //implementation 'org.messaginghub:pooled-jms'

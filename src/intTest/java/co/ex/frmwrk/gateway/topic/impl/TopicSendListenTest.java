@@ -1,6 +1,6 @@
 package co.ex.frmwrk.gateway.topic.impl;
 
-import co.ex.eventer.event.KindOfEvent;
+import co.ex.share.event.KindOfEvent;
 import co.ex.frmwrk.gateway.impl.ThingDtoComments;
 import co.ex.frmwrk.gateway.impl.ThingDtoPart;
 import co.ex.frmwrk.gateway.impl.ThingDtoParts;

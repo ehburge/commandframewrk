@@ -1,6 +1,7 @@
 package co.ex.frmwrk.frmin.rest.impl;
 
-import co.ex.eventer.JsonMapper;
+
+import co.ex.app.model.JsonMapper;
 import co.ex.frmwrk.driving.bus.CommandBusDrivingFrmAdapter;
 import co.ex.frmwrk.driving.handler.CommandHandlerDrivingFrmAdapter;
 import co.ex.frmwrk.frmin.cmd.FrmInThingCommand;

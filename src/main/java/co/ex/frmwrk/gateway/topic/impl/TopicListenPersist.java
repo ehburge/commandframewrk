@@ -1,6 +1,6 @@
 package co.ex.frmwrk.gateway.topic.impl;
 
-import co.ex.eventer.JsonMapper;
+import co.ex.frmwrk.config.JsonMapper;
 import co.ex.frmwrk.config.JmsConfig;
 import co.ex.frmwrk.gateway.impl.ThingDtoSave000;
 import co.ex.frmwrk.gateway.persist.impl.PersistThingDto;

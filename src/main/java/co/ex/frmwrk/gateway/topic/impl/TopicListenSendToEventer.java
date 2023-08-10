@@ -1,7 +1,6 @@
 package co.ex.frmwrk.gateway.topic.impl;
 
 import co.ex.app.model.JsonMapper;
-import co.ex.eventer.command.Constants;
 import co.ex.framewrk.eventer.model.impl000.ThingDtoSaveEvent000;
 import co.ex.frmwrk.config.JmsConfig;
 import co.ex.frmwrk.gateway.impl.ThingDtoSave000;
@@ -17,6 +16,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @Component
 public class TopicListenSendToEventer {
+  private static final String CLASS_NAME_STRING = "className";
   private static final Logger LOGGER = LoggerFactory.getLogger(TopicListenSendToEventer.class);
 
   @Qualifier("jmsTemplateAnycast")
@@ -42,7 +42,7 @@ public class TopicListenSendToEventer {
         "anycast://".concat(JmsConfig.EVENT_Q),
         thingDtoEvent,
         m -> {
-          m.setStringProperty(Constants.CLASS_NAME, thingDtoEvent.getClass().getName());
+          m.setStringProperty(CLASS_NAME_STRING, thingDtoEvent.getClass().getName());
           return m;
         });
   }

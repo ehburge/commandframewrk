@@ -12,6 +12,5 @@ include ':thingdomain'
 project(':thingdomain').projectDir = new File(settingsDir, '../thingdomain')
 include ':framewrk-eventer-mapping'
 project(':framewrk-eventer-mapping').projectDir = new File(settingsDir, '../framewrk-eventer-mapping')
-include ':eventer'
-project(':eventer').projectDir = new File(settingsDir, '../eventer')
+
 

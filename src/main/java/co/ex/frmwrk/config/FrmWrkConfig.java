@@ -89,8 +89,8 @@ public class FrmWrkConfig {
   }
 
   @Bean
-  public Map<Class<?>, DtoSenderHandler> makeDtoSenderHandlerMap() {
-    Map<Class<?>, DtoSenderHandler> chMap = new HashMap<>();
+  public Map<Class<? extends ThingDto>, DtoSenderHandler> makeDtoSenderHandlerMap() {
+    Map<Class<? extends ThingDto>, DtoSenderHandler> chMap = new HashMap<>();
     chMap.put(ThingDtoSave000.class, beanFactory.getBean(DtoSenderHandler000Impl.class));
     chMap.put(ThingDtoSave100.class, beanFactory.getBean(DtoSenderHandler100Impl.class));
 
