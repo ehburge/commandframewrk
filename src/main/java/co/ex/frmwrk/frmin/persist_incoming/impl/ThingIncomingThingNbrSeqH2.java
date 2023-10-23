@@ -1,6 +1,5 @@
 package co.ex.frmwrk.frmin.persist_incoming.impl;
 
-import co.ex.frmwrk.gateway.impl.ThingDtoSave000;
 import co.ex.frmwrk.frmin.persist_incoming.ThingIncomingThingNbrSeq;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.support.incrementer.H2SequenceMaxValueIncrementer;import org.springframework.stereotype.Component;import javax.sql.DataSource;

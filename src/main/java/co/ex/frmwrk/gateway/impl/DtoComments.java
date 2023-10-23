@@ -13,7 +13,7 @@ import java.util.List;
 @Getter
 @Jacksonized
 @Builder(access = AccessLevel.PUBLIC)
-public class ThingDtoComments {
+public class DtoComments {
   @JsonProperty("commants")
   private List<String> comments;
 }

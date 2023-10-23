@@ -1,6 +1,6 @@
 package co.ex.frmwrk.gateway.impl;
 
-import co.ex.frmwrk.gateway.ThingDto;
+import co.ex.frmwrk.gateway.Dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,13 +13,18 @@ import java.util.UUID;
 @Getter
 @Jacksonized
 @Builder
-public class ThingDtoSave100 implements ThingDto {
+public class DtoCommandSave implements Dto {
 
   private UUID uuid;
-  @Setter private Long thingNbr;
+  @Setter private Long id;
   private DtoRole role;
   private String eventKind;
   private String promoCodes;
-  private ThingDtoComments comments;
-  private ThingDtoParts parts;
+  private DtoComments comments;
+  private DtoParts parts;
+
+  @Override
+  public Long getId() {
+    return id;
+  }
 }

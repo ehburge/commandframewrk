@@ -2,7 +2,7 @@ package co.ex.frmwrk.driving.bus.impl;
 
 import co.ex.frmwrk.driving.bus.CommandBusDrivingFrmAdapter;
 import co.ex.frmwrk.driving.handler.CommandHandlerDrivingFrmAdapter;
-import co.ex.frmwrk.frmin.cmd.FrmInThingCommand;
+import co.ex.frmwrk.frmin.cmd.FrmInCommand;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,7 +19,7 @@ public class CommandBusDrivingFrmAdapterImpl implements CommandBusDrivingFrmAdap
   }
 
   @Override
-  public void perform(FrmInThingCommand frmInThingCommand) {
-    commandHandlerDrivingFrmMap.get(frmInThingCommand.getClass()).handle(frmInThingCommand);
+  public void perform(FrmInCommand frmInCommand) {
+    commandHandlerDrivingFrmMap.get(frmInCommand.getClass()).handle(frmInCommand);
   }
 }

@@ -1,6 +1,7 @@
 package co.ex.frmwrk.app.driven.cmd.handler;
 
 import co.ex.app.cmd.AppCommand;
+import co.ex.app.cmd.impl.AppCommandSave;
 import co.ex.app.cmd.impl.AppThingCommand000;
 import co.ex.app.config.AppMapBeans;
 import co.ex.app.config.AppSetupMapBeans;
@@ -12,8 +13,8 @@ import co.ex.app.model.AppThingParts;
 import co.ex.domain.config.SetupMapBeans;
 import co.ex.frmwrk.driven.bus.impl.CommandBusDrivenFrmAdapterImpl;
 import co.ex.frmwrk.driven.handler.CommandHandlerDrivenFrm;
-import co.ex.frmwrk.gateway.ThingDto;
-import co.ex.frmwrk.gateway.impl.ThingDtoSave000;
+import co.ex.frmwrk.gateway.Dto;
+import co.ex.frmwrk.gateway.impl.DtoCommandSave;
 import co.ex.frmwrk.mapping.AppThingCommandSaveThingDtoSaveMapper;
 import co.ex.frmwrk.mapping.AppThingCommandSaveThingDtoSaveMapperImpl;
 import org.junit.jupiter.api.AfterEach;
@@ -72,7 +73,7 @@ class CommandHandlerDrivenAppAdapterImplTest {
     Map<Class<?>, CommandHandlerDrivenFrm> chDrivenFrmMap = new HashMap<>();
     CommandHandlerDrivenFrmTesting commandHandlerDrivenFrmTesting =
         new CommandHandlerDrivenFrmTesting();
-    chDrivenFrmMap.put(ThingDtoSave000.class, commandHandlerDrivenFrmTesting);
+    chDrivenFrmMap.put(DtoCommandSave.class, commandHandlerDrivenFrmTesting);
 
     Map<Class<? extends AppCommand>, CommandBusDrivenFrm> cbDrivenFrmMap = new HashMap<>();
     AppThingCommandSaveThingDtoSaveMapper saveThingDtoSaveMapper =
@@ -84,11 +85,11 @@ class CommandHandlerDrivenAppAdapterImplTest {
 
     appSetupMapBeans.putCommandBusDrivenFrm(cbDrivenFrmMap);
 
-    AppThingCommand000 appThingCommandV1 =
-        AppThingCommand000.builder().thingNbr(1L).comments(comments).parts(appParts).build();
+    AppCommandSave appCommandSave =
+            AppCommandSave.builder().thingNbr(1L).comments(comments).parts(appParts).build();
 
     CommandBusDrivingApp commandBusDrivingApp = appSetupMapBeans.getCommandBusDrivingApp();
-    commandBusDrivingApp.perform(appThingCommandV1);
+    commandBusDrivingApp.perform(appCommandSave);
 
     assertEquals(1, commandHandlerDrivenFrmTesting.getThingDtoSave().getThingNbr());
     assertEquals(
@@ -98,15 +99,15 @@ class CommandHandlerDrivenAppAdapterImplTest {
 
   class CommandHandlerDrivenFrmTesting implements CommandHandlerDrivenFrm {
 
-    private ThingDtoSave000 thingDtoSave000;
+    private DtoCommandSave dtoCommandSave;
 
     @Override
-    public void handle(ThingDto thingDto) {
-      thingDtoSave000 = (ThingDtoSave000) thingDto;
+    public void handle(Dto dto) {
+      dtoCommandSave = (DtoCommandSave) dto;
     }
 
-    public ThingDtoSave000 getThingDtoSave() {
-      return thingDtoSave000;
+    public DtoCommandSave getThingDtoSave() {
+      return dtoCommandSave;
     }
   }
 }

@@ -1,18 +1,17 @@
 package co.ex.frmwrk.config;
 
 import co.ex.app.cmd.AppCommand;
-import co.ex.app.cmd.impl.AppThingCommand000;
+import co.ex.app.cmd.impl.AppCommandSave;
 import co.ex.app.config.AppSetupMapBeans;
 import co.ex.app.driven.cmd.bus.CommandBusDrivenFrm;
 import co.ex.app.driving.cmd.bus.CommandBusDrivingApp;
 import co.ex.frmwrk.driven.handler.CommandHandlerDrivenFrm;
 import co.ex.frmwrk.driving.bus.CommandBusDrivingFrmAdapter;
 import co.ex.frmwrk.driving.handler.CommandHandlerDrivingFrmAdapter;
-import co.ex.frmwrk.frmin.cmd.FrmInThingCommand;
-import co.ex.frmwrk.frmin.cmd.impl.FrmInThingCommand000;
-import co.ex.frmwrk.gateway.ThingDto;
-import co.ex.frmwrk.gateway.impl.ThingDtoSave000;
-import co.ex.frmwrk.gateway.impl.ThingDtoSave100;
+import co.ex.frmwrk.frmin.cmd.FrmInCommand;
+import co.ex.frmwrk.frmin.cmd.impl.FrmInCommandSave;
+import co.ex.frmwrk.gateway.Dto;
+import co.ex.frmwrk.gateway.impl.DtoCommandSave;
 import co.ex.frmwrk.send.bus.DtoSenderBus;
 import co.ex.frmwrk.send.bus.impl.DtoSenderBusImpl;
 import co.ex.frmwrk.send.handler.DtoSenderHandler;
@@ -41,16 +40,16 @@ public class FrmWrkConfig {
       CommandBusDrivingFrmAdapter commandBusDrivingFrmAdapter) {
 
     Map<Class<?>, CommandBusDrivingFrmAdapter> commandBusDrivingFrmAdapterMap = new HashMap<>();
-    commandBusDrivingFrmAdapterMap.put(FrmInThingCommand000.class, commandBusDrivingFrmAdapter);
+    commandBusDrivingFrmAdapterMap.put(FrmInCommandSave.class, commandBusDrivingFrmAdapter);
     return commandBusDrivingFrmAdapterMap;
   }
 
   @Bean
-  public Map<Class<? extends FrmInThingCommand>, CommandHandlerDrivingFrmAdapter>
+  public Map<Class<? extends FrmInCommand>, CommandHandlerDrivingFrmAdapter>
       makeCommandHandlerDrivingFrmMap(CommandHandlerDrivingFrmAdapter handlerDrivingFrmAdapter) {
 
-    Map<Class<? extends FrmInThingCommand>, CommandHandlerDrivingFrmAdapter> handlerDrivingFrmAdapterMap = new HashMap<>();
-    handlerDrivingFrmAdapterMap.put(FrmInThingCommand000.class, handlerDrivingFrmAdapter);
+    Map<Class<? extends FrmInCommand>, CommandHandlerDrivingFrmAdapter> handlerDrivingFrmAdapterMap = new HashMap<>();
+    handlerDrivingFrmAdapterMap.put(FrmInCommandSave.class, handlerDrivingFrmAdapter);
     return handlerDrivingFrmAdapterMap;
   }
 
@@ -64,7 +63,7 @@ public class FrmWrkConfig {
       CommandBusDrivenFrm commandBusDrivenFrm) {
 
     Map<Class<? extends AppCommand>, CommandBusDrivenFrm> cbDrivenFrm_map = new HashMap<>();
-    cbDrivenFrm_map.put(AppThingCommand000.class, commandBusDrivenFrm);
+    cbDrivenFrm_map.put(AppCommandSave.class, commandBusDrivenFrm);
 
     return cbDrivenFrm_map;
   }
@@ -74,25 +73,25 @@ public class FrmWrkConfig {
       CommandHandlerDrivenFrm commandHandlerDrivenFrm) {
 
     Map<Class<?>, CommandHandlerDrivenFrm> chDrivenFrm_map = new HashMap<>();
-    chDrivenFrm_map.put(ThingDtoSave000.class, commandHandlerDrivenFrm);
+    chDrivenFrm_map.put(DtoCommandSave.class, commandHandlerDrivenFrm);
 
     return chDrivenFrm_map;
   }
 
   @Bean
-  public Map<Class<? extends ThingDto>, DtoSenderBus> makeDtoSenderBusMap() {
-    Map<Class<? extends ThingDto>, DtoSenderBus> cbMap = new HashMap<>();
+  public Map<Class<? extends Dto>, DtoSenderBus> makeDtoSenderBusMap() {
+    Map<Class<? extends Dto>, DtoSenderBus> cbMap = new HashMap<>();
     DtoSenderBus dtoSenderBus = beanFactory.getBean(DtoSenderBusImpl.class);
-    cbMap.put(ThingDtoSave000.class, dtoSenderBus);
+    cbMap.put(DtoCommandSave.class, dtoSenderBus);
 
     return cbMap;
   }
 
   @Bean
-  public Map<Class<? extends ThingDto>, DtoSenderHandler> makeDtoSenderHandlerMap() {
-    Map<Class<? extends ThingDto>, DtoSenderHandler> chMap = new HashMap<>();
-    chMap.put(ThingDtoSave000.class, beanFactory.getBean(DtoSenderHandler000Impl.class));
-    chMap.put(ThingDtoSave100.class, beanFactory.getBean(DtoSenderHandler100Impl.class));
+  public Map<Class<? extends Dto>, DtoSenderHandler> makeDtoSenderHandlerMap() {
+    Map<Class<? extends Dto>, DtoSenderHandler> chMap = new HashMap<>();
+    chMap.put(DtoCommandSave.class, beanFactory.getBean(DtoSenderHandler000Impl.class));
+    chMap.put(DtoCommandSave.class, beanFactory.getBean(DtoSenderHandler100Impl.class));
 
     return chMap;
   }

@@ -12,10 +12,10 @@ import java.util.List;
 @Getter
 @Jacksonized
 @Builder
-public class ThingDtoParts {
+public class DtoParts {
 
   private String partsCompatibility;
 
   @JsonProperty("parts")
-  private List<ThingDtoPart> parts;
+  private List<DtoPart> parts;
 }

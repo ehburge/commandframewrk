@@ -32,8 +32,8 @@ apply from: 'build-integration.gradle'
 
 dependencies {
 
-    implementation project(':thingapp')
-    implementation project(':thingdomain')
+    implementation project(':commandapp')
+    implementation project(':commanddomain')
     implementation project(':framewrk-eventer-mapping')
 
     implementation "org.springframework.boot:spring-boot-starter-artemis"

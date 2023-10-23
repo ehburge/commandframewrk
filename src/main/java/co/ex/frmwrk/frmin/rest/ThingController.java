@@ -2,7 +2,7 @@ package co.ex.frmwrk.frmin.rest;
 
 
 import co.ex.app.model.JsonMapper;
-import co.ex.frmwrk.frmin.cmd.impl.FrmInThingCommand000;
+import co.ex.frmwrk.frmin.cmd.impl.FrmInCommandSave;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +23,7 @@ public class ThingController {
 
   @PutMapping("/thing")
   public String thingCommand(
-      @RequestBody FrmInThingCommand000 thingIncoming,
+      @RequestBody FrmInCommandSave thingIncoming,
       @RequestHeader(value = "Accept") String version) {
 
     LOGGER.debug(

@@ -1,6 +1,6 @@
 package co.ex.frmwrk.send.bus.impl;
 
-import co.ex.frmwrk.gateway.ThingDto;
+import co.ex.frmwrk.gateway.Dto;
 import co.ex.frmwrk.send.bus.DtoSenderBus;
 import co.ex.frmwrk.send.handler.DtoSenderHandler;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ public class DtoSenderBusImpl implements DtoSenderBus {
     private final Map<Class<?>, DtoSenderHandler> chMap;
 
     @Override
-    public void perform(ThingDto thingDto) {
-        chMap.get(thingDto.getClass()).handle(thingDto);
+    public void perform(Dto dto) {
+        chMap.get(dto.getClass()).handle(dto);
     }
 }

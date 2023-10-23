@@ -1,7 +1,7 @@
 package co.ex.frmwrk.gateway.msg.impl;
 
 import co.ex.frmwrk.config.JmsConfig;
-import co.ex.frmwrk.gateway.impl.ThingDtoSave000;
+import co.ex.frmwrk.gateway.impl.DtoCommandSave;
 import co.ex.frmwrk.gateway.persist.impl.PersistThingDto;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -48,7 +48,7 @@ public class CommandHandlerDrivenFrmSaveMsgListener {
 
   @JmsListener(destination = JmsConfig.SEND_LISTEN_TOPIC)
   public void listen(
-      @Payload ThingDtoSave000 thingDtoSave000,
+      @Payload DtoCommandSave dtoCommandSave,
       @Headers MessageHeaders messageHeaders,
       Message message) {
     // ThingDtoSave thingDtoSave = JsonMapper.fromJson(str_thingDtoSave, ThingDtoSave.class);

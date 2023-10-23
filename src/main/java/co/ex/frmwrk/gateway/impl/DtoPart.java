@@ -10,7 +10,7 @@ import lombok.extern.jackson.Jacksonized;
 @Getter
 @Jacksonized
 @Builder(access = AccessLevel.PUBLIC)
-public class ThingDtoPart {
+public class DtoPart {
 
   private final String partId;
   private final int qty;

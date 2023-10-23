@@ -1,11 +1,12 @@
 package co.ex.frmwrk.frmin.rest.impl;
 
 import co.ex.eventer.JsonMapper;
-import co.ex.frmwrk.frmin.cmd.impl.FrmInThingCommand000;
+import co.ex.frmwrk.config.JsonMapper;
+import co.ex.frmwrk.frmin.cmd.impl.FrmInCommandSave;
 import co.ex.frmwrk.gateway.impl.DtoRole;
-import co.ex.frmwrk.gateway.impl.ThingDtoComments;
-import co.ex.frmwrk.gateway.impl.ThingDtoPart;
-import co.ex.frmwrk.gateway.impl.ThingDtoParts;
+import co.ex.frmwrk.gateway.impl.DtoComments;
+import co.ex.frmwrk.gateway.impl.DtoPart;
+import co.ex.frmwrk.gateway.impl.DtoParts;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,13 +25,13 @@ class FrmInThingServiceImplTest {
   @Test
   void perform() {
 
-    ThingDtoComments comments =
-        ThingDtoComments.builder().comments(Arrays.asList("Larry", "Moe", "Curly")).build();
-    ThingDtoParts evThingParts = makeThingParts();
+    DtoComments comments =
+        DtoComments.builder().comments(Arrays.asList("Larry", "Moe", "Curly")).build();
+    DtoParts evThingParts = makeThingParts();
     int evPartsSize = evThingParts.getParts().size();
     DtoRole evThingRole = new DtoRole(1L, "grpId", "loyalty");
-    FrmInThingCommand000 commandSave =
-        FrmInThingCommand000.builder()
+    FrmInCommandSave commandSave =
+        FrmInCommandSave.builder()
             .thingNbr(1L)
             .role(evThingRole)
             .eventKind("CREATED")
@@ -40,19 +41,19 @@ class FrmInThingServiceImplTest {
     System.out.println(JsonMapper.toJson(commandSave));
   }
 
-  ThingDtoParts makeThingParts() {
-    ThingDtoPart thingPart1 =
-        ThingDtoPart.builder().partId("id1-part").qty(2).lineAction("ADDED").build();
-    ThingDtoPart thingPart2 =
-        ThingDtoPart.builder().partId("id2-part").qty(3).lineAction("ADDED").build();
-    ThingDtoPart thingPart3 =
-        ThingDtoPart.builder().partId("id3-part").qty(2).lineAction("ADDED").build();
+  DtoParts makeThingParts() {
+    DtoPart thingPart1 =
+        DtoPart.builder().partId("id1-part").qty(2).lineAction("ADDED").build();
+    DtoPart thingPart2 =
+        DtoPart.builder().partId("id2-part").qty(3).lineAction("ADDED").build();
+    DtoPart thingPart3 =
+        DtoPart.builder().partId("id3-part").qty(2).lineAction("ADDED").build();
 
-    List<ThingDtoPart> thingParts = new ArrayList<>();
+    List<DtoPart> thingParts = new ArrayList<>();
     thingParts.add(thingPart1);
     thingParts.add(thingPart2);
     thingParts.add(thingPart3);
 
-    return ThingDtoParts.builder().parts(thingParts).build();
+    return DtoParts.builder().parts(thingParts).build();
   }
 }

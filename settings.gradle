@@ -5,11 +5,11 @@ pluginManagement {
 		gradlePluginPortal()
 	}
 }
-rootProject.name = 'thingfrmwrkapp'
-include ':thingapp'
-project(':thingapp').projectDir = new File(settingsDir, '../thingapp')
-include ':thingdomain'
-project(':thingdomain').projectDir = new File(settingsDir, '../thingdomain')
+rootProject.name = 'commandfrmwrk'
+include ':commandapp'
+project(':commandapp').projectDir = new File(settingsDir, '../commandapp')
+include ':commanddomain'
+project(':commanddomain').projectDir = new File(settingsDir, '../commanddomain')
 include ':framewrk-eventer-mapping'
 project(':framewrk-eventer-mapping').projectDir = new File(settingsDir, '../framewrk-eventer-mapping')
 
