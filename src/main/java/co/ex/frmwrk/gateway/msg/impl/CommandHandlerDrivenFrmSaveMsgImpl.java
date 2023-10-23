@@ -4,7 +4,7 @@ import co.ex.app.model.JsonMapper;
 import co.ex.frmwrk.driven.handler.CommandHandlerDrivenFrm;
 import co.ex.frmwrk.gateway.ThingDto;
 import co.ex.frmwrk.gateway.msg.CommandHandlerDrivenFrmSaveMsg;
-import co.ex.frmwrk.ports.bus.DtoSenderBus;
+import co.ex.frmwrk.send.bus.DtoSenderBus;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;

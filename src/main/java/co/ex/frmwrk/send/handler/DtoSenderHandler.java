@@ -1,4 +1,4 @@
-package co.ex.frmwrk.ports.handler;
+package co.ex.frmwrk.send.handler;
 
 import co.ex.frmwrk.gateway.ThingDto;
 

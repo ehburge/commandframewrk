@@ -1,7 +1,7 @@
-package co.ex.frmwrk.ports.handler.impl;
+package co.ex.frmwrk.send.handler.impl;
 
 import co.ex.frmwrk.gateway.ThingDto;
-import co.ex.frmwrk.ports.handler.DtoSenderHandler;
+import co.ex.frmwrk.send.handler.DtoSenderHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

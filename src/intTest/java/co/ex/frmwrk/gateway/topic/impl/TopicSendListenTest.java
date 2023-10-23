@@ -6,7 +6,7 @@ import co.ex.frmwrk.gateway.impl.ThingDtoPart;
 import co.ex.frmwrk.gateway.impl.ThingDtoParts;
 import co.ex.frmwrk.gateway.impl.ThingDtoSave000;
 import co.ex.frmwrk.gateway.msg.impl.EventQueueListener;
-import co.ex.frmwrk.ports.bus.DtoSenderBus;
+import co.ex.frmwrk.send.bus.DtoSenderBus;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

@@ -1,11 +1,11 @@
-package co.ex.frmwrk.ports.handler.impl;
+package co.ex.frmwrk.send.handler.impl;
 
 import co.ex.app.model.JsonMapper;
 import co.ex.frmwrk.config.JmsConfig;
 import co.ex.frmwrk.frmin.persist_incoming.ThingIncomingThingNbrSeq;
 import co.ex.frmwrk.gateway.ThingDto;
 import co.ex.frmwrk.gateway.impl.ThingDtoSave000;
-import co.ex.frmwrk.ports.handler.DtoSenderHandler;
+import co.ex.frmwrk.send.handler.DtoSenderHandler;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
