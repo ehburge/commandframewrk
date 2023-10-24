@@ -2,7 +2,7 @@ package co.ex.frmwrk.gateway.msg.impl;
 
 import co.ex.frmwrk.config.JmsConfig;
 import co.ex.frmwrk.gateway.impl.DtoCommandSave;
-import co.ex.frmwrk.gateway.persist.impl.PersistThingDto;
+import co.ex.frmwrk.gateway.persist.impl.PersistCommandDto;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -24,15 +24,15 @@ public class CommandHandlerDrivenFrmSaveMsgListener {
 
   private final JmsTemplate jmsTemplate;
 
-  private final PersistThingDto persistThingDto;
+  private final PersistCommandDto persistCommandDto;
   Logger LOGGER = LoggerFactory.getLogger(this.getClass());
   private AtomicInteger nbrMsgs = new AtomicInteger();
 
   @Autowired
   public CommandHandlerDrivenFrmSaveMsgListener(
-      @Qualifier("jmsTemplateMulticast") JmsTemplate jmsTemplate, PersistThingDto persistThingDto) {
+      @Qualifier("jmsTemplateMulticast") JmsTemplate jmsTemplate, PersistCommandDto persistCommandDto) {
     this.jmsTemplate = jmsTemplate;
-    this.persistThingDto = persistThingDto;
+    this.persistCommandDto = persistCommandDto;
   }
 
   void addToNbrMsgs() {
@@ -51,13 +51,13 @@ public class CommandHandlerDrivenFrmSaveMsgListener {
       @Payload DtoCommandSave dtoCommandSave,
       @Headers MessageHeaders messageHeaders,
       Message message) {
-    // ThingDtoSave thingDtoSave = JsonMapper.fromJson(str_thingDtoSave, ThingDtoSave.class);
+    // CommandDtoSave commandDtoSave = JsonMapper.fromJson(str_commandDtoSave, CommandDtoSave.class);
 
     addToNbrMsgs();
 
     LOGGER.debug("Got a message " + nbrMsgs);
 
-    //jmsTemplate.convertAndSend("multicast://".concat(JmsConfig.SEND_LISTEN_TOPIC), thingDtoSave000);
+    //jmsTemplate.convertAndSend("multicast://".concat(JmsConfig.SEND_LISTEN_TOPIC), commandDtoSave000);
   }
 
   public void addPropertyChangeListener(PropertyChangeListener listener) {

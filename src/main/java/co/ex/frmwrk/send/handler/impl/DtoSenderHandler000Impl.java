@@ -2,7 +2,7 @@ package co.ex.frmwrk.send.handler.impl;
 
 import co.ex.app.model.JsonMapper;
 import co.ex.frmwrk.config.JmsConfig;
-import co.ex.frmwrk.frmin.persist_incoming.ThingIncomingThingNbrSeq;
+import co.ex.frmwrk.frmin.persist_incoming.CommandIncomingIdSeq;
 import co.ex.frmwrk.gateway.Dto;
 import co.ex.frmwrk.gateway.impl.DtoCommandSave;
 import co.ex.frmwrk.send.handler.DtoSenderHandler;
@@ -23,7 +23,7 @@ public class DtoSenderHandler000Impl implements DtoSenderHandler {
   @Qualifier("jmsTemplateMulticast")
   private final JmsTemplate jmsTemplateMulticast;
 
-  private final ThingIncomingThingNbrSeq thingNbrSeq;
+  private final CommandIncomingIdSeq commandNbrSeq;
 
   @Override
   public void handle(Dto dto) {
@@ -34,7 +34,7 @@ public class DtoSenderHandler000Impl implements DtoSenderHandler {
             .concat(System.lineSeparator())
             .concat(JsonMapper.toJson(dtoCommandSave)));
 
-    // String json = co.ex.eventer.JsonMapper.toJson(thingDtoSave);
+    // String json = co.ex.eventer.JsonMapper.toJson(commandDtoSave);
     jmsTemplateMulticast.convertAndSend(
         "multicast://".concat(JmsConfig.SEND_LISTEN_TOPIC), dtoCommandSave);
   }

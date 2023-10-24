@@ -10,33 +10,33 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-public class ThingController {
-  private static final Logger LOGGER = LoggerFactory.getLogger(ThingController.class);
+public class CommandController {
+  private static final Logger LOGGER = LoggerFactory.getLogger(CommandController.class);
 
-  private final FrmInThingService frmInThingService;
+  private final FrmInCommandService frmInCommandService;
 
   @GetMapping(value = "/")
-  public String getthingCommand() {
+  public String getcommandCommand() {
 
     return "Hello";
   }
 
-  @PutMapping("/thing")
-  public String thingCommand(
-      @RequestBody FrmInCommandSave thingIncoming,
+  @PutMapping("/command")
+  public String commandCommand(
+      @RequestBody FrmInCommandSave commandIncoming,
       @RequestHeader(value = "Accept") String version) {
 
     LOGGER.debug(
-        "ThingController.thingCommand()"
+        "CommandController.commandCommand()"
             .concat(System.lineSeparator())
             .concat("Accept=")
             .concat(version)
             .concat(System.lineSeparator())
-            .concat(JsonMapper.toJson(thingIncoming)));
+            .concat(JsonMapper.toJson(commandIncoming)));
 
 
-    frmInThingService.perform(thingIncoming);
+    frmInCommandService.perform(commandIncoming);
 
-    return "Sent Thing command " + thingIncoming.getThingNbr();
+    return "Sent Command command " + commandIncoming.getId();
   }
 }

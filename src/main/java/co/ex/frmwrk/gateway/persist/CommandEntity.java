@@ -1,9 +1,10 @@
-package co.ex.frmwrk.frmin.persist_incoming;
+package co.ex.frmwrk.gateway.persist;
 
 import jakarta.persistence.*;
-import java.sql.Timestamp;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+
+import java.sql.Timestamp;
 
 @ToString(includeFieldNames = true)
 @Getter
@@ -11,23 +12,25 @@ import org.hibernate.annotations.CreationTimestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "thing_incoming", indexes = @Index(columnList = "thingNbr, dttm asc"))
-public class ThingIncoming {
+@Table(name = "command_entity", indexes = @Index(columnList = "commandNbr, dttm asc"))
+public class CommandEntity {
+
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
   @Column(name = "uuid", nullable = false, updatable = false, unique = true)
   private String uuid;
 
   // IDENTITY uses underlying DB id generation, AUTO uses hibernate id generation
+  // SEQUENCE is not compatible between DB's
+
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(nullable = false, updatable = false, unique = false)
-  @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "thing_incoming_seq")
-  @SequenceGenerator(name = "thing_incoming_seq", allocationSize = 5)
-  private Long thingNbr;
+  private Long id;
 
   @CreationTimestamp private Timestamp dttm;
 
   private String content_type; // data class
 
   @Column(length = 5000)
-  private String entity_content; // Thing json
+  private String entity_content; // Command json
 }

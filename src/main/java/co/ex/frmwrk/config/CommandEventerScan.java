@@ -5,4 +5,4 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan(basePackages = "co.ex.framewrk")
-public class ThingEventerScan {}
+public class CommandEventerScan {}

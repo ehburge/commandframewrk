@@ -9,7 +9,7 @@ import org.mapstruct.MappingConstants;
 @Mapper(
     componentModel = MappingConstants.ComponentModel.SPRING,
     injectionStrategy = InjectionStrategy.CONSTRUCTOR)
-public interface FrmInThingToAppThingSaveMapper {
+public interface FrmInCommandToAppCommandSaveMapper {
 
-  AppCommandSave frmInThingToAppThing(FrmInCommandSave frmInThingCommand);
+  AppCommandSave frmInCommandToAppCommand(FrmInCommandSave frmInCommandCommand);
 }

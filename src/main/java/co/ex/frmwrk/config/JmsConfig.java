@@ -16,7 +16,7 @@ import org.springframework.jms.support.converter.MessageType;
 @Configuration
 public class JmsConfig {
 
-  //  public static final String THINGSAVE_Q = "thingsave.queue";
+  //  public static final String THINGSAVE_Q = "commandsave.queue";
   public static final String EVENT_Q = "event.queue";
   public static final String SEND_LISTEN_TOPIC = "send.listen.topic";
 
@@ -120,7 +120,7 @@ public class JmsConfig {
   public SingleConnectionFactory singleConnectionFactory() {
     SingleConnectionFactory connectionFactory =
         new SingleConnectionFactory(senderActiveMQConnectionFactory());
-    connectionFactory.setClientId("thing");
+    connectionFactory.setClientId("command");
     return connectionFactory;
   }
 

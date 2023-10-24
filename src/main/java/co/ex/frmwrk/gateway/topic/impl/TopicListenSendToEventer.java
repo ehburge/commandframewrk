@@ -1,7 +1,7 @@
 package co.ex.frmwrk.gateway.topic.impl;
 
 import co.ex.app.model.JsonMapper;
-import co.ex.framewrk.eventer.model.impl000.ThingDtoSaveEvent000;
+import co.ex.framewrk.eventer.model.impl.DtoSaveEventImpl;
 import co.ex.frmwrk.config.JmsConfig;
 import co.ex.frmwrk.gateway.impl.DtoCommandSave;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class TopicListenSendToEventer {
   @Qualifier("jmsTemplateAnycast")
   private final JmsTemplate jmsTemplateAnycast;
 
-  private final ThingDtoSave_EventMapper dtoSaveEventMapper;
+  private final CommandDtoSave_EventMapper dtoSaveEventMapper;
 
   @JmsListener(destination = JmsConfig.SEND_LISTEN_TOPIC)
   public void topicListen(@Payload DtoCommandSave dtoCommandSave) {
@@ -31,18 +31,18 @@ public class TopicListenSendToEventer {
             .concat(System.lineSeparator())
             .concat(JsonMapper.toJson(dtoCommandSave)));
 
-    ThingDtoSaveEvent000 thingDtoEvent = dtoSaveEventMapper.dtoSaveToDtoEvent(dtoCommandSave);
-    String sendJson = JsonMapper.toJson(thingDtoEvent);
+    DtoSaveEventImpl dtoSaveEvent = dtoSaveEventMapper.dtoSaveToDtoEvent(dtoCommandSave);
+    String sendJson = JsonMapper.toJson(dtoSaveEvent);
     LOGGER.debug(
-        ("TopicListenToEventer.topicListen() - " + ThingDtoSaveEvent000.class.getSimpleName())
+        ("TopicListenToEventer.topicListen() - " + DtoSaveEventImpl.class.getSimpleName())
             .concat(System.lineSeparator())
             .concat(sendJson));
 
     jmsTemplateAnycast.convertAndSend(
         "anycast://".concat(JmsConfig.EVENT_Q),
-        thingDtoEvent,
+            dtoSaveEvent,
         m -> {
-          m.setStringProperty(CLASS_NAME_STRING, thingDtoEvent.getClass().getName());
+          m.setStringProperty(CLASS_NAME_STRING, dtoSaveEvent.getClass().getName());
           return m;
         });
   }

@@ -2,21 +2,21 @@ package co.ex.frmwrk.app.driven.cmd.handler;
 
 import co.ex.app.cmd.AppCommand;
 import co.ex.app.cmd.impl.AppCommandSave;
-import co.ex.app.cmd.impl.AppThingCommand000;
+import co.ex.app.cmd.impl.AppCommandCommand000;
 import co.ex.app.config.AppMapBeans;
 import co.ex.app.config.AppSetupMapBeans;
 import co.ex.app.driven.cmd.bus.CommandBusDrivenFrm;
 import co.ex.app.driving.cmd.bus.CommandBusDrivingApp;
-import co.ex.app.model.AppThingComments;
-import co.ex.app.model.AppThingPart;
-import co.ex.app.model.AppThingParts;
+import co.ex.app.model.AppCommandComments;
+import co.ex.app.model.AppCommandPart;
+import co.ex.app.model.AppCommandParts;
 import co.ex.domain.config.SetupMapBeans;
 import co.ex.frmwrk.driven.bus.impl.CommandBusDrivenFrmAdapterImpl;
 import co.ex.frmwrk.driven.handler.CommandHandlerDrivenFrm;
 import co.ex.frmwrk.gateway.Dto;
 import co.ex.frmwrk.gateway.impl.DtoCommandSave;
-import co.ex.frmwrk.mapping.AppThingCommandSaveThingDtoSaveMapper;
-import co.ex.frmwrk.mapping.AppThingCommandSaveThingDtoSaveMapperImpl;
+import co.ex.frmwrk.mapping.AppCommandCommandSaveCommandDtoSaveMapper;
+import co.ex.frmwrk.mapping.AppCommandCommandSaveCommandDtoSaveMapperImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,8 +35,8 @@ class CommandHandlerDrivenAppAdapterImplTest {
   static SetupMapBeans setupMapBeans;
 
   static AppSetupMapBeans appSetupMapBeans;
-  AppThingComments comments;
-  AppThingParts appParts;
+  AppCommandComments comments;
+  AppCommandParts appParts;
 
   @BeforeAll
   static void setupAll() {
@@ -52,15 +52,15 @@ class CommandHandlerDrivenAppAdapterImplTest {
   @BeforeEach
   void setUp() {
     comments =
-        AppThingComments.builder()
+        AppCommandComments.builder()
             .comments(new ArrayList<>(Arrays.asList("Larry", "Moe", "Curly", "Schemp")))
             .build();
-    AppThingPart thingPart1 = AppThingPart.builder().partId("1").qty(2).build();
-    AppThingPart thingPart2 = AppThingPart.builder().partId("2").qty(3).build();
-    AppThingPart thingPart3 = AppThingPart.builder().partId("3").qty(2).build();
+    AppCommandPart commandPart1 = AppCommandPart.builder().partId("1").qty(2).build();
+    AppCommandPart commandPart2 = AppCommandPart.builder().partId("2").qty(3).build();
+    AppCommandPart commandPart3 = AppCommandPart.builder().partId("3").qty(2).build();
     appParts =
-        AppThingParts.builder()
-            .parts(new ArrayList<>(Arrays.asList(thingPart1, thingPart2, thingPart3)))
+        AppCommandParts.builder()
+            .parts(new ArrayList<>(Arrays.asList(commandPart1, commandPart2, commandPart3)))
             .build();
   }
 
@@ -76,25 +76,25 @@ class CommandHandlerDrivenAppAdapterImplTest {
     chDrivenFrmMap.put(DtoCommandSave.class, commandHandlerDrivenFrmTesting);
 
     Map<Class<? extends AppCommand>, CommandBusDrivenFrm> cbDrivenFrmMap = new HashMap<>();
-    AppThingCommandSaveThingDtoSaveMapper saveThingDtoSaveMapper =
-        new AppThingCommandSaveThingDtoSaveMapperImpl();
+    AppCommandCommandSaveCommandDtoSaveMapper saveCommandDtoSaveMapper =
+        new AppCommandCommandSaveCommandDtoSaveMapperImpl();
 
     CommandBusDrivenFrm commandBusDrivenFrm =
-        new CommandBusDrivenFrmAdapterImpl(chDrivenFrmMap, saveThingDtoSaveMapper);
-    cbDrivenFrmMap.put(AppThingCommand000.class, commandBusDrivenFrm);
+        new CommandBusDrivenFrmAdapterImpl(chDrivenFrmMap, saveCommandDtoSaveMapper);
+    cbDrivenFrmMap.put(AppCommandCommand000.class, commandBusDrivenFrm);
 
     appSetupMapBeans.putCommandBusDrivenFrm(cbDrivenFrmMap);
 
     AppCommandSave appCommandSave =
-            AppCommandSave.builder().thingNbr(1L).comments(comments).parts(appParts).build();
+            AppCommandSave.builder().commandNbr(1L).comments(comments).parts(appParts).build();
 
     CommandBusDrivingApp commandBusDrivingApp = appSetupMapBeans.getCommandBusDrivingApp();
     commandBusDrivingApp.perform(appCommandSave);
 
-    assertEquals(1, commandHandlerDrivenFrmTesting.getThingDtoSave().getThingNbr());
+    assertEquals(1, commandHandlerDrivenFrmTesting.getCommandDtoSave().getCommandNbr());
     assertEquals(
-        4, commandHandlerDrivenFrmTesting.getThingDtoSave().getComments().getComments().size());
-    assertEquals(3, commandHandlerDrivenFrmTesting.getThingDtoSave().getParts().getParts().size());
+        4, commandHandlerDrivenFrmTesting.getCommandDtoSave().getComments().getComments().size());
+    assertEquals(3, commandHandlerDrivenFrmTesting.getCommandDtoSave().getParts().getParts().size());
   }
 
   class CommandHandlerDrivenFrmTesting implements CommandHandlerDrivenFrm {
@@ -106,7 +106,7 @@ class CommandHandlerDrivenAppAdapterImplTest {
       dtoCommandSave = (DtoCommandSave) dto;
     }
 
-    public DtoCommandSave getThingDtoSave() {
+    public DtoCommandSave getCommandDtoSave() {
       return dtoCommandSave;
     }
   }

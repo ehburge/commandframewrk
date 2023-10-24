@@ -15,7 +15,7 @@ import lombok.extern.jackson.Jacksonized;import java.util.UUID;
 public class FrmInCommandSave implements FrmInCommand {
 
   private UUID uuid;
-  private Long thingNbr;
+  private Long id;
   private DtoRole role;
   private String eventKind;
   private String promoCodes;

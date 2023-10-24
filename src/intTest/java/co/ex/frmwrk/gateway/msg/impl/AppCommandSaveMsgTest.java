@@ -2,15 +2,15 @@ package co.ex.frmwrk.gateway.msg.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import co.ex.app.cmd.impl.AppThingCommand000;
+import co.ex.app.cmd.impl.AppCommandCommand000;
 import co.ex.app.config.AppSetupMapBeans;
 import co.ex.app.driving.cmd.bus.CommandBusDrivingApp;
-import co.ex.app.model.AppThingComments;
-import co.ex.app.model.AppThingPart;
-import co.ex.app.model.AppThingParts;
-import co.ex.frmwrk.frmin.persist_incoming.ThingIncomingThingNbrSeq;
-import co.ex.frmwrk.gateway.persist.ThingEntity;
-import co.ex.frmwrk.gateway.persist.ThingEntityRepository;
+import co.ex.app.model.AppCommandComments;
+import co.ex.app.model.AppCommandPart;
+import co.ex.app.model.AppCommandParts;
+import co.ex.frmwrk.frmin.persist_incoming.CommandIncomingIdSeq;
+import co.ex.frmwrk.gateway.persist.CommandEntity;
+import co.ex.frmwrk.gateway.persist.CommandEntityRepository;
 import java.beans.PropertyChangeListener;
 import java.util.*;
 import org.apache.activemq.artemis.core.server.embedded.EmbeddedActiveMQ;
@@ -32,7 +32,7 @@ public class AppCommandSaveMsgTest {
   @LocalServerPort private int port;
   private CommandBusDrivingApp commandBusDrivingApp;
 
-  @Autowired private ThingEntityRepository thingRepository;
+  @Autowired private CommandEntityRepository commandRepository;
 
   @Autowired private EmbeddedActiveMQ embeddedActiveMQ;
 
@@ -40,11 +40,12 @@ public class AppCommandSaveMsgTest {
 
   @Autowired private EventQueueListener eventQueueListener;
 
-  @Autowired ThingIncomingThingNbrSeq thingIncomingThingNbrSeq;
+  @Autowired
+  CommandIncomingIdSeq commandIncomingIdSeq;
 
   @Test
   @Transactional
-  public void testCreateThingCommandVolume() throws Exception {
+  public void testCreateCommandCommandVolume() throws Exception {
 
     commandBusDrivingApp = appSetupMapBeans.getCommandBusDrivingApp();
 
@@ -67,27 +68,27 @@ public class AppCommandSaveMsgTest {
         };
     commandHandlerDrivenFrmSaveMsgListener.addPropertyChangeListener(pcl);
 
-    AppThingPart thingPart1 = AppThingPart.builder().partId("1").qty(1).build();
-    AppThingPart thingPart2 = AppThingPart.builder().partId("2").qty(2).build();
-    AppThingPart thingPart3 = AppThingPart.builder().partId("3").qty(3).build();
+    AppCommandPart commandPart1 = AppCommandPart.builder().partId("1").qty(1).build();
+    AppCommandPart commandPart2 = AppCommandPart.builder().partId("2").qty(2).build();
+    AppCommandPart commandPart3 = AppCommandPart.builder().partId("3").qty(3).build();
 
-    List<AppThingPart> appParts =
-        new ArrayList<>(Arrays.asList(thingPart1, thingPart2, thingPart3));
-    AppThingParts thingParts = AppThingParts.builder().parts(appParts).build();
+    List<AppCommandPart> appParts =
+        new ArrayList<>(Arrays.asList(commandPart1, commandPart2, commandPart3));
+    AppCommandParts commandParts = AppCommandParts.builder().parts(appParts).build();
 
-    AppThingComments thingComments =
-        AppThingComments.builder().comments(Arrays.asList("Larry", "Moe", "Curly")).build();
+    AppCommandComments commandComments =
+        AppCommandComments.builder().comments(Arrays.asList("Larry", "Moe", "Curly")).build();
 
     long strt = System.currentTimeMillis();
 
     for (int i = 0; i < nbrMsgs; i++) {
-      AppThingCommand000 appThingCommandV1 =
-          AppThingCommand000.builder()
-              .thingNbr(thingIncomingThingNbrSeq.setThingNbrWhenNull(10L))
-              .comments(thingComments)
-              .parts(thingParts)
+      AppCommandCommand000 appCommandCommandV1 =
+          AppCommandCommand000.builder()
+              .commandNbr(commandIncomingIdSeq.setCommandNbrWhenNull(10L))
+              .comments(commandComments)
+              .parts(commandParts)
               .build();
-      commandBusDrivingApp.perform(appThingCommandV1);
+      commandBusDrivingApp.perform(appCommandCommandV1);
       sent++;
     }
 
@@ -108,9 +109,9 @@ public class AppCommandSaveMsgTest {
     System.out.println("lock ".concat(Long.toString(System.currentTimeMillis() - strt)));
 
     System.out.println("start listing");
-    List<ThingEntity> thingEntities = thingRepository.findByThingNbrOrderByDttm(10L);
-    assertEquals(nbrMsgs, thingEntities.size());
-    thingEntities.stream()
+    List<CommandEntity> commandEntities = commandRepository.findByCommandNbrOrderByDttm(10L);
+    assertEquals(nbrMsgs, commandEntities.size());
+    commandEntities.stream()
         .forEach(
             e -> {
               System.out.println("*** " + e.toString());

@@ -1,14 +1,9 @@
-package co.ex.frmwrk.gateway.persist;
+package co.ex.frmwrk.frmin.persist_incoming;
 
 import jakarta.persistence.*;
+import java.sql.Timestamp;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Type;
-import org.hibernate.type.descriptor.java.UUIDJavaType;
-import org.hibernate.type.descriptor.jdbc.UUIDJdbcType;
-
-import java.sql.Timestamp;
-import java.util.UUID;
 
 @ToString(includeFieldNames = true)
 @Getter
@@ -16,25 +11,23 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "thing_entity", indexes = @Index(columnList = "thingNbr, dttm asc"))
-public class ThingEntity {
-
+@Table(name = "command_incoming", indexes = @Index(columnList = "commandNbr, dttm asc"))
+public class CommandIncoming {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
   @Column(name = "uuid", nullable = false, updatable = false, unique = true)
   private String uuid;
 
   // IDENTITY uses underlying DB id generation, AUTO uses hibernate id generation
-  // SEQUENCE is not compatible between DB's
-
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(nullable = false, updatable = false, unique = false)
-  private Long thingNbr;
+  @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "command_incoming_seq")
+  @SequenceGenerator(name = "command_incoming_seq", allocationSize = 5)
+  private Long commandNbr;
 
   @CreationTimestamp private Timestamp dttm;
 
   private String content_type; // data class
 
   @Column(length = 5000)
-  private String entity_content; // Thing json
+  private String entity_content; // Command json
 }

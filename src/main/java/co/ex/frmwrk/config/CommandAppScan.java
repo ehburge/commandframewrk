@@ -5,4 +5,4 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan(basePackages = "co.ex.app")
-public class ThingAppScan {}
+public class CommandAppScan {}

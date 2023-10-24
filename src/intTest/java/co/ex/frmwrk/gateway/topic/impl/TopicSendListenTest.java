@@ -1,10 +1,10 @@
 package co.ex.frmwrk.gateway.topic.impl;
 
-import co.ex.share.event.KindOfEvent;
+import co.ex.app000.aggregate.event.KindOfEvent;
+import co.ex.frmwrk.gateway.impl.DtoCommandSave;
 import co.ex.frmwrk.gateway.impl.DtoComments;
 import co.ex.frmwrk.gateway.impl.DtoPart;
 import co.ex.frmwrk.gateway.impl.DtoParts;
-import co.ex.frmwrk.gateway.impl.DtoCommandSave;
 import co.ex.frmwrk.gateway.msg.impl.EventQueueListener;
 import co.ex.frmwrk.send.bus.DtoSenderBus;
 import java.util.ArrayList;
@@ -24,12 +24,12 @@ class TopicSendListenTest {
 
   @Autowired EventQueueListener eventQueueListener;
 
-  DtoPart thingPart1 = DtoPart.builder().partId("1").qty(1).build();
-  DtoPart thingPart2 = DtoPart.builder().partId("2").qty(2).build();
-  DtoPart thingPart3 = DtoPart.builder().partId("3").qty(3).build();
-  List<DtoPart> dtoParts = new ArrayList<>(Arrays.asList(thingPart1, thingPart2, thingPart3));
-  DtoParts thingParts = DtoParts.builder().parts(dtoParts).build();
-  DtoComments thingComments =
+  DtoPart commandPart1 = DtoPart.builder().partId("1").qty(1).build();
+  DtoPart commandPart2 = DtoPart.builder().partId("2").qty(2).build();
+  DtoPart commandPart3 = DtoPart.builder().partId("3").qty(3).build();
+  List<DtoPart> dtoParts = new ArrayList<>(Arrays.asList(commandPart1, commandPart2, commandPart3));
+  DtoParts commandParts = DtoParts.builder().parts(dtoParts).build();
+  DtoComments commandComments =
       DtoComments.builder().comments(Arrays.asList("Larry", "Moe", "Curly")).build();
 
   @BeforeEach
@@ -39,14 +39,14 @@ class TopicSendListenTest {
   void tearDown() {}
 
   @Test
-  void sendThingDto() {
-    System.out.println("*** Sending ThingDtoSave");
+  void sendCommandDto() {
+    System.out.println("*** Sending CommandDtoSave");
     for (int i = 0; i < 30; i++) {
       DtoCommandSave dtoCommandSave =
           DtoCommandSave.builder()
-              .thingNbr(Long.valueOf(i))
-              .comments(thingComments)
-              .parts(thingParts)
+              .id(Long.valueOf(i))
+              .comments(commandComments)
+              .parts(commandParts)
               .eventKind(KindOfEvent.CREATED.name())
               .build();
 

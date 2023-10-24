@@ -1,6 +1,6 @@
 package co.ex.frmwrk.frmin.persist_incoming.impl;
 
-import co.ex.frmwrk.frmin.persist_incoming.ThingIncomingThingNbrSeq;
+import co.ex.frmwrk.frmin.persist_incoming.CommandIncomingIdSeq;
 import javax.sql.DataSource;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.support.incrementer.DataFieldMaxValueIncrementer;
@@ -9,18 +9,18 @@ import org.springframework.stereotype.Component;
 
 @Profile("!h2-mem")
 @Component
-public class ThingIncomingThingNbrSeqPostgres implements ThingIncomingThingNbrSeq {
+public class IdSeqPostgres implements CommandIncomingIdSeq {
 
   DataFieldMaxValueIncrementer incrementer;
 
-  public ThingIncomingThingNbrSeqPostgres(DataSource dataSource) {
-    incrementer = new PostgresSequenceMaxValueIncrementer(dataSource, "thingincoming_sequence");
+  public IdSeqPostgres(DataSource dataSource) {
+    incrementer = new PostgresSequenceMaxValueIncrementer(dataSource, "commandincoming_sequence");
   }
 
-  public Long setThingNbrWhenNull(Long thingNbr) {
-    if (thingNbr == null) {
+  public Long setCommandNbrWhenNull(Long commandNbr) {
+    if (commandNbr == null) {
       return incrementer.nextLongValue();
     }
-    return thingNbr;
+    return commandNbr;
   }
 }
