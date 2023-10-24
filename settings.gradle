@@ -1,0 +1,16 @@
+pluginManagement {
+	repositories {
+		maven { url 'https://repo.spring.io/milestone' }
+		maven { url 'https://repo.spring.io/snapshot' }
+		gradlePluginPortal()
+	}
+}
+rootProject.name = 'commandfrmwrk'
+include ':commandapp'
+project(':commandapp').projectDir = new File(settingsDir, '../commandapp')
+include ':commanddomain'
+project(':commanddomain').projectDir = new File(settingsDir, '../commanddomain')
+include ':framewrk-eventer-mapping'
+project(':framewrk-eventer-mapping').projectDir = new File(settingsDir, '../framewrk-eventer-mapping')
+
+

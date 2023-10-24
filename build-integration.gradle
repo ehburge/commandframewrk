@@ -1,0 +1,49 @@
+sourceSets {
+    intTest {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
+}
+
+configurations {
+    intTestImplementation.extendsFrom implementation
+    intTestCompileOnly.extendsFrom compileOnly
+    intTestRuntimeOnly.extendsFrom runtimeOnly
+    intAnnotationProcessor.extendsFrom annotationProcessor
+    intTestAnnotationProcessor.extendsFrom testAnnotationProcessor
+}
+
+dependencies {
+
+
+    implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+    intAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    intTestAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+
+    annotationProcessor "org.projectlombok:lombok-mapstruct-binding:${lombokMapstructBindingVersion}"
+
+    intTestCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    intAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    intTestCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    intTestAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+    intTestImplementation('org.springframework.boot:spring-boot-starter-test')
+
+    // for EmbeddedActiveMQ
+    intTestImplementation 'org.apache.activemq:artemis-jakarta-server:2.28.0'
+    intTestRuntimeOnly 'com.h2database:h2:2.1.214'
+}
+
+task integrationTest(type: Test) {
+    description = 'Runs integration tests.'
+    group = 'verification'
+
+    useJUnitPlatform()
+
+    testClassesDirs = sourceSets.intTest.output.classesDirs
+    classpath = sourceSets.intTest.runtimeClasspath
+    shouldRunAfter test
+}
+
+check.dependsOn integrationTest
+
